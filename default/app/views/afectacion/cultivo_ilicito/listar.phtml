@@ -1,0 +1,116 @@
+<?php View::flash(); ?>
+
+<script type="text/javascript">
+    $(function() {
+        $('table').kgrid({
+            form_to:    $.KumbiaPHP.publicPath+'afectacion/cultivo_ilicito/buscar_cultivo_ilicito/', 
+            order_attr: '<?php echo (APP_AJAX) ? 'class="js-link js-spinner"' : ''; ?>',
+            order_to:   $.KumbiaPHP.publicPath+"afectacion/cultivo_ilicito/listar_cultivo_ilicito/"
+        });
+    });
+</script>
+
+<div class="container shell-view">
+
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="btn-toolbar btn-toolbar-top">
+        <div class="row">
+            <div class="btn-actions">
+                <?php echo DwHtml::button("afectacion/cultivo_ilicito/agregar", 'agregar', array('class' => 'btn-success'), 'fa-check-square-o', APP_AJAX); ?>
+            </div>            
+        </div>
+    </div>
+
+    <div class="container-overflow">
+        <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th>NUM</th>
+                    <th data-search="nombre" data-order="nombre">TIPO DE CULTIVO</th>
+                    <th class="col-hidden" >PROMOTOR(ES)</th>
+                    <th class="col-hidden" >AREA</th>
+                    <th class="col-hidden" >UBICACION</th>
+                    <th class="btn-actions text-center">ESTADO</th>
+                    <th class="btn-actions col-blocked text-center">OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($cultivo_ilicitos->items as $cultivo_ilicito): ?>
+                    <?php $key_show = Security::setKey($cultivo_ilicito->id, 'show_cultivo_ilicito'); ?>
+                    <?php $key_upd = Security::setKey($cultivo_ilicito->id, 'upd_cultivo_ilicito'); ?>
+                    <?php $key_del = Security::setKey($cultivo_ilicito->id, 'del_cultivo_ilicito'); ?>
+                    <?php //$key_inac = Security::setKey($cultivo_ilicito->id, 'inactivar_cultivo_ilicito'); ?>
+                    <?php //$key_reac = Security::setKey($cultivo_ilicito->id, 'reactivar_cultivo_ilicito'); ?>
+                    <tr>
+                        <td><?php echo $cultivo_ilicitos->counter; ?></td>
+                        <td><?php echo $cultivo_ilicito->tipo_cultivo; ?></td>
+                        <td><?php 
+                        if($cultivo_ilicito->promo_guerrilla == '1')
+                        { echo 'GUERRILLA';}
+                        if($cultivo_ilicito->promo_paramilitar == '1')
+                        { echo ' PARAMILITAR';}
+                        if($cultivo_ilicito->promo_otro == '1')
+                        { echo ' OTRO';}
+                        ?></td>                        
+                        <td><?php echo $cultivo_ilicito->area; ?></td>
+                        <td><?php
+
+                        $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicacion();
+                        foreach($ubicaciones as $ubicacion):
+                            echo $ubicacion->getDepartamento()->nombre.' | ';
+                            echo $ubicacion->getMunicipio()->getSubregion()->nombre.' | ';
+                            echo $ubicacion->getMunicipio()->nombre.' | ';
+                            echo $ubicacion->getTerritorio()->nombre.'<br>';
+                        endforeach;
+                        
+                         ?></td> 
+                        
+                        <td class="btn-actions"><?php View::partial('nivel_estado/ver', false, array('nivel'=>$cultivo_ilicito->nivel, 'estado'=>$cultivo_ilicito->estado)); ?>
+                        <td class="btn-actions">
+                            <?php View::partial('opcion/ver', false, 
+                                    array('elemento'=>'cultivo ilícito',
+                                        "nombre"=>$cultivo_ilicito->tipo_cultivo,
+                                        "url_ver"=>"afectacion/cultivo_ilicito/ver/$key_show/",
+                                        "url_editar"=>"afectacion/cultivo_ilicito/editar/$key_upd/",
+                                        "url_eliminar"=>"afectacion/cultivo_ilicito/eliminar/$cultivo_ilicito->tipo_cultivo/$key_del/$cultivo_ilicito->afectacion_id/")); ?>
+                        </td>
+                        
+<!--                        <td class="btn-actions">
+                            <?php echo DwHtml::buttonTable('Ver cultivo ilícito', "afectacion/cultivo_ilicito/ver/$key_show/1/", null, 'info', 'fa-search'); ?>
+                            <?php echo DwHtml::buttonTable('Modificar cultivo ilícito', "afectacion/cultivo_ilicito/editar/$key_upd/1/", null, 'warning', 'fa-edit'); ?>
+                            <?php if($cultivo_ilicito->estado == CultivoIlicito::ACTIVO && (Session::get('perfil') == 'ADMINISTRADOR'  || Session::get('perfil') == 'Super Usuario')) { ?>
+                                <?php echo DwHtml::buttonTable('Inactivar cultivo ilícito', "afectacion/cultivo_ilicito/estado/inactivar/$key_inac/", null, 'success', 'fa-flag'); ?>
+                            <?php } elseif(Session::get('perfil') == 'ADMINISTRADOR'  || Session::get('perfil') == 'Super Usuario') { ?>
+                                <?php echo DwHtml::buttonTable('Reactivar cultivo ilícito', "afectacion/cultivo_ilicito/estado/reactivar/$key_reac/", null, 'danger', 'fa-flag'); ?>
+                                
+                            <?php } ?>
+                        </td>-->
+                    </tr>
+                    <?php $cultivo_ilicitos->counter++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+    </div>
+
+    <?php View::partial('paginators/default', false, array('page'=>$cultivo_ilicitos, 'url'=>"afectacion/cultivo_ilicito/listar/$order/")); ?>
+<!--    <div class="row">
+            <div class="form-actions">    
+                <div class="text-left">
+                    <?php echo DwButton::back('afectacion/cultivo_ilicito/index/'); ?>                    
+                </div>
+            </div>
+        </div>-->
+</div>
+<script type='text/javascript'>
+        $(document).ready(function() {
+        $("monto_inversion").priceFormat(
+        {
+            prefix: '',
+            centsLimit: 0,
+            //centsSeparator: ',',
+            thousandsSeparator: '.'
+        });
+        });
+</script>

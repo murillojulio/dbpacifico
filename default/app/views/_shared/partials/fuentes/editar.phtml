@@ -1,0 +1,155 @@
+<div class="row" >
+    <div class="col-md-2" >
+        <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">
+            <i class="btn-icon-only fa fa-plus"></i> 
+          </button>                                                            
+    </div>                                 
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar fuente de la información</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row" >
+              <div class="col-md-12" >
+                  <?php echo DwForm::date('nueva_fuente.fecha', array('class'=>''), NULL, 'Fecha de la fuente'); ?>                   
+              </div>
+          </div>
+          <div class="row" >
+              <div class="col-md-12" >
+                  <?php echo DwForm::textarea('nueva_fuente.nombre', array('class'=>'input-lower'), NULL, 'Descripción de la fuente'); ?>      
+              </div>
+          </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="btn_guardar_fuente" type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Borrar fuente -->
+<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Eliminar fuente de la información</h4>
+      </div>
+      <div class="modal-body">
+          ¿Esta seguro que desea eliminar esta fuente de información?       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="btn_borrar_fuente" type="button" class="btn btn-primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="div_fuente">
+                  <?php $contador = 1; 
+              
+              //if($tabla == NULL)
+              //{
+                $tabla = '';
+                $tabla_identi = '';
+              //}
+              ?>
+               <?php foreach($fuentes as $fuente): ?>         
+                    <?php echo "<div class='row'>"; ?>                                
+                       <?php echo "<div  class='col-md-2'>"; ?>  
+              <?php echo DwForm::hidden('fuente.id'.$contador, NULL, $fuente->id); ?>                        
+              <?php echo DwForm::date('fuente.fecha'.$contador, array('class'=>'input-required'), date('d-m-Y', strtotime($fuente->fecha)), 'Fecha de la fuente'); ?>                   
+              <?php echo "</div> <div class='col-md-9'>"; ?>    
+              <?php echo DwForm::text('fuente.nombre'.$contador, array('class'=>'input-lower input-required'), $fuente->nombre, 'Descripción de la fuente'); ?>      
+              <?php echo "</div>"; ?>   
+              <?php echo "<div class='col-md-1'>"; ?>    
+              
+              <?php 
+              if(sizeof($fuentes) > 1){
+              echo '<div class="form-group"><label for="btn_delete'.$fuente->id.'">&nbsp;</label>';
+              echo '<button onclick="setIdBorrar(this.value)" value="'.$fuente->id.'" id="btn_delete'.$fuente->id.'" type="button" class="form-control btn btn-danger btn-xs" data-toggle="modal" data-target="#myModalDelete">';
+              echo '<i class="btn-icon-only fa fa-minus"></i></button></div>';
+              }
+              ?>   
+
+              <?php echo "</div></div>"; ?>
+               <?php 
+                    $contador++; 
+                    $tabla = $fuente->tabla;
+                    $tabla_identi = $fuente->tabla_identi;
+                ?>
+              
+                <?php endforeach; ?>
+               <input id="fuente_cantidad" name="fuente[cantidad]" type="hidden" value=" <?php echo $contador-1; ?>"> 
+               </div>
+<?php echo DwForm::hidden('id_a_borrar', NULL, ''); ?> 
+   <script type="text/javascript">
+    $(document).ready(function() 
+    {        
+        $("#btn_guardar_fuente").on('click', function(e) {
+            
+            var id = 'vacio';
+            var fecha = $('#nueva_fuente_fecha').val();
+            var nombre = $('#nueva_fuente_nombre').val();            
+            
+            if((fecha != '') && (nombre != ''))
+            {                
+                $("#btn_guardar_fuente").attr('class', 'btn btn-primary disabled');      
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/gestionar_fuente/'; ?>"+id+"/"+fecha+"/"+nombre+"/<?php echo $tabla; ?>/<?php echo $tabla_identi; ?>/",
+                    data: "id="+id+"&fecha="+fecha+"&nombre="+nombre+"&tabla=<?php echo $tabla; ?>&tabla_identi=<?php echo $tabla_identi; ?>",                    
+                }).done(function(data) {
+                    $('#myModal').modal('hide');
+                    $('#nueva_fuente_fecha').val('');
+                    $('#nueva_fuente_nombre').val('');
+                    $("#btn_guardar_fuente").attr('class', 'btn btn-primary');
+                    $("#div_fuente").html(data);
+
+                }).fail(function() {
+                    alert("error "+fecha+" "+nombre);
+                });
+                }
+                else{
+                    alert("Debes digitar una fecha y descripicon de la fuente");
+                }            
+        });
+        
+        $("#btn_borrar_fuente").on('click', function(e) {
+                        
+            var id = $('#id_a_borrar').val();  
+            var fecha = 'vacio';
+            var nombre = 'vacio';
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/gestionar_fuente/'; ?>"+id+"/"+fecha+"/"+nombre+"/<?php echo $tabla; ?>/<?php echo $tabla_identi; ?>/",
+                    data: "id="+id+"&fecha="+fecha+"&nombre="+nombre+"&tabla=<?php echo $tabla; ?>&tabla_identi=<?php echo $tabla_identi; ?>",                                        
+                }).done(function(data) {
+                    $('#myModalDelete').modal('hide');                   
+                    $("#div_fuente").html(data);
+
+                }).fail(function() {
+                    alert("error");
+                });
+                         
+        })
+    });
+    function setIdBorrar(id)
+    {
+        $('#id_a_borrar').val(id); 
+    }
+</script>      

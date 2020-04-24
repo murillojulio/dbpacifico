@@ -1,0 +1,148 @@
+<?php
+/** 
+ *
+ * Clase que gestiona todo lo relacionado con los
+ * territorios y con su respectivo municipio
+ *
+ * @category
+ * @package     Models 
+ */
+
+class TerritorioMunicipio extends ActiveRecord {
+    
+    //Se desabilita el logger para no llenar el archivo de "basura"
+    protected $logger = FALSE;
+        
+    /**
+     * Método para definir las relaciones y validaciones
+     */
+    protected function initialize() {
+        $this->belongs_to('territorio');
+        $this->belongs_to('municipio');
+    }
+
+    
+    
+    /**
+     * Método para registrar los privilegios a los perfiles
+     */
+    public static function setTerritorioMunicipio($method, $data, $territorio_id) {   
+
+        $cantidad_municipios = count($data);    
+        $obj_TerritorioMunicipio = new TerritorioMunicipio();
+        $boolean_result = FALSE;
+        
+        for($i = 0 ; $i < $cantidad_municipios ; $i++)
+        {
+             $array = array(
+                                "territorio_id" => $territorio_id,
+                                "municipio_id" => $data[$i],
+                                );
+            $obj_TerritorioMunicipio = new TerritorioMunicipio($array);
+            $boolean_result = $obj_TerritorioMunicipio->$method();            
+        }              
+        return ($boolean_result) ? $obj_TerritorioMunicipio : FALSE;               
+       
+    }
+    
+    public function getTerritorioMunicipio($territorio_id) 
+    {                   
+        $columns = 'territorio_municipio.*, municipio.nombre AS municipio';        
+        $join = 'INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id';
+        $conditions = 'territorio_municipio.id IS NOT NULL AND territorio_municipio.territorio_id='.$territorio_id;  
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions");        
+    }
+    
+     public function getTerritoriosByMunicipioId($municipio_id , $order='', $page=0) 
+    {    
+         //SELECT municipio.nombre AS municipio_nombre, territorio.* FROM territorio_municipio INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id WHERE territorio_municipio.municipio_id = 5
+        $columns = 'municipio.nombre AS municipio_nombre, territorio.*, 
+                    departamento.nombre AS departamento_nombre';        
+        $join = 'INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id 
+                 INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id
+                 INNER JOIN departamento ON departamento.id = territorio.departamento_id';
+        $conditions = 'territorio_municipio.municipio_id ='.$municipio_id; 
+
+         $order = $this->get_order($order, 'nombre', array(            
+            'nombre' => array(
+                'ASC' => 'territorio.nombre ASC, territorio.nombre ASC',
+                'DESC' => 'territorio.nombre DESC, territorio.nombre DESC'
+            ), 
+            'titulado' => array(
+                'ASC' => 'territorio.titulado ASC, territorio.titulado ASC',
+                'DESC' => 'territorio.titulado DESC, territorio.titulado DESC'
+            ),
+            'departamento' => array(
+                'ASC' => 'departamento ASC, departamento',
+                'DESC' => 'departamento DESC, departamento DESC'
+            )
+            ));
+        $group = 'territorio.nombre';
+        
+       if($page) {            
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order", "page: $page");
+        }
+    }
+    
+    
+    public function guardar($dataMunicipio, $territorio_id)
+    {        
+        if ($this->delete_all("territorio_id = $territorio_id")) {
+            foreach ($dataMunicipio as $value) {
+                $obj_TerritorioMunicipio = new TerritorioMunicipio();
+                $obj_TerritorioMunicipio->territorio_id = $territorio_id;
+                $obj_TerritorioMunicipio->municipio_id = $value;
+                $obj_TerritorioMunicipio->save();
+            }
+        } else {
+            throw new KumbiaException('No se pudieron eliminar los municipios');
+        }
+        
+    }
+    
+    public function getTerritorioMunicipioByTerritorioId($territorio_id) 
+    {                   
+      return $this->find_all_by_sql("SELECT territorio_municipio.municipio_id FROM territorio_municipio WHERE territorio_id =".$territorio_id);
+    }
+
+    /*
+     @param string $medthod: create, update
+     * @param array $data: Data para autocargar el modelo
+     * @param array $optData: Data adicional para autocargar
+     * 
+     * return object ActiveRecord
+     */
+    public function getDepartamentoMunicipioByTerritorioId($territorio_id) 
+    {                   
+      return $this->find_all_by_sql("SELECT territorio_municipio.*, municipio.nombre AS municipio_nombre, 
+          (SELECT departamento.nombre FROM municipio 
+          INNER JOIN departamento ON departamento.id=municipio.departamento_id 
+          WHERE municipio.id=territorio_municipio.municipio_id) AS departamento_nombre, 
+          (SELECT subregion.nombre FROM municipio 
+          INNER JOIN subregion ON subregion.id = municipio.subregion_id 
+          WHERE municipio.id = territorio_municipio.municipio_id) AS subregion_nombre FROM territorio_municipio 
+          INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id WHERE territorio_id =".$territorio_id);
+    }
+    
+    public function getTerritoriosByMunicipioIdSelect($municipio_id=null) 
+    {    
+       if((int)$municipio_id)
+        {
+        $columns = 'municipio.nombre AS municipio_nombre, territorio.*, 
+                    departamento.nombre AS departamento_nombre';        
+        $join = 'INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id 
+                 INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id
+                 INNER JOIN departamento ON departamento.id = territorio.departamento_id';
+        $conditions = 'territorio_municipio.municipio_id ='.$municipio_id;
+        $order ='ORDER BY territorio.nombre ASC';
+       
+            return $this->find("columns: $columns", "join: $join", "conditions: $conditions");
+        }else{
+            return array();
+        }
+        
+      
+    }
+    
+}
+?>

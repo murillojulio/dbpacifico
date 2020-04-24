@@ -1,0 +1,86 @@
+<?php View::flash(); ?>
+
+<?php 
+ echo 'hola';
+?>
+<!--<div class="container shell-view">    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    <div class="container-overflow">   
+        
+          Importo el archivo Javascript de Highcharts directamente desde su servidor 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column',
+            options3d:{
+                enabled: true,
+                alpha: 15,
+                beta: 10,
+                viewDistance: 25,
+                depth: 40
+            }
+        },
+        title: {
+            text: 'Ordenamiento Territorial'
+        },
+        subtitle: {
+            text: 'Cantidad de municipios y territorios por cada departamento'
+        },
+        xAxis: {
+            categories: [<?php echo $str_categories;?>],
+            crosshair: true
+        },
+        yAxis: {
+            allowDecimals: false,
+            min: 0,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+        series: [{
+            name: 'Municipio',
+            data: [<?php echo $str_municipios;?>]
+
+        }, {
+            name: 'Territorio',
+            data: [<?php echo $str_territorios;?>]
+
+        }, {
+            name: 'Comunidad Negra',
+            data: [<?php echo $str_comunidad_negra;?>]
+
+        }, {
+            name: 'Indigena',
+            data: [<?php echo $str_indigenas;?>]
+
+        }]
+    });
+});
+</script>
+<div id="container"></div>
+    </div>    
+</div>-->
