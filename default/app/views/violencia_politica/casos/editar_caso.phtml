@@ -34,11 +34,11 @@
                     </div>
                     <div class="col-md-3">
                         <?php
-                        echo DwForm::text('fecha_registro', array('class'=>'input-disabled'), $caso->caso_at.' | '.$caso->caso_at_user , 'Fecha de registro | Usuario'); ?>
+                        echo DwForm::text('fecha_registro', array('class'=>'input-disabled'), $caso->caso_at.' | '.strtolower($caso->caso_at_user) , 'Fecha de registro | Usuario'); ?>
                     </div>
                     <div class="col-md-3">
                         <?php
-                        echo DwForm::text('ultima_actualizacion', array('class'=>'input-disabled'), $caso->caso_in.' | '.$caso->caso_in_user , 'Fecha última actualización | Usuario'); ?>
+                        echo DwForm::text('ultima_actualizacion', array('class'=>'input-disabled'), $caso->caso_in.' | '.strtolower($caso->caso_in_user) , 'Fecha última actualización | Usuario'); ?>
                     </div>
                 </div>
                 <div class="row">                 
