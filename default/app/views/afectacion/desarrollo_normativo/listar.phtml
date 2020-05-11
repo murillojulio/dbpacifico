@@ -46,12 +46,12 @@
                         <td><?php echo $desarrollo_normativo->nombre; ?></td>
                         <td><?php echo $desarrollo_normativo->sector; ?></td>                        
                         <td><?php
-                        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicacion();
+                        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicaciones($desarrollo_normativo->afectacion_id);
                         foreach($ubicaciones as $ubicacion):
-                            echo $ubicacion->getDepartamento()->nombre.' - ';
-                            echo $ubicacion->getMunicipio()->getSubregion()->nombre.' - ';
-                            echo $ubicacion->getMunicipio()->nombre.' - ';
-                            echo $ubicacion->getTerritorio()->nombre.'<br>';
+                            echo $ubicacion->departamento.' - ';
+                            echo $ubicacion->subregion.' - ';
+                            echo $ubicacion->municipio.' - ';
+                            echo $ubicacion->territorio.'<br>';
                         endforeach;
                         
                          ?></td> 
