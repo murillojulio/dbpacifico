@@ -98,10 +98,30 @@
                     </div> 
                        <div class="row">                       
                         <div class="col-md-6">
-                            <?php echo DwForm::date('politica_publica.fecha_vigencia_inicio', array('class'=>''), NULL, 'Fecha en que inicia la vigencia de la política pública'); ?>
+                            <?php /*echo DwForm::date('politica_publica.fecha_vigencia_inicio', array('class'=>''), date('d-m-Y', strtotime($politica_publica->fecha_vigencia_inicio)), 'Fecha en que inicia la vigencia de la política pública');*/ ?>
+                            <div class="form-group">
+                                <label for="politica_publica_fecha_vigencia_inicio">Fecha en que inicia la vigencia de la política pública | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_politica_publica_fecha_vigencia_inicio">
+                                    <input id="politica_publica_fecha_vigencia_inicio" name="politica_publica[fecha_vigencia_inicio]" type="text" value="<?php echo date('d-m-Y', strtotime($politica_publica->fecha_vigencia_inicio)); ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
                         </div> 
                         <div class="col-md-6">
-                            <?php echo DwForm::date('politica_publica.fecha_vigencia_fin', array('class'=>''), NULL, 'Fecha en que finaliza la vigencia de la política pública'); ?>
+                            <div class="form-group">
+                                <label for="politica_publica_fecha_vigencia_fin">Fecha en que finaliza la vigencia de la política pública | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_politica_publica_fecha_vigencia_fin">
+                                    <input id="politica_publica_fecha_vigencia_fin" name="politica_publica[fecha_vigencia_fin]" type="text" value="<?php echo date('d-m-Y', strtotime($politica_publica->fecha_vigencia_fin)); ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
+                            <?php /*echo DwForm::date('politica_publica.fecha_vigencia_fin', array('class'=>''), NULL, 'Fecha en que finaliza la vigencia de la política pública'); */?>
                         </div> 
                     </div>                     
                   </div>
