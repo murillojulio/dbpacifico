@@ -115,7 +115,7 @@ class DesarrolloNormativoController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicacion();
+        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicaciones($desarrollo_normativo->afectacion_id);
         $this->ubicaciones = $ubicaciones;
                 
                
@@ -147,7 +147,7 @@ class DesarrolloNormativoController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicacion();
+        $ubicaciones = $desarrollo_normativo->getAfectacion()->getUbicaciones($desarrollo_normativo->afectacion_id);
         $this->ubicaciones = $ubicaciones;
                        
         $fuente = new Fuente();
