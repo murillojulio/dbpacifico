@@ -25,7 +25,7 @@ class Subregion extends ActiveRecord {
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {
-        $this->has_many('subregion');
+        $this->has_many('municipio');
         $this->belongs_to('departamento');
     }
     
