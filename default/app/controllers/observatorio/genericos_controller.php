@@ -143,7 +143,8 @@ class GenericosController extends BackendController {
             $obj_ubicacion->delete();
         }
             
-        $this->ubicaciones = $obj_ubicacion->find_all_by('ubicacion.afectacion_id', $afectacion_id);
+        //*$this->ubicaciones = $obj_ubicacion->find_all_by('ubicacion.afectacion_id', $afectacion_id);*/
+        $this->ubicaciones = $obj_ubicacion->getUbicaciones($afectacion_id);
     } 
     
     
