@@ -31,6 +31,7 @@ class Ubicacion extends ActiveRecord {
         $this->belongs_to('departamento');
         $this->belongs_to('municipio');
         $this->belongs_to('territorio');  
+        $this->belongs_to('afectacion');
     }
     
    
@@ -54,7 +55,20 @@ class Ubicacion extends ActiveRecord {
         return ($boolean_result) ? $obj : FALSE;
     }
     
-    /**
+    public function getUbicacion($afectacion_id){
+        $sqlQuery = 'SELECT departamento.nombre AS departamento, '
+                . '(SELECT subregion.nombre FROM municipio INNER JOIN subregion '
+                . 'ON subregion.id = municipio.subregion_id '
+                . 'WHERE municipio.id = ubicacion.municipio_id) AS subregion, '
+                . 'municipio.nombre AS municipio, territorio.nombre AS territorio '
+                . 'FROM `ubicacion` INNER JOIN departamento ON departamento.id = ubicacion.departamento_id '
+                . 'INNER JOIN municipio ON municipio.id = ubicacion.municipio_id '
+                . 'INNER JOIN territorio ON territorio.id = ubicacion.territorio_id '
+                . "WHERE afectacion_id = $afectacion_id";
+        return $this->find_all_by_sql($sqlQuery);
+    }
+
+        /**
      * Callback que se ejecuta antes de guardar/modificar
      */
     public function before_save() {
