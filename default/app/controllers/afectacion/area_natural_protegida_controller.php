@@ -134,7 +134,7 @@ class AreaNaturalProtegidaController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $area_natural_protegida->getAfectacion()->getUbicacion();
+        $ubicaciones = $area_natural_protegida->getAfectacion()->getUbicaciones($area_natural_protegida->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         $ubicacion = $ubicaciones[0];
         $this->ubicacion = $ubicacion;
@@ -217,7 +217,7 @@ class AreaNaturalProtegidaController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $area_natural_protegida->getAfectacion()->getUbicacion();
+        $ubicaciones = $area_natural_protegida->getAfectacion()->getUbicaciones($area_natural_protegida->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         $ubicacion = $ubicaciones[0];
         $this->ubicacion = $ubicacion;
