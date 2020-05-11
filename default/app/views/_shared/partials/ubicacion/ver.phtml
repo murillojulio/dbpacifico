@@ -23,10 +23,10 @@
                     
                         ?>
                         <tr>                       
-                        <td><?php echo $ubicacion->getDepartamento()->nombre; ?></td>
-                        <td><?php echo $ubicacion->getMunicipio()->getSubregion()->nombre; ?></td>
-                        <td><?php echo $ubicacion->getMunicipio()->nombre; ?></td>                        
-                        <td><?php echo $ubicacion->getTerritorio()->nombre; ?></td>                       
+                        <td><?php echo $ubicacion->departamento; ?></td>
+                        <td><?php echo $ubicacion->subregion; ?></td>
+                        <td><?php echo $ubicacion->municipio; ?></td>                        
+                        <td><?php echo $ubicacion->territorio; ?></td>                       
                     </tr>
                                   
                     <?php $contador_ubicacion++; ?>
