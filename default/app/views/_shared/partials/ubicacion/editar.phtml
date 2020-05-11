@@ -87,10 +87,10 @@
                     
                         ?>
                         <tr>                       
-                        <td><?php echo $ubicacion->getDepartamento()->nombre; ?></td>
-                        <td><?php echo $ubicacion->getMunicipio()->getSubregion()->nombre; ?></td>
-                        <td><?php echo $ubicacion->getMunicipio()->nombre; ?></td>                        
-                        <td><?php echo $ubicacion->getTerritorio()->nombre; ?></td>
+                        <td><?php echo $ubicacion->departamento; ?></td>
+                        <td><?php echo $ubicacion->subregion; ?></td>
+                        <td><?php echo $ubicacion->municipio; ?></td>                        
+                        <td><?php echo $ubicacion->territorio; ?></td>
                         <td class="btn-actions">
                             <?php //echo DwHtml::buttonTable('Ver ubicacion', "observatorio/territorios/ver_ubicacion/$key_show/$obj_territorio->tipo/$key/", null, 'info', 'fa-search'); ?>
                            <?php 
