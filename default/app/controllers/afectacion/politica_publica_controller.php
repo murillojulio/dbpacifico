@@ -116,7 +116,7 @@ class PoliticaPublicaController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $politica_publica->getAfectacion()->getUbicacion();
+        $ubicaciones = $politica_publica->getAfectacion()->getUbicaciones($politica_publica->afectacion_id);
         $this->ubicaciones = $ubicaciones;
                 
                
@@ -163,7 +163,7 @@ class PoliticaPublicaController extends BackendController {
         }
         
         
-        $ubicaciones = $politica_publica->getAfectacion()->getUbicacion();
+        $ubicaciones = $politica_publica->getAfectacion()->getUbicaciones($politica_publica->afectacion_id);
         $this->ubicaciones = $ubicaciones;
                        
         $fuente = new Fuente();
