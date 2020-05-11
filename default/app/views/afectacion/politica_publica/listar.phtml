@@ -46,12 +46,12 @@
                         <td><?php echo $politica_publica->nombre; ?></td>
                         <td><?php echo $politica_publica->sector; ?></td>                        
                         <td><?php
-                        $ubicaciones = $politica_publica->getAfectacion()->getUbicacion();
+                        $ubicaciones = $politica_publica->getAfectacion()->getUbicaciones($politica_publica->afectacion_id);
                         foreach($ubicaciones as $ubicacion):
-                            echo $ubicacion->getDepartamento()->nombre.' - ';
-                            //echo $ubicacion->getMunicipio()->getSubregion()->nombre.' - ';
-                            echo $ubicacion->getMunicipio()->nombre.' - ';
-                            echo $ubicacion->getTerritorio()->nombre.'<br>';
+                            echo $ubicacion->departamento.' - ';
+                            echo $ubicacion->subregion.' - ';
+                            echo $ubicacion->municipio.' - ';
+                            echo $ubicacion->territorio.'<br>';
                         endforeach;
                         
                          ?></td> 
