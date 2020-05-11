@@ -163,7 +163,7 @@ class MegaproyectosController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $megaproyecto->getAfectacion()->getUbicacion();
+        $ubicaciones = $megaproyecto->getAfectacion()->getUbicaciones($megaproyecto->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         
         $obj_empleos = new Empleo();
@@ -262,7 +262,7 @@ class MegaproyectosController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $megaproyecto->getAfectacion()->getUbicacion();
+        $ubicaciones = $megaproyecto->getAfectacion()->getUbicaciones($megaproyecto->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         
         $obj_empleos = new Empleo();
