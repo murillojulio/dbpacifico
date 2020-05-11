@@ -138,7 +138,7 @@ class CultivoIlicitoController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicacion();
+        $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicaciones($cultivo_ilicito->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         $this->ubicacion = $ubicaciones[0];
         
@@ -195,7 +195,7 @@ class CultivoIlicitoController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicacion();
+        $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicaciones($ubicaciones->afectacion_id);
         $this->ubicaciones = $ubicaciones;
         $ubicacion = $ubicaciones[0];
         $this->ubicacion = $ubicacion;
