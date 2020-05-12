@@ -72,7 +72,7 @@
         <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
             <thead>
                 <tr>
-                    <th>DEPARTAMENTO</th>
+                    <th>DEPARTAMENTUU</th>
                     <th>SUBREGION</th>
                     <th>MUNICIPIO</th>                    
                     <th>TERRITORIO</th>                                      
@@ -88,7 +88,7 @@
                         ?>
                         <tr>                       
                         <td><?php echo $ubicacion->departamento; ?></td>
-                        <td><?php echo $ubicacion->subregion; ?></td>
+                        <td><?php if($ubicacion->subregion){echo $ubicacion->subregion;}else{echo 'Sin información';} ?></td>
                         <td><?php echo $ubicacion->municipio; ?></td>                        
                         <td><?php echo $ubicacion->territorio; ?></td>
                         <td class="btn-actions">
