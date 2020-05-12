@@ -66,9 +66,9 @@ class Afectacion extends ActiveRecord {
                 . 'ON subregion.id = municipio.subregion_id '
                 . 'WHERE municipio.id = ubicacion.municipio_id) AS subregion, '
                 . 'municipio.nombre AS municipio, territorio.nombre AS territorio '
-                . 'FROM `ubicacion` INNER JOIN departamento ON departamento.id = ubicacion.departamento_id '
-                . 'INNER JOIN municipio ON municipio.id = ubicacion.municipio_id '
-                . 'INNER JOIN territorio ON territorio.id = ubicacion.territorio_id '
+                . 'FROM `ubicacion` LEFT JOIN departamento ON departamento.id = ubicacion.departamento_id '
+                . 'LEFT JOIN municipio ON municipio.id = ubicacion.municipio_id '
+                . 'LEFT JOIN territorio ON territorio.id = ubicacion.territorio_id '
                 . "WHERE afectacion_id = $afectacion_id";
         return $this->find_all_by_sql($sqlQuery);
     }
