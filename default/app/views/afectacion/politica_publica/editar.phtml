@@ -152,12 +152,12 @@
     <?php echo DwForm::close(); ?> 
     
     <script type='text/javascript'>
-        
+        /*
  $("#caso_departamento_id").on('change', function(e) {
             var departamento_id = $('#caso_departamento_id').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
+                url: "<?php /*echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/';*/ ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
                 data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=no",
             }).done(function(data) {
                 
@@ -173,7 +173,7 @@
             var municipio_id = $('#caso_municipio_id').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_territorios_municipio/'; ?>"+municipio_id+"/caso.territorio_id/Territorio/",
+                url: "<?php /*echo PUBLIC_PATH . 'observatorio/genericos/db_select_territorios_municipio/';*/ ?>"+municipio_id+"/caso.territorio_id/Territorio/",
                 data: "departamento_id=" + municipio_id + "&field=caso.territorio_id&label=Territorio",
             }).done(function(data) {
                 $("#div_territorio").html(data);
@@ -181,7 +181,7 @@
             }).fail(function() {
                 alert("error");
             });
-        });
+        });*/
         
                
         $("#politica_publica_tipo_megaproyecto_id").on('change', function(e) {
