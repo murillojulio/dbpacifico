@@ -24,7 +24,7 @@
                         ?>
                         <tr>                       
                         <td><?php echo $ubicacion->departamento; ?></td>
-                        <td><?php echo $ubicacion->subregion; ?></td>
+                        <td><?php if($ubicacion->subregion){echo $ubicacion->subregion;}else{echo 'Sin información';} ?></td>
                         <td><?php echo $ubicacion->municipio; ?></td>                        
                         <td><?php echo $ubicacion->territorio; ?></td>                       
                     </tr>
