@@ -469,7 +469,8 @@
                             if(textStatus!=null){
                                 flashError('Oops! el archivo no se ha podido cargar. <br />Detalle del error: '+textStatus);                    
                             } else {
-                                flashError('Oops! al parecer el archivo no es de un formato valido. <br />Intenta con otro archivo.');
+                                /*flashError('Oops! al parecer el archivo no es de un formato valido. <br />Intenta con otro archivo.');*/
+                                flashError('El archivo excede el peso máximo permitido - 28MB'+textStatus);
                             }
                             prgss.find('.progress-bar:first').removeClass('progress-bar-danger').addClass('progress-bar-success');
                             prgss.addClass('fade');
