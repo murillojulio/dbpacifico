@@ -35,7 +35,7 @@
                         <div class="col-md-3" id="div_municipio">                    
                             <?php echo DwForm::dbSelect('caso.municipio_id', 'nombre', array('observatorio/municipio', 'getMunicipioPorDepartamento',  ''), NULL, array('class' => 'input-required'), NULL, 'Municipio'); ?>                        </div>
                        <div class="col-md-6" id="div_territorio">                                                
-                           <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', ''), NULL, array('class' => 'input-required'), NULL, 'Territorio'); ?>
+                           <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', ''), NULL, array('class' => ''), NULL, 'Territorio'); ?>
                         </div>  
                           
                 </div>
