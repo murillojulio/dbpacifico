@@ -104,7 +104,9 @@ WHERE megaproyecto.id IS NOT NULL AND megaproyecto.clase_megaproyecto ='".$clase
      * return object ActiveRecord
      */
     public static function setMegaproyecto($method, $data, $optData=null) {        
-        $obj = new Megaproyecto($data); //Se carga los datos con los de las tablas          
+        $obj = new Megaproyecto($data); //Se carga los datos con los de las tablas  
+        if($obj->fecha_iniciacion != ''){$obj->fecha_iniciacion = date('Y-m-d', strtotime($obj->fecha_iniciacion));}
+        if($obj->fecha_terminacion != ''){ $obj->fecha_terminacion = date('Y-m-d', strtotime($obj->fecha_terminacion));}        
         $boolean_result = TRUE;
         
         
