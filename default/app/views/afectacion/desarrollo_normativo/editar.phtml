@@ -96,8 +96,18 @@
                         <?php echo DwForm::text('desarrollo_normativo.numero', array('class'=>''), NULL, 'Número'); ?>
                     </div> 
                             <div class="col-md-4">
-                            <?php echo DwForm::date('desarrollo_normativo.fecha', array('class'=>''), NULL, 'Fecha'); ?>
-                        </div>
+                            <?php /*echo DwForm::date('desarrollo_normativo.fecha', array('class'=>''), NULL, 'Fecha'); */?>
+                                <div class="form-group">
+                                    <label for="desarrollo_normativo_fecha">Fecha | DD-MM-AAAA</label>
+                                    <div class="input-group date datepicker" id="dp_desarrollo_normativo_fecha">
+                                        <input id="desarrollo_normativo_fecha" name="desarrollo_normativo[fecha]" type="text" value="<?php if($desarrollo_normativo->fecha!=null){echo date('d-m-Y', strtotime($desarrollo_normativo->fecha));} ?>" class="js-datepicker input-date form-control">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <p class="help-block"> 
+                                        <small class="help-error"></small>
+                                    </p>
+                                </div>
+                            </div>
                     </div> 
                        <div class="row">                       
                         <div class="col-md-6">
