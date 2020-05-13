@@ -22,7 +22,7 @@
             if($desarrollo_normativo->documento == '')
             {
                 echo '<div class="col-md-4">';                                
-                echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocCon'), 'Adjuntar documento de desarrollo normativo', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocCon'), 'Adjuntar documento de desarrollo normativo', 'text_con', 'icon_con');
                 echo '</div>  
                       <div class="col-md-8">                        
                          <a id="enlace_documento_politica" target="_blank" href="">                            
@@ -34,7 +34,7 @@
             else
             {
                 echo '<div class="col-md-4">';                                
-                echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocCon'), 'Cambiar documento de desarrollo normativo', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocCon'), 'Cambiar documento de desarrollo normativo', 'text_con', 'icon_con');
                 echo '</div>';  
                 echo '<div class="col-md-8">';                        
                 echo '<a id="enlace_documento_politica" class="btn btn-info" target="_blank" href="'.PUBLIC_PATH.'files/upload/desarrollo_normativo/'.$desarrollo_normativo->documento.'">';
@@ -101,10 +101,30 @@
                     </div> 
                        <div class="row">                       
                         <div class="col-md-6">
-                            <?php echo DwForm::date('desarrollo_normativo.fecha_vigencia_inicio', array('class'=>''), NULL, 'Fecha en que inicia la vigencia del desarrollo normativo'); ?>
+                            <?php /*echo DwForm::date('desarrollo_normativo.fecha_vigencia_inicio', array('class'=>''), NULL, 'Fecha en que inicia la vigencia del desarrollo normativo'); */?>
+                            <div class="form-group">
+                                <label for="desarrollo_normativo_fecha_vigencia_inicio">Fecha en que inicia la vigencia del desarrollo normativo | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_desarrollo_normativo_fecha_vigencia_inicio">
+                                    <input id="desarrollo_normativo_fecha_vigencia_inicio" name="desarrollo_normativo[fecha_vigencia_inicio]" type="text" value="<?php if($desarrollo_normativo->fecha_vigencia_inicio!=null){echo date('d-m-Y', strtotime($desarrollo_normativo->fecha_vigencia_inicio));} ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
                         </div> 
                         <div class="col-md-6">
-                            <?php echo DwForm::date('desarrollo_normativo.fecha_vigencia_fin', array('class'=>''), NULL, 'Fecha en que finaliza la vigencia del desarrollo normativo'); ?>
+                            <?php /*echo DwForm::date('desarrollo_normativo.fecha_vigencia_fin', array('class'=>''), NULL, 'Fecha en que finaliza la vigencia del desarrollo normativo'); */?>
+                            <div class="form-group">
+                                <label for="desarrollo_normativo_fecha_vigencia_fin">Fecha en que finaliza la vigencia del desarrollo normativo | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_desarrollo_normativo_fecha_vigencia_fin">
+                                    <input id="desarrollo_normativo_fecha_vigencia_fin" name="desarrollo_normativo[fecha_vigencia_fin]" type="text" value="<?php if($desarrollo_normativo->fecha_vigencia_fin!=null){echo date('d-m-Y', strtotime($desarrollo_normativo->fecha_vigencia_fin));} ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
                         </div> 
                     </div>                     
                   </div>
@@ -135,12 +155,12 @@
     <?php echo DwForm::close(); ?> 
     
     <script type='text/javascript'>
-        
+ /*       
  $("#caso_departamento_id").on('change', function(e) {
             var departamento_id = $('#caso_departamento_id').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
+                url: "<?php /*echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/';*/ ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
                 data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=no",
             }).done(function(data) {
                 
@@ -156,7 +176,7 @@
             var municipio_id = $('#caso_municipio_id').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_territorios_municipio/'; ?>"+municipio_id+"/caso.territorio_id/Territorio/",
+                url: "<?php /*echo PUBLIC_PATH . 'observatorio/genericos/db_select_territorios_municipio/'; */?>"+municipio_id+"/caso.territorio_id/Territorio/",
                 data: "departamento_id=" + municipio_id + "&field=caso.territorio_id&label=Territorio",
             }).done(function(data) {
                 $("#div_territorio").html(data);
@@ -165,7 +185,7 @@
                 alert("error");
             });
         });
-        
+        */
                   
         $("#desarrollo_normativo_tipo_megaproyecto_id").on('change', function(e) {
             $("#div_micro_subtipo_megaproyecto").hide();
