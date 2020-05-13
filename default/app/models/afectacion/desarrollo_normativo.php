@@ -43,7 +43,11 @@ class DesarrolloNormativo extends ActiveRecord {
      * return object ActiveRecord
      */
     public static function setDesarrolloNormativo($method, $data, $optData=null) {        
-        $obj = new DesarrolloNormativo($data); //Se carga los datos con los de las tablas        
+        $obj = new DesarrolloNormativo($data); //Se carga los datos con los de las tablas  
+        if($obj->fecha_vigencia_inicio != ''){$obj->fecha_vigencia_inicio = date('Y-m-d', strtotime($obj->fecha_vigencia_inicio));}
+        if($obj->fecha_vigencia_fin != ''){ $obj->fecha_vigencia_fin = date('Y-m-d', strtotime($obj->fecha_vigencia_fin));}
+        if($obj->fecha != ''){ $obj->fecha = date('Y-m-d', strtotime($obj->fecha));}
+        
         if($optData) { //Se carga información adicional al objeto
             $obj->dump_result_self($optData);
         }             
