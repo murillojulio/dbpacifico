@@ -17,7 +17,7 @@
                 </div>
                       <div class="row">                    
                           <div class="col-md-4">                                
-                                   <?php echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Adjuntar documento de desarrollo normativo', 'text_con', 'icon_con'); ?>
+                                   <?php echo DwForm::upload_V2('documento_desarrollo_normativo', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_desarrollo_normativo/desarrollo_normativo/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Adjuntar documento de desarrollo normativo', 'text_con', 'icon_con'); ?>
                             </div>  
                           <div class="col-md-8">                               
                               <a id="enlace_documento_desarrollo" target="_blank" href="">                                       
