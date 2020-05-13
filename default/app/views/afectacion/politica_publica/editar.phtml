@@ -22,7 +22,7 @@
             if($politica_publica->documento == '')
             {
                 echo '<div class="col-md-3">';                                
-                echo DwForm::upload_V2('documento_politica_publica', array('data-to'=>PUBLIC_PATH.'afectacion/politica_publica/upload/documento_politica_publica/', 'data-size'=>28000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Adjuntar documento de política pública', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_politica_publica', array('data-to'=>PUBLIC_PATH.'afectacion/politica_publica/upload/documento_politica_publica/', 'data-size'=> Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Adjuntar documento de política pública', 'text_con', 'icon_con');
                 echo '</div>  
                       <div class="col-md-9">                        
                          <a id="enlace_documento_politica" target="_blank" href="">                            
@@ -34,7 +34,7 @@
             else
             {
                 echo '<div class="col-md-3">';                                
-                echo DwForm::upload_V2('documento_politica_publica', array('data-to'=>PUBLIC_PATH.'afectacion/politica_publica/upload/documento_politica_publica/', 'data-size'=>28000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Cambiar documento de política pública', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_politica_publica', array('data-to'=>PUBLIC_PATH.'afectacion/politica_publica/upload/documento_politica_publica/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoPolitica'), 'Cambiar documento de política pública', 'text_con', 'icon_con');
                 echo '</div>';  
                 echo '<div class="col-md-9">';                        
                 echo '<a id="enlace_documento_politica" class="btn btn-info" target="_blank" href="'.PUBLIC_PATH.'files/upload/politica_publica/'.$politica_publica->documento.'">';
