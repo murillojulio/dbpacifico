@@ -20,7 +20,7 @@
                 </div>
                        <div class="row">                    
                           <div class="col-md-4">                                
-                                   <?php echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Adjuntar documento de Megaproyecto', 'text_con', 'icon_con'); ?>
+                                   <?php echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Adjuntar documento de Megaproyecto', 'text_con', 'icon_con'); ?>
                             </div>  
                           <div class="col-md-8">                               
                               <a id="enlace_documento_megaproyecto" target="_blank" href="">                                       

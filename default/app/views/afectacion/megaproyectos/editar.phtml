@@ -40,7 +40,7 @@
             if($megaproyecto->documento == '')
             {
                 echo '<div class="col-md-3">';                                
-                echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Adjuntar documento de Megaproyecto', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Adjuntar documento de Megaproyecto', 'text_con', 'icon_con');
                 echo '</div>  
                       <div class="col-md-9">                        
                          <a id="enlace_documento_megaproyecto" target="_blank" href="">                            
@@ -52,7 +52,7 @@
             else
             {
                 echo '<div class="col-md-3">';                                
-                echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>5000000, 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Cambiar documento de Megaproyecto', 'text_con', 'icon_con');
+                echo DwForm::upload_V2('documento_megaproyecto', array('data-to'=>PUBLIC_PATH.'upload/upload/upload_document/documento_megaproyecto/megaproyecto/', 'data-size'=>Session::get('max_size_file_upload'), 'data-files'=>'doc', 'data-success'=>'loadDocumentoMegaproyecto'), 'Cambiar documento de Megaproyecto', 'text_con', 'icon_con');
                 echo '</div>';  
                 echo '<div class="col-md-9">';                        
                 echo '<a id="enlace_documento_megaproyecto" class="btn btn-info" target="_blank" href="'.PUBLIC_PATH.'files/upload/megaproyecto/'.$megaproyecto->documento.'">';
