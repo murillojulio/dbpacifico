@@ -64,9 +64,9 @@
                             <?php echo DwForm::dbSelect('caso.departamento_id', 'nombre', array('observatorio/departamento', 'getListadoDepartamentoDBS', Departamento::ACTIVO), NULL, array('class'=>''), NULL, 'Departamento'); ?>                           
                         </div>
                         <div class="col-md-3" id="div_municipio">                    
-                            <?php echo DwForm::dbSelect('caso.municipio_id', 'nombre', array('observatorio/municipio', 'getMunicipioPorDepartamento',  ''), NULL, array('class' => ''), NULL, 'Municipio'); ?>                        </div>
+                            <?php echo DwForm::dbSelect('caso.municipio_id', 'nombre', array('observatorio/municipio', 'getMunicipioPorDepartamento',  ''), 'Sin información', array('class' => ''), NULL, 'Municipio'); ?>                        </div>
                        <div class="col-md-6" id="div_territorio">                                                
-                           <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', ''), NULL, array('class' => ''), NULL, 'Territorio'); ?>
+                           <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', ''), 'Sin información', array('class' => ''), NULL, 'Territorio'); ?>
                         </div>  
                           
                 </div>
