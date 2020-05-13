@@ -34,12 +34,12 @@
           </div>
           <div class="row">
               <div class="col-md-12" id="div_municipio">                    
-                <?php echo DwForm::dbSelect('caso.municipio_id', 'nombre', array('observatorio/municipio', 'getMunicipioPorDepartamento', '0'), 'Sin información', array('class' => ''), NULL, 'Municipio'); ?>                        
+                <?php echo DwForm::dbSelect('caso.municipio_id', 'nombre', array('observatorio/municipio', 'getMunicipioPorDepartamento', '0'), NULL, array('class' => ''), NULL, 'Municipio'); ?>                        
               </div>
           </div>
           <div class="row">
               <div class="col-md-12" id="div_territorio">                                                
-                  <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', '0'), 'Sin información', array('class' => ''), NULL, 'Territorio'); ?>
+                  <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', '0'), NULL, array('class' => ''), NULL, 'Territorio'); ?>
               </div> 
           </div>                  
       </div>
