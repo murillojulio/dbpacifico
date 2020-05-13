@@ -61,7 +61,7 @@ THE SOFTWARE.
             useSeconds: false,
             useCurrent: true,
             minuteStepping: 1,
-            minDate: new pMoment({ y: 1900 }),
+            minDate: new pMoment({ y: 1850 }),
             maxDate: new pMoment().add(100, "y"),
             showToday: true,
             collapse: true,
