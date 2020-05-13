@@ -118,7 +118,7 @@
                       
                        <div class="row">
                     <div class="col-md-12">
-                        <?php echo DwForm::textarea('megaproyecto.descripcion', array('class'=>''), NULL, 'Descripción del megaproyecto'); ?>
+                        <?php echo DwForm::textarea('megaproyecto.descripcion', array('class'=>'input-lower'), NULL, 'Descripción del megaproyecto'); ?>
                     </div>                
                     </div> 
 
@@ -155,10 +155,30 @@
                       
                       <div class="row">                       
                         <div class="col-md-6">
-                            <?php echo DwForm::date('megaproyecto.fecha_iniciacion', array('class'=>''), substr($megaproyecto->fecha_iniciacion, 0, 10), 'Fecha de iniciación del proyecto'); ?>
+                            <?php /*echo DwForm::date('megaproyecto.fecha_iniciacion', array('class'=>''), substr($megaproyecto->fecha_iniciacion, 0, 10), 'Fecha de iniciación del proyecto'); */?>
+                            <div class="form-group">
+                                <label for="megaproyecto_fecha_iniciacion">Fecha de iniciación del proyecto | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_megaproyecto_fecha_iniciacion">
+                                    <input id="megaproyecto_fecha_iniciacion" name="megaproyecto[fecha_iniciacion]" type="text" value="<?php if($megaproyecto->fecha_iniciacion!=null){echo date('d-m-Y', strtotime($megaproyecto->fecha_iniciacion));} ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
                         </div> 
                         <div class="col-md-6">
-                            <?php echo DwForm::date('megaproyecto.fecha_terminacion', array('class'=>''), substr($megaproyecto->fecha_terminacion, 0, 10), 'Fecha de terminación del proyecto'); ?>
+                            <?php /*echo DwForm::date('megaproyecto.fecha_terminacion', array('class'=>''), substr($megaproyecto->fecha_terminacion, 0, 10), 'Fecha de terminación del proyecto'); */?>
+                            <div class="form-group">
+                                <label for="megaproyecto_fecha_terminacion">Fecha de terminación del proyecto | DD-MM-AAAA</label>
+                                <div class="input-group date datepicker" id="dp_megaproyecto_fecha_terminacion">
+                                    <input id="megaproyecto_fecha_terminacion" name="megaproyecto[fecha_terminacion]" type="text" value="<?php if($megaproyecto->fecha_terminacion!=null){echo date('d-m-Y', strtotime($megaproyecto->fecha_terminacion));} ?>" class="js-datepicker input-date form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <p class="help-block"> 
+                                    <small class="help-error"></small>
+                                </p>
+                            </div>
                         </div> 
                     </div>  
                       
