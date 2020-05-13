@@ -436,15 +436,15 @@ class DwForm extends Form {
      * @param boolean $help Texto de descripción del campo
      * @return string
      */
-    public static function dbSelect($field, $show=null, $data=null, $blank='Selección', $attrs=null, $value=null, $label='', $help='') {
+    public static function dbSelect($field, $show=null, $data=null, $blank='Seleccione', $attrs=null, $value=null, $label='', $help='') {
 
         $attrs = self::_getAttrsClass($attrs, 'select');
         if(empty($data)) {
-            $data = array(''=>'Selección');
+            $data = array(''=>'Seleccione');
         }
 
         if(empty($blank)) {
-            $blank = 'Selección';
+            $blank = 'Seleccione';
         }
 
         $attrs2 = $attrs;
@@ -558,15 +558,15 @@ class DwForm extends Form {
      * @param boolean $help Texto de descripción del campo
      * @return string
      */
-    public static function dbSelectMultiple($field, $show=null, $data=null, $blank='Selección', $attrs=null, $value=null, $label='', $help='') {
+    public static function dbSelectMultiple($field, $show=null, $data=null, $blank='Seleccione', $attrs=null, $value=null, $label='', $help='') {
 
         $attrs = self::_getAttrsClass($attrs, 'select');
         if(empty($data)) {
-            $data = array(''=>'Selección');
+            $data = array(''=>'Seleccione');
         }
 
         if(empty($blank)) {
-            $blank = 'Selección';
+            $blank = 'Seleccione';
         }
 
         $attrs2 = $attrs;
@@ -797,7 +797,7 @@ class DwForm extends Form {
     public static function select($field, $data=array(), $attrs = NULL, $value = NULL, $label='', $help='', $opt=NULL) {
         $attrs = self::_getAttrsClass($attrs, 'select');
         if(empty($data)) {
-            $data = array(''=>'Selección');
+            $data = array(''=>'Seleccione');
         }
         $input = self::getControls();
         $input.= parent::select($field, $data, $attrs, $value);
