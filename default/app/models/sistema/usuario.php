@@ -62,6 +62,7 @@ class Usuario extends ActiveRecord {
                         
                         Session::set("ip", DwUtils::getIp());
                         Session::set('perfil', $usuario->perfil);
+                        Session::set('max_size_file_upload', 28000000);
                         //Registro el acceso
                         Acceso::setAcceso(Acceso::ENTRADA, $usuario->id);                        
                         Flash::info("¡ Bienvenido <strong>$usuario->login</strong> !.");     
