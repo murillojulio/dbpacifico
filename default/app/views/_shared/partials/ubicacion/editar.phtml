@@ -29,7 +29,7 @@
       <div class="modal-body">
           <div class="row">
                <div class="col-md-12" id="div_departamento"> 
-                    <?php echo DwForm::dbSelect('caso.departamento_id', 'nombre', array('observatorio/departamento', 'getListadoDepartamentoDBS', Departamento::ACTIVO), NULL, array('class'=>''), NULL, 'Departamento'); ?>                           
+                    <?php echo DwForm::dbSelect('caso.departamento_id', 'nombre', array('observatorio/departamento', 'getListadoDepartamentoDBS', Departamento::ACTIVO), NULL, array('class'=>''), NULL, 'Departamento<span class="req">*</span>'); ?>                           
                 </div>
           </div>
           <div class="row">
