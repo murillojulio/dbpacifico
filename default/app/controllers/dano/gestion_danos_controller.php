@@ -97,7 +97,7 @@ class GestionDanosController extends BackendController {
         $AfectacionDanoTerritorio = new AfectacionDanoTerritorio();
         $afectacion_dano_territorio_id = Input::post('afectacion_dano_territorio_id');
         $AfectacionDanoTerritorio->find_first($afectacion_dano_territorio_id);
-        $caso_id = Input::post('caso_id');
+        $afectacion_id = Input::post('afectacion_id');
         $dano_id = Input::post('dano_id');
         $territorio_id = Input::post('territorio_id');
         $descripcion = Input::post('descripcion');
@@ -105,8 +105,8 @@ class GestionDanosController extends BackendController {
         $AfectacionDanoTerritorio->territorio_id = $territorio_id;
         $AfectacionDanoTerritorio->descripcion = $descripcion;
         $AfectacionDanoTerritorio->update();
-        View::select('agregar_dano');
-        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($caso_id);    
+        View::select('agregar_dano_afectacion');
+        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($afectacion_id);    
     }
 }
 ?>
