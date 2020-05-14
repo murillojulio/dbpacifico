@@ -291,8 +291,8 @@
             var departamento_id = $('#caso_departamento_id').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>"+departamento_id+"/caso.municipio_id/Municipio/si/",
-                data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=si",
+                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
+                data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=no",
             }).done(function(data) {
                 
                 $("#div_municipio").html(data);
