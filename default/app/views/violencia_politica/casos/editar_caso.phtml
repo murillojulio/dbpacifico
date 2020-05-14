@@ -406,12 +406,12 @@
                 <div class="modal-body">
                     <div class="row">  
                         <div class="col-md-12">
-                            <?php echo DwForm::dbSelect('caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', $caso->municipio_id), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Territorio afectado'); ?>
-                            <?php echo DwForm::dbSelect('caso_dano_territorio.tipo_dano_id', 'nombre', array('opcion/tipo_dano', 'getListadoTipoDanoDBS', NULL), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Tipo de daño'); ?>
+                            <?php echo DwForm::dbSelect('caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', $caso->municipio_id), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>'); ?>
+                            <?php echo DwForm::dbSelect('caso_dano_territorio.tipo_dano_id', 'nombre', array('opcion/tipo_dano', 'getListadoTipoDanoDBS', NULL), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Tipo de daño<span class="req">*</span>'); ?>
                             <div id="div_select_dano">
-                                <?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS', NULL), NULL, array('class'=>'', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Daño'); ?>
+                                <?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS', NULL), NULL, array('class'=>'', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Daño<span class="req">*</span>'); ?>
                             </div>
-                            <?php echo DwForm::textarea('caso_dano_territorio.descripcion', array('class'=>'input-lower', 'onkeyup'=>'validarBotonAgregarDano()', 'style'=>"height: 130px;"), NULL, 'Descripción del daño'); ?>
+                            <?php echo DwForm::textarea('caso_dano_territorio.descripcion', array('class'=>'input-lower', 'onkeyup'=>'validarBotonAgregarDano()', 'style'=>"height: 130px;"), NULL, 'Descripción del daño<span class="req">*</span>'); ?>
                         </div>                       
                     </div>                                   
                 </div>
@@ -815,6 +815,7 @@
                     modal.modal('show');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    jsSpinner('hide');
                     alert('ERROR en cargarModalEditarCasoDanoTerritorio()');
                 }
             });
