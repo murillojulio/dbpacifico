@@ -9,7 +9,7 @@ Load::models('afectacion/cultivo_ilicito', 'global/fuente', 'afectacion/ubicacio
         'afectacion/afectacion', 'observatorio/departamento', 'observatorio/municipio',
         'opcion/impacto', 'observatorio/territorio', 'opcion/tipo_cultivo', 'util/currency',
         'afectacion/afectacion_territorio', 'afectacion/afectacion_territorio_impacto',
-        'observatorio/subregion');
+        'observatorio/subregion', 'afectacion/afectacion_dano_territorio');
 
 class CultivoIlicitoController extends BackendController {
     
@@ -200,10 +200,14 @@ class CultivoIlicitoController extends BackendController {
         $ubicacion = $ubicaciones[0];
         $this->ubicacion = $ubicacion;
         
-        
+        /*
         $obj_afectacion_territorio = new AfectacionTerritorio();
         $this->territorios_afectados = $obj_afectacion_territorio->getTerritorioAfectadoByAfectacionId($cultivo_ilicito->getAfectacion()->id);        
-                       
+        */
+        $AfectacionDanoTerritorio = new AfectacionDanoTerritorio();
+        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($cultivo_ilicito->afectacion_id);
+       
+        
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('cultivo_ilicito', $cultivo_ilicito->id);
         //var_dump($this->fuentes);        die();  
