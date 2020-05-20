@@ -39,6 +39,20 @@ class Localidad extends ActiveRecord {
     protected function after_save() {
        
     }  
+
+    public function getLocalidadByMunicipioIdSelect($municipio_id=NULL, $tipo=NULL)
+    {
+         if((int)$municipio_id && $tipo != NULL)
+        {
+            $columns = 'localidad.*';  
+            $conditions = "localidad.id IS NOT NULL AND localidad.municipio_id=".$municipio_id
+                            ." AND localidad.tipo='".$tipo."' AND localidad.estado=1"; 
+            $order = 'localidad.nombre ASC';        
+            return $this->find("columns: $columns", "conditions: $conditions", "order: $order");
+        }else{
+            return array();
+        }        
+    }
 }
 ?>
 

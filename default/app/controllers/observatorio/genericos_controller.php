@@ -58,6 +58,7 @@ class GenericosController extends BackendController {
      * Método que carga los territorios que pertenecen a un departamento en una lista select
      */
     public function db_select_municipios($departamento_id, $field, $label, $required='si', $cargar_territorio='si') {       
+        View::template(null);
         $this->departamento_id = $departamento_id;   
         $this->field = $field;
         $this->label = $label;

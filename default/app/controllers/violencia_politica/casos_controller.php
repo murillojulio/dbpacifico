@@ -5,6 +5,7 @@
  * @category    
  * @package     Controllers  
  */
+header("Set-Cookie: sameSite=secure");
 Load::models('violencia_politica/victima', 'violencia_politica/caso',
         'violencia_politica/tipo_caso', 'violencia_politica/victima_antecedente_violencia',
         'violencia_politica/caso_dano_territorio',
@@ -12,7 +13,7 @@ Load::models('violencia_politica/victima', 'violencia_politica/caso',
         'opcion/genero', 'opcion/etnia', 'opcion/caracterizacion', 
         'opcion/antecedente_violencia', 'opcion/hechovictimizante', 
         'opcion/presunto_responsable', 'observatorio/departamento', 
-        'observatorio/municipio', 'observatorio/territorio', 'global/fuente');
+        'observatorio/municipio', 'observatorio/territorio', 'observatorio/localidad', 'global/fuente');
 class CasosController extends BackendController {
     
     
@@ -527,5 +528,49 @@ class CasosController extends BackendController {
         $Victima = new Victima();
         $this->victimas = $Victima->getVictimasByCasoId(Input::post('caso_id'));
     }
+
+    public function db_select_municipios(){
+        View::template(null);
+        $this->departamento_id = Input::post('departamento_id');
+    }
+
+    public function db_select_territorios(){
+        View::template(null);
+        $this->municipio_id = Input::post('municipio_id');
+    }
+
+    public function db_select_localidades(){
+        View::template(null);
+        $this->municipio_id = Input::post('municipio_id');
+    }
+
+    public function agregar_localidad()
+    {
+        $Localidad = new Localidad();
+        $municipio_id = Input::post('municipio_id');
+        $tipo = Input::post('tipo');
+        $nombre = Input::post('nombre');
+
+        $Localidad->municipio_id = $municipio_id;
+        $Localidad->tipo = $tipo;
+        $Localidad->nombre = $nombre;
+        $Localidad->save();
+        //$this->Localidad = $Localidad->getLocalidadByMunicipioIdSelect($municipio_id, $tipo);
+        $this->municipio_id = $municipio_id;
+        $this->tipo = $tipo;
+        $this->localidad_id = $Localidad->id;
+        if($tipo === 'corregimiento'){           
+            View::select('db_select_corregimientos');
+        }elseif($tipo === 'vereda'){
+            View::select('db_select_veredas');
+        }elseif($tipo === 'inspeccion'){
+            View::select('db_select_inspecciones');
+        }   
+            
+    }
+
+    public function db_select_corregimientos(){}
+    public function db_select_veredas(){}
+    public function db_select_inspecciones(){}     
 }
 ?>

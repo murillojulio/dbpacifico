@@ -1,0 +1,9 @@
+<?php DwForm::open() ?>
+<?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect',  $municipio_id), NULL, array('class'=>''), NULL, 'Territorio'); ?>
+
+<script type='text/javascript'>
+               
+$("#caso_territorio_id").on('change', function(e) {
+        
+});
+</script>

@@ -5,7 +5,7 @@
     $(document).ready(function() 
     {        
         $("#caso_municipio_id").on('change', function(e) {
-
+            jsSpinner('show');
             //Para partial ubicacion
             //$("#btn_anadir_ubicacion").attr('class', 'btn btn-success disabled form-control');
             //////
@@ -29,8 +29,10 @@
                 data: "departamento_id=" + municipio_id + "&field=caso.territorio_id&label=Territorio&required=<?php echo $required; ?>",
             }).done(function(data) {
                 $("#div_territorio").html(data);
+                jsSpinner('hide');
                 $("#caso_territorio_id").focus();
             }).fail(function() {
+                jsSpinner('hide');
                 alert("error");
             });
                 }

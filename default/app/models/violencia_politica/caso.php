@@ -29,6 +29,7 @@ class Caso extends ActiveRecord {
         $this->has_many('victima');
         $this->belongs_to('territorio');        
         $this->belongs_to('municipio');
+        $this->belongs_to('localidad');
     }
     
     /**
