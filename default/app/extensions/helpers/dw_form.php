@@ -440,11 +440,11 @@ class DwForm extends Form {
 
         $attrs = self::_getAttrsClass($attrs, 'select');
         if(empty($data)) {
-            $data = array(''=>'Seleccione');
+            $data = array(''=>'- Seleccione -');
         }
 
         if(empty($blank)) {
-            $blank = 'Seleccione';
+            $blank = '- Seleccione -';
         }
 
         $attrs2 = $attrs;
@@ -1525,5 +1525,128 @@ class DwForm extends Form {
         }
 
         return $checks . PHP_EOL;
+    }
+
+     /**
+     * Método para crear un select a partir de un array de objetos de ActiveRecord. <br />
+     * Permite mostrar varios valores por fila y valor con slug
+     *
+     * @param string $field Nombre del select: modelo.campo
+     * @param string, array $show Campo a mostrar de la consulta.  Es posible mostrar mas de un campo con array('campo1', 'campo2')
+     * @param object $data Array de objetos. Puede dejarse nulo y carga automáticamente la data o indicar el modelo, método y parámetros
+     * @param string|array $blank Texto a mostrar en blanco
+     * @param array $attrs Atributos del input
+     * @param string $value Valor del select
+     * @param string $label Texto a mostrar en la etiqueta <label>
+     * @param boolean $help Texto de descripción del campo
+     * @return string
+     */
+    public static function dbSelectButton($field, $show=null, $data=null, $blank='Seleccione', $attrs=null, $value=null, $label='', $help='', $onClick='', $labelButton='') {
+
+        $attrs = self::_getAttrsClass($attrs, 'select');
+        if(empty($data)) {
+            $data = array(''=>'- Seleccione -');
+        }
+
+        if(empty($blank)) {
+            $blank = '- Seleccione -';
+        }
+
+        $attrs2 = $attrs;
+
+        $input = self::getControls();
+
+        if(is_array($attrs)) { //Cargo los atributos
+            $attrs = Tag::getAttrs($attrs);
+        }
+
+        list($id, $name, $value) = self::getFieldData($field, $value);
+
+        $options = '';
+
+        //Muestro el blank
+        if(!empty($blank) && $blank != 'none') {
+            if(is_array($blank)) {
+                $options_key = @array_shift(array_keys($blank));
+                $options = '<option value="'.$options_key.'">' . htmlspecialchars($blank[$options_key], ENT_COMPAT, APP_CHARSET) . '</option>';
+            } else {
+                $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
+            }
+        }
+        //Verifico si existe una data
+        if($data === null){
+            //por defecto el modelo de modelo(_id)
+            $model_asoc = explode('.', $field, 2);
+            $model_asoc = substr(end($model_asoc), 0, -3);//se elimina el _id
+            $model_name = $model_asoc; //Tomo el nombre del modelo
+            $model_asoc = Load::model($model_asoc); //Cargo el modelo
+            $pk = $model_asoc->primary_key[0];//Tomo la llave primaria
+            if(!$show){
+                $show = $model_asoc->non_primary[0]; //por defecto el primer campo no pk
+            }
+            $data = $model_asoc->find("columns: $pk,$show","order: $show asc");//mejor usar array
+        } else if(isset($data[0]) && is_string($data[0])) { //Verifico si ha enviado el modelo, método y/o parámetros
+            $model_name = explode('/', $data[0]); //Tomo el nombre del modelo
+            $model_name = end($model_name);
+            $model_asoc = Load::model($data[0]);//Cargo el modelo
+            $pk = $model_asoc->primary_key[0];//Tomo la llave primaria
+            // Verifica si existe el argumento
+            if(isset($data[2]) && isset($data[3])) {
+                $data = $model_asoc->{$data[1]}($data[2],$data[3]);
+            } else if(isset($data[2])) {
+                $data = $model_asoc->{$data[1]}($data[2]);
+            } else {
+                $data = $model_asoc->{$data[1]}();
+            }
+        } else { //Si ha enviado una data determino la llave primaria
+            $model_asoc = explode('.', $field, 2);
+            $model_name = $model_asoc[0];
+            $tam = strlen(end($model_asoc));
+            $pk = substr(end($model_asoc), $tam-2, $tam);//se utiliza el id
+        }
+        //Recorro la data
+        foreach($data as $p) {
+            //Muestro el valor del id como show value, a menos que tenga un {nombre_modelo}_slug
+            $slug = $model_name."_slug";
+            if(is_array($show) && in_array($slug, $show)) {
+                $show_value = (isset($p->$slug)) ? $p->$slug : $p->$pk; //Verifico si existe un campo llamado {nombre_modelo}_slug, lo tomo sino la pk
+            } else {
+                $show_value = $p->$pk;
+            }
+            $options .= "<option value=\"$show_value\"";
+            if($show_value == $value) {
+                $options .= ' selected="selected"';
+            }
+            if(is_array($show)) { //Verifico si se muestran varios campos
+                $opt = '';
+                $i=0;
+                foreach($show as $item) {
+                    if($show[$i] != $slug) {
+                        if(isset($p->{$show[$i]})) {
+                            $opt.= htmlspecialchars($p->$item, ENT_COMPAT, APP_CHARSET). ' | ';
+                        } else {
+                            $opt.= htmlspecialchars($show[$i], ENT_COMPAT, APP_CHARSET). ' | ';
+                        }
+                    }
+                    $i++;
+                }
+                $options .= '>' . trim($opt, ' | '). '</option>';
+            } else {
+                $options .= '>' . htmlspecialchars($p->$show, ENT_COMPAT, APP_CHARSET). '</option>';
+            }
+        }
+        $input.=  "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
+        if(self::$_help_block) {
+            $input.= self::help($help);
+        }
+        $input.= self::getControls();
+        if(!self::$_help_block) {
+            return $input.PHP_EOL;
+        }
+        //Verifico si tiene un label
+        //$label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs2['class'])  : '';
+        $button = '<span class="input-group-btn"><button id="btn_'.$id.'" class="btn btn-default" onclick="'.$onClick.'" type="button">'.$labelButton.'</button> </span>';
+        return '<div class="input-group">'.$button.$label.$input.'</div>'.PHP_EOL;
+
     }
 }
