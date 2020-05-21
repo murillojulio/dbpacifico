@@ -70,6 +70,15 @@ class CasosController extends BackendController {
          $this->caso = $obj_caso;         
          $this->departamento_id = $obj_caso->getMunicipio()->departamento_id;
          $this->page_title = 'Caso: '.$obj_caso->titulo;
+
+        $localidad_id =  $obj_caso->localidad_id;
+        $tipo_localidad = $obj_caso->tipo_localidad;
+        $this->corregimiento_id = '';
+        $this->vereda_id = '';
+        $this->inspeccion_id = '';
+        if($tipo_localidad == 'corregimiento'){ $this->corregimiento_id = $localidad_id;}
+        if($tipo_localidad == 'vereda'){ $this->vereda_id = $localidad_id;}
+        if($tipo_localidad == 'inspeccion'){ $this->inspeccion_id = $localidad_id;}
          
          //try {
              $this->victimas = $obj_caso->getVictima();
