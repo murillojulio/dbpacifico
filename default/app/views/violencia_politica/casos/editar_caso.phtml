@@ -64,6 +64,53 @@
                     </div>  
                 </div>
                 <div class="row">
+                            <div class="col-md-3" id=""> 
+                                <?php echo DwForm::hidden("caso.localidad_id", NULL, NULL);?> 
+                            </div>                           
+                            <div id="div_localidades">
+                                <div class="col-md-3" id="div_corregimiento"> 
+                                    <label for="caso_localidad_corregimiento">Corregimiento</label>
+                                    <?php echo $caso->tipo_localidad; echo DwForm::dbSelectButton('caso.localidad_corregimiento', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', $caso->municipio_id, 'corregimiento'), NULL, array('onchange' => 'gestionSelectLocalidades(\'corregimiento\')'), $corregimiento_id, NULL, NULL, 'mostrarModalLocalidad(\'corregimiento\')', '+'); ?>                                
+                                </div>
+                                <div class="col-md-3" id="div_vereda">
+                                    <label for="caso_localidad_vereda">Vereda</label>
+                                    <?php echo DwForm::dbSelectButton('caso.localidad_vereda', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', $caso->municipio_id, 'vereda'), NULL, array('onchange' => 'gestionSelectLocalidades(\'vereda\')'), $vereda_id, NULL, NULL, 'mostrarModalLocalidad(\'vereda\')', '+'); ?>                                
+                                </div>
+                                <div class="col-md-3" id="div_inspeccion"> 
+                                    <label for="caso_localidad_inspeccion">Inspección</label>
+                                    <?php echo DwForm::dbSelectButton('caso.localidad_inspeccion', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', $caso->municipio_id, 'inspeccion'), NULL, array('onchange' => 'gestionSelectLocalidades(\'inspeccion\')'), $inspeccion_id, NULL, NULL, 'mostrarModalLocalidad(\'inspeccion\')', '+'); ?>                                
+                                </div>
+                            </div>
+            <div class="modal fade" id="modal_agregar_localidad">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Agregar Localidad</h4>
+                  </div>
+                  <div class="modal-body">
+                    <?php echo DwForm::text('localidad.nombre', array('class'=>'', 'onkeyup'=>'validarNombreLocalidad()'), NULL, '<div id=\'titulo_localidad\'>Nombre</div>'); ?>                 
+                  </div>
+                  <div class="modal-footer">
+                    <button id="btn-cancelar-guardar-localidad" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="btn-guardar-localidad" type="button" class="btn btn-primary" onclick="agregarLocalidad()" data-loading-text="Guardando...">Guardar</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+   <!--  <div class="input-group">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Vereda +</button>
+      </span>         
+        <select id="caso_localidad_vereda" name="caso[localidad_vereda]" class="form-control ">
+            <option value="">Seleccione</option>
+        </select>
+           
+    </div> -->
+               
+            
+</div>
+                <div class="row">
                     <div class="col-md-3">
                         <?php echo DwForm::number('caso.cantidad_victima', array('class'=>'', 'placeholder'=>'INDETERMINADO'), NULL, 'Cantidad de víctimas'); ?>
                     </div>   
@@ -528,6 +575,12 @@
     <div id="alert-id-guardar-cambio-dano" class="alert alert-block alert-success" style="display: none;">
         <button type="button" class="close" data-dismiss="alert">×</button>
         Los cambios del daño al territorio se han guardado con exito.
+    </div>
+</div>
+<div id="flash-message" class="flash-message">
+    <div id="alert-id-guardar-localidad" class="alert alert-block alert-success" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        La localidad ha sido guardada con exito.
     </div>
 </div>
 <script type="text/javascript">
@@ -1172,21 +1225,108 @@
             }
         });
     }
-    
-//     $("#caso_seleccion").on('change', function(e) {
-//         var hechosSel = new Array();
-//          $('#caso_seleccion option:selected').each(function() {
-//                //cantidad_hechos = cantidad_hechos + 1;
-//                hechosSel.push($(this).text());
-//            });
-//            
-////        var selectText = $("#caso_seleccion option:selected").map(
-////            function () {
-////                return $(this).text();
-////                }).get().join(',');
-//            alert(hechosSel);
-//        });
-    
-        /* });*/
+    let tipo_localidad = '';
+         function mostrarModalLocalidad(tipo){
+             tipo_localidad = tipo;
+            let modal = $("#modal_agregar_localidad");
+            modal.modal('show');
+            modal.find('.modal-title').text('Crear '+tipo);
+            modal.find('#titulo_localidad').text('Nombre '+tipo);
+            /*$("#localidad_nombre").val('hola');
+            $("#localidad_nombre").focus();*/    
+            $("#btn-guardar-localidad").attr("disabled", "true");
+        }
+         function validarNombreLocalidad() {
+             let nombre = $('#localidad_nombre').val().trim();
+            if($('#localidad_nombre').val() === '' || nombre.length <= 3){
+                $("#btn-guardar-localidad").prop('disabled', true);
+            }else{
+                $("#btn-guardar-localidad").prop('disabled', false);
+            }
+        }
+
+    function agregarLocalidad() {
+        $("#btn-cancelar-guardar-localidad").hide();
+        let btn = $('#btn-guardar-localidad');
+        btn.button('loading');
+        let modal = $("#modal_agregar_localidad");
+        let nombre_localidad = $("#localidad_nombre").val();
+        let municipio_id = $("#caso_municipio_id").val();  
+        let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/agregar_localidad/'; ?>";    
+
+        let datos = {
+                    "municipio_id" : municipio_id,
+                    "nombre" : nombre_localidad,
+                    "tipo" : tipo_localidad
+                    };
+        let localidad_id = '';
+        $.ajax(url, {
+            data: datos,
+            method: 'POST',
+            success: function (data, textStatus, jqXHR) {  
+                if(tipo_localidad === 'corregimiento'){
+                    $("#div_corregimiento").html(data);
+                    $("#caso_localidad_inspeccion").val('');
+                    $("#caso_localidad_vereda").val('');
+                    localidad_id = $("#caso_localidad_corregimiento").val();
+                    $("#caso_localidad_id").val(localidad_id);   
+                }else if(tipo_localidad === 'vereda'){
+                    $("#div_vereda").html(data);
+                    $("#caso_localidad_corregimiento").val('');
+                    $("#caso_localidad_inspeccion").val('');
+                    localidad_id = $("#caso_localidad_vereda").val();
+                    $("#caso_localidad_id").val(localidad_id);  
+                }else if(tipo_localidad === 'inspeccion'){
+                    $("#div_inspeccion").html(data);
+                    $("#caso_localidad_corregimiento").val('');
+                    $("#caso_localidad_vereda").val('');
+                    localidad_id = $("#caso_localidad_inspeccion").val();
+                    $("#caso_localidad_id").val(localidad_id);     
+                }
+                //$("#div_lista_localidads").html(data);
+                mostrarAlertGuardaLocalidad(tipo_localidad, nombre_localidad);
+                btn.button('reset');
+                modal.modal('hide');
+                $("#btn-cancelar-guardar-localidad").show();
+                $("#localidad_nombre").val('');                
+                             
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('ERROR en agregarLocalidad()');
+                btn.button('reset');
+            }
+        });        
+    }
+
+    function gestionSelectLocalidades(tipo_localidad_in){
+        let localidad_id = '';
+        if(tipo_localidad_in === 'corregimiento'){
+            $("#caso_localidad_inspeccion").val('');
+            $("#caso_localidad_vereda").val('');
+            localidad_id = $("#caso_localidad_corregimiento").val();
+            $("#caso_localidad_id").val(localidad_id);                    
+        }else if(tipo_localidad_in === 'vereda'){
+            $("#caso_localidad_corregimiento").val('');
+            $("#caso_localidad_inspeccion").val('');
+            localidad_id = $("#caso_localidad_vereda").val();
+            $("#caso_localidad_id").val(localidad_id);     
+        }else if(tipo_localidad_in === 'inspeccion'){
+            $("#caso_localidad_corregimiento").val('');
+            $("#caso_localidad_vereda").val('');
+            localidad_id = $("#caso_localidad_inspeccion").val();
+            $("#caso_localidad_id").val(localidad_id);     
+        }
+    }
+    function mostrarAlertGuardaLocalidad(tipo_localidad_in, nombre_localidad_in){
+        if(tipo_localidad_in === 'corregimiento'){
+            $("#alert-id-guardar-localidad").text('El '+tipo_localidad_in+' '+nombre_localidad_in+' fue creado con exito');                   
+        }else if(tipo_localidad_in === 'vereda'){
+            $("#alert-id-guardar-localidad").text('La '+tipo_localidad_in+' '+nombre_localidad_in+' fue creada con exito');    
+        }else if(tipo_localidad_in === 'inspeccion'){
+            $("#alert-id-guardar-localidad").text('La '+tipo_localidad_in+' '+nombre_localidad_in+' fue creada con exito');    
+        }        
+        $("#alert-id-guardar-localidad").show();
+        $("#alert-id-guardar-localidad").hide().fadeIn(500).delay(4000).fadeOut(500);   
+    }
         
 </script>
