@@ -53,7 +53,7 @@ class Caso extends ActiveRecord {
      public function getCasoById($caso_id) 
     {                   
         $columns = 'caso.*, localidad.tipo AS tipo_localidad'; 
-        $join = 'INNER JOIN localidad ON localidad.id = caso.localidad_id';       
+        $join = 'LEFT JOIN localidad ON localidad.id = caso.localidad_id';       
         $conditions = 'caso.id='.$caso_id;  
         return $this->find_first("columns: $columns", "join: $join", "conditions: $conditions");        
     }
