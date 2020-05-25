@@ -1645,7 +1645,7 @@ class DwForm extends Form {
         }
         //Verifico si tiene un label
         //$label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs2['class'])  : '';
-        $button = '<span class="input-group-btn"><button id="btn_'.$id.'" class="btn btn-default" onclick="'.$onClick.'" type="button">'.$labelButton.'</button> </span>';
+        $button = '<span class="input-group-btn"><button id="btn_'.$id.'" class="btn btn-default" onclick="'.$onClick.'" type="button" data-toggle="tooltip" data-placement="top" title="Crear nuevo">'.$labelButton.'</button> </span>';
         return '<div class="input-group">'.$button.$label.$input.'</div>'.PHP_EOL;
 
     }
