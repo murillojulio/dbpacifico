@@ -66,8 +66,11 @@ echo '<input id="tipo_modo" name="tipo[modo]" type="hidden" value="'.$modo.'">';
         <div class="row">
             <div class="form-actions">     
                 <div class="text-left">
-                <button type="submit" class="btn btn-info text-bold" title="Buscar casos"><i class="btn-icon-only fa fa-search"></i> <span class="hidden-xs">BUSCAR</span></button>             
-                <?php echo DwForm::focus('caso.titulo');?>
+                    <button type="submit" class="btn btn-info text-bold" title="Buscar casos">
+                        <i class="btn-icon-only fa fa-search"></i>
+                        <span class="hidden-xs">BUSCAR</span>
+                    </button>             
+                    <?php echo DwForm::focus('caso.titulo');?>
                 </div>
             </div>
         </div>
@@ -93,12 +96,12 @@ echo '<input id="tipo_modo" name="tipo[modo]" type="hidden" value="'.$modo.'">';
             </div>
         </div>
           
-    <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
+    <table id="example" class="table table-bordered table-hover table-striped table-condensed table-responsive">
             <thead>
                 <tr>
                     <th>NUM</th>
                     <th>FECHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>  
-                    <th>TITULO DEL CASO</th>
+                    <th style="width: 110px;">TITULO DEL CASO</th>
                     <th>UBICACIÓN</th>
                     <th>VÍCTIMAS</th>                                      
                     <th class="text-center">ESTADO</th>
@@ -163,7 +166,24 @@ echo '<input id="tipo_modo" name="tipo[modo]" type="hidden" value="'.$modo.'">';
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+/*
+    $('#example').DataTable({
+        dom: 'lBfrtip',
+        buttons: ['excel', 'pdf'],
+        "paging":   true,
+        "ordering": false,
+        "info":     true,
+        "language": {
+            "search": "Buscar",
+            "lengthMenu": "Mostrar _MENU_ registros&nbsp;&nbsp;",
+            "zeroRecords": "No se encontró nada - lo siento",
+            "info": "Mostrando la página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros totales)"
+        },
         
+    });
+     */   
              if($('#tipo_modo').val() == 'consulta')
             {
                 $("#div_resultado").hide();
