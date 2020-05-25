@@ -347,13 +347,22 @@
                     <div class="row">  
                         <div class="col-md-6">
                             <div id="div_select_multiple_victima">
-                            <?php echo DwForm::dbSelectMultipleNoSeleccion('vhpr.victima_id', 'nombre', $victimas, array('style'=>"height: 150px;", 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Víctima(s)', 'Mantenga presionado el botón Ctrl (Windows) o Cmd (Mac) para seleccionar varias opciones.'); ?>    
+                    <?php echo DwForm::dbSelectMultipleNoSeleccion('vhpr.victimas_id', 'nombre', $victimas, array('style'=>"height: 150px;", 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Seleccione Víctima(s)<span class="req">*</span>'/*, 'Mantenga presionado el botón Ctrl (Windows) o Cmd (Mac) para seleccionar varias opciones.'*/); ?>    
                             </div>
-                        </div>                        
+                        </div>    
+                        <div class="col-md-6">
+                            <label for="panel_victimas_seleccionadas">Víctimas seleccionadas</label>
+                            <div id="panel_victimas_seleccionadas" class="panel panel-default">
+                                <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
+                                    <div id="div_listado_victimas">
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>                    
                     </div>
                     <div class="row">  
                         <div class="col-md-6">
-                            <?php echo DwForm::dbSelect('vhpr.presunto_responsable_id', 'nombre', array('opcion/presunto_responsable', 'getListadoPresuntoResponsableDBS', PresuntoResponsable::ACTIVO), 'Seleccione', array('class'=>'', 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Presunto responsable'); ?>
+                            <?php echo DwForm::dbSelect('vhpr.presunto_responsable_id', 'nombre', array('opcion/presunto_responsable', 'getListadoPresuntoResponsableDBS', PresuntoResponsable::ACTIVO), 'Seleccione', array('class'=>'', 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Presunto responsable<span class="req">*</span>'); ?>
                         </div>
                         <div class="col-md-6">
                             <?php echo DwForm::text('vhpr.descripcion_presunto_responsable', array('placeholder'=>'SIN INFORMACIÓN'), NULL, 'Descripción presunto responsable'); ?>
@@ -361,10 +370,18 @@
                     </div>
                     <div class="row">  
                         <div class="col-md-6">
-                            <?php echo DwForm::dbSelectMultipleNoSeleccion('vhpr.hechos', 'nombre', array('opcion/hechovictimizante','getListadoHechovictimizanteDBS'), array('style'=>"height: 150px;", 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Hechos victimizantes', 'Mantenga presionado el botón Ctrl (Windows) o Cmd (Mac) para seleccionar varias opciones.')?>
-                        </div>                        
-                    </div>    
-                             
+                            <?php echo DwForm::dbSelectMultipleNoSeleccion('vhpr.hechos_id', 'nombre', array('opcion/hechovictimizante','getListadoHechovictimizanteDBS'), array('style'=>"height: 150px;", 'onchange'=>'validarBotonAgregarVictimizacion()'), NULL, 'Seleccione Hechos victimizantes<span class="req">*</span>'/*, 'Mantenga presionado el botón Ctrl (Windows) o Cmd (Mac) para seleccionar varias opciones.'*/)?>
+                        </div>  
+                        <div class="col-md-6">
+                        <label for="panel_hechos_seleccionadas">Hechos victimizantes seleccionados</label>
+                            <div id="panel_hechos_seleccionadas" class="panel panel-default">
+                                <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
+                                    <div id="div_listado_hechos">
+                                    </div>
+                                </div>
+                            </div>                              
+                        </div>                       
+                    </div>                                 
                 </div>
                 <div class="modal-footer">
                     <button id="btn-cancelar-agregar-victimizacion" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -588,35 +605,50 @@
     let caso_dano_territorio_id = '';
     let victima_nombre_eliminar = '';
     var hechosSeleccionados = new Array();
+    var hechosSeleccionadosTexto = new Array();
     var victimasSeleccionadas = new Array();
     var antecedentesSeleccionados = new Array();
     $("#btn-agregar-victimizacion").prop('disabled', true);
     $("#btn-agregar-dano").prop('disabled', true);
     
     function validarBotonAgregarVictimizacion(){
-            var presunto_responsable_id = $('#vhpr_presunto_responsable_id').val();
-            var cantidad_victimas = 0;
-            var victimasSeleccionadas_ = new Array();
-            $('#vhpr_victima_id option:selected').each(function() {
-                cantidad_victimas = cantidad_victimas + 1;
-                victimasSeleccionadas_.push($(this).text());
-            });
-            victimasSeleccionadas = victimasSeleccionadas_;
-            
-            var cantidad_hechos = 0;
-            var hechosSeleccionados_ = new Array();
-            $('#vhpr_hechos option:selected').each(function() {
-                cantidad_hechos = cantidad_hechos + 1;
-                hechosSeleccionados_.push($(this).val());
-            });
-            hechosSeleccionados = hechosSeleccionados_;
-            
-            if(cantidad_hechos > 0 && presunto_responsable_id !== '' && cantidad_victimas > 0){
-                $("#btn-agregar-victimizacion").prop('disabled', false);
-            }else{
-                $("#btn-agregar-victimizacion").prop('disabled', true);
-            }
+        var presunto_responsable_id = $('#vhpr_presunto_responsable_id').val();
+        var cantidad_victimas = 0;
+        var cadena_victimas = '';
+        var victimasSeleccionadas_ = new Array();
+        $('#vhpr_victimas_id option:selected').each(function() {
+            cantidad_victimas = cantidad_victimas + 1;
+            victimasSeleccionadas_.push($(this).text());
+            var elemento = $(this).text();
+            cadena_victimas = cadena_victimas+"<h6><span style=\"font-weight: 400;\" class=\"label label-primary\">"+elemento+"</span></h6>";                
+        });
+        victimasSeleccionadas = victimasSeleccionadas_;
+        /*
+        var cadena_victimas = '';
+        victimasSeleccionadas.forEach(element => {
+            cadena_victimas = cadena_victimas+"<span class=\"label label-primary\">"+element+"</span><br><br>";                
+        });
+        */
+        $("#div_listado_victimas").html(cadena_victimas);
+
+        var cantidad_hechos = 0;
+        var cadena_hechos = '';
+        var hechosSeleccionados_ = new Array();
+        $('#vhpr_hechos_id option:selected').each(function() {
+            cantidad_hechos = cantidad_hechos + 1;
+            hechosSeleccionados_.push($(this).text());
+            var elemento = $(this).text();
+            cadena_hechos = cadena_hechos+"<h6><span style=\"font-weight: 400;\" class=\"label label-primary\">"+elemento+"</span></h6>";                
+        });
+        hechosSeleccionados = hechosSeleccionados_;
+        $("#div_listado_hechos").html(cadena_hechos);
+        
+        if(cantidad_hechos > 0 && presunto_responsable_id !== '' && cantidad_victimas > 0){
+            $("#btn-agregar-victimizacion").prop('disabled', false);
+        }else{
+            $("#btn-agregar-victimizacion").prop('disabled', true);
         }
+    }
     function agregarVictimizacion() {
         $("#btn-cancelar-agregar-victimizacion").prop('disabled', true);
         let btn = $('#btn-agregar-victimizacion');
@@ -624,8 +656,8 @@
         let modal = $("#modal-agregar-victimizacion");
         let caso_id = $('#caso_id').val();
         let presunto_responsable_id = $('#vhpr_presunto_responsable_id').val();
-        let victimas = $('#vhpr_victima_id').val();
-        let hechos = $('#vhpr_hechos').val();
+        let victimas = $('#vhpr_victimas_id').val();
+        let hechos = $('#vhpr_hechos_id').val();
         let descripcion_presunto_responsable = $('#vhpr_descripcion_presunto_responsable').val();
         
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/gestion_vhpr/'; ?>";    
@@ -648,8 +680,8 @@
                 modal.modal('hide');
                 $("#btn-cancelar-agregar-victimizacion").prop('disabled', false); 
                 
-                $('#vhpr_victima_id').val('');
-                $('#vhpr_hechos').val('');
+                $('#vhpr_victimas_id').val('');
+                $('#vhpr_hechos_id').val('');
                 $('#vhpr_presunto_responsable_id').val('');
                 $('#vhpr_descripcion_presunto_responsable').val('');                  
                 $("#alert-id-guardar").show();
@@ -665,6 +697,8 @@
     function deshabilitar() {
         $("#btn-agregar-victimizacion").prop('disabled', true); 
         $(".hecho_victimizante").prop("checked", false);
+        $("#div_listado_victimas").html("");
+        $("#div_listado_hechos").html("");
     } 
         
  $("#caso_departamento_id").on('change', function(e) {
@@ -1329,5 +1363,33 @@
         $("#alert-id-guardar-localidad").show();
         $("#alert-id-guardar-localidad").hide().fadeIn(500).delay(4000).fadeOut(500);   
     }
+
+    $("#vhpr_hechos_id").mousedown(function(e){
+        e.preventDefault();
+        
+        var select = this;
+        var scroll = select.scrollTop;
+        
+        e.target.selected = !e.target.selected;
+        
+        setTimeout(function(){select.scrollTop = scroll;}, 0);
+        
+        $(select).focus();
+        validarBotonAgregarVictimizacion();
+    }).mousemove(function(e){e.preventDefault()});
+
+    $("#vhpr_victimas_id").mousedown(function(e){
+        e.preventDefault();
+        
+        var select = this;
+        var scroll = select.scrollTop;
+        
+        e.target.selected = !e.target.selected;
+        
+        setTimeout(function(){select.scrollTop = scroll;}, 0);
+        
+        $(select).focus();
+        validarBotonAgregarVictimizacion();
+    }).mousemove(function(e){e.preventDefault()});
         
 </script>
