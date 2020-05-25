@@ -18,8 +18,10 @@
         <?php Tag::css('backend/base'); ?>
         <?php Tag::css('backend/style'); ?>
         <?php Tag::css('backend/themes/'.SKIN.'/'.SKIN); ?>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-flash-1.6.2/b-html5-1.6.2/b-print-1.6.2/datatables.min.css"/>
         <?php echo Html::includeCss(); ?>        
-        <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">        
+        <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">   
+        
         <style type="text/css">
             <?php if(APP_MAYUS) { ?>            
             .input-lower, .input-email, email, .mask-email, .js-datepicker { text-transform: none !important; font-size: 14px !important}
@@ -50,6 +52,9 @@
             });
             }
         </script>  
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-flash-1.6.2/b-html5-1.6.2/b-print-1.6.2/datatables.min.js"></script>
                 
     </head>
     <body>
