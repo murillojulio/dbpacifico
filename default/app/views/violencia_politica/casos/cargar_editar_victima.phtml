@@ -37,19 +37,34 @@
                         </div>
                     </div>                        
                     <div class="col-md-6">
-                        <label for="victima_editar_caracterizacion_id">Perfil<span class="req">*</span></label> 
-                        <?php echo DwForm::dbSelect('victima.editar_caracterizacion_id', 'nombre', array('opcion/caracterizacion', 'getListadoCaracterizacionDBS', Caracterizacion::ACTIVO), NULL, array('onchange'=>'validarBotonGuardarCambioVictima()'), $Victima->caracterizacion_id, 'Perfil'); ?>
-                    </div>
-                        
+                    
+                       </div>                        
                </div>
-                <div class="row">               
+
+               <div class="row">               
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="panel_perfil">Perfiles de la víctima</label>
+                        <div id="panel_perfil" class="panel panel-default">
+                            <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
+                                <?php echo DwForm::dbCheckId('victima_caracterizacion_check','nombre',array('opcion/caracterizacion2','getListadoCaracterizacion2DBS'), array('onchange'=>'', 'class'=>'editar_antecedente_violencia'), $victima_caracterizacion, 2, '6'); ?>
+                            </div>
+                        </div> 
+                    </div>   
+                    </div>                    
+                    <div id="div_editar_etnia_indigena_id" class="col-md-6" <?php if($Victima->etnia_id !='2'){echo 'hidden';}?>>
+                        <label for="victima_editar_etnia_indigena_id">Etnia indígena</label>
+                        <?php echo DwForm::dbSelect('victima.editar_etnia_indigena_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'indigena'), NULL, array('class'=>''), $Victima->etnia_indigena_id, 'Etnia indígena'); ?>
+                    </div>
+                </div>
+
+               <div class="row">               
                     <div class="col-md-6">
                         <div class="form-group">
                         <label for="victima_editar_etnia_id">Etnia</label>
                         <?php echo DwForm::dbSelect('victima.editar_etnia_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'etnia'), NULL, array('class'=>'', 'onchange'=>'onChangeEditarEtniaId()'), $Victima->etnia_id, 'Etnia'); ?>
                         </div>
-                    </div>
-                    
+                    </div>                    
                     <div id="div_editar_etnia_indigena_id" class="col-md-6" <?php if($Victima->etnia_id !='2'){echo 'hidden';}?>>
                         <label for="victima_editar_etnia_indigena_id">Etnia indígena</label>
                         <?php echo DwForm::dbSelect('victima.editar_etnia_indigena_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'indigena'), NULL, array('class'=>''), $Victima->etnia_indigena_id, 'Etnia indígena'); ?>
@@ -61,7 +76,7 @@
                     <div id="panel_antecedentes" class="panel panel-default">
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <?php echo DwForm::dbCheckId('editar_antecedente_violencia','nombre',array('opcion/antecedente_violencia','getListadoAntecedenteViolenciaDBS'), array('onchange'=>'', 'class'=>'editar_antecedente_violencia'), $antecedente_violencia, 3, '4'); ?>
+                                <?php echo DwForm::dbCheckId('victima_antecedente_violencia_check','nombre',array('opcion/antecedente_violencia','getListadoAntecedenteViolenciaDBS'), array('onchange'=>'', 'class'=>'editar_antecedente_violencia'), $antecedente_violencia, 3, '4'); ?>
                             </div>
                         </div>
                     </div> 

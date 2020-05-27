@@ -8,9 +8,9 @@
 header("Set-Cookie: sameSite=secure");
 Load::models('violencia_politica/victima', 'violencia_politica/caso',
         'violencia_politica/tipo_caso', 'violencia_politica/victima_antecedente_violencia',
-        'violencia_politica/caso_dano_territorio',
+        'violencia_politica/caso_dano_territorio', 'violencia_politica/victima_caracterizacion2',
         'violencia_politica/victima_hechovictimizante_presunto_responsable',
-        'opcion/genero', 'opcion/etnia', 'opcion/caracterizacion', 
+        'opcion/genero', 'opcion/etnia', 'opcion/caracterizacion', 'opcion/caracterizacion2', 
         'opcion/antecedente_violencia', 'opcion/hechovictimizante', 
         'opcion/presunto_responsable', 'observatorio/departamento', 
         'observatorio/municipio', 'observatorio/territorio', 'observatorio/localidad', 'global/fuente');
@@ -142,6 +142,11 @@ class CasosController extends BackendController {
                 $victima_antecedente_violencia = new VictimaAntecedenteViolencia();
                 $victima_antecedente_violencia->guardar(Input::post('antecedente_violencia'), $obj_victima->id);
             }
+            if($obj_victima && Input::hasPost('victima_caracterizacion'))
+            {
+                $victima_caracterizacion = new VictimaCaracterizacion2();
+                $victima_caracterizacion->guardar(Input::post('victima_caracterizacion'), $obj_victima->id);
+            }
             if($obj_victima){                
                 $Victima = new Victima();
                 $this->victimas = $Victima->getVictimasByCasoId($obj_victima->caso_id);
@@ -152,7 +157,9 @@ class CasosController extends BackendController {
            if($obj_victima)
            {
                $victima_antecedente_violencia = new VictimaAntecedenteViolencia();
-               $victima_antecedente_violencia->guardar(Input::post('antecedente_violencia'), $obj_victima->id);                                 
+               $victima_antecedente_violencia->guardar(Input::post('antecedente_violencia'), $obj_victima->id);
+               $victima_caracterizacion = new VictimaCaracterizacion2();
+               $victima_caracterizacion->guardar(Input::post('victima_caracterizacion'), $obj_victima->id);                                 
                $Victima = new Victima();
                $this->victimas = $Victima->getVictimasByCasoId($obj_victima->caso_id);
                Flash::valid("La víctima $obj_victima->nombre se ha actualizado correctamente!");
@@ -188,9 +195,13 @@ class CasosController extends BackendController {
         $victima_id = Input::post('victima_id');
         $Victima->find_first($victima_id);
         $this->Victima = $Victima;
-        $this->antecedente_violencia = array();            
+        $this->antecedente_violencia = array();   
+        $this->victima_caracterizacion =  array();         
         foreach ($Victima->getVictimaAntecedenteViolencia() as $value) {
             $this->antecedente_violencia[] = $value->antecedente_violencia_id;
+        }  
+        foreach ($Victima->getVictimaCaracterizacion2() as $value) {
+            $this->victima_caracterizacion[] = $value->caracterizacion2_id;
         }        
         $this->victima_id = $victima_id;
     }
@@ -231,7 +242,7 @@ class CasosController extends BackendController {
      
       /**
      * Método para eliminar
-     */
+     
     public function eliminar_victima($nombre_victima, $nombre_caso, $key, $key_back) {      
                 
         if(!$id = Security::getKey($key, 'del_victima', 'int')) {
@@ -257,7 +268,7 @@ class CasosController extends BackendController {
         
         return Redirect::toAction("editar_caso/$key_back/2/");
     }
-    
+    */
      
     
     public function gestion_vhpr()

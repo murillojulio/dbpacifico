@@ -25,6 +25,7 @@ class Victima extends ActiveRecord {
     protected function initialize() {
        $this->has_many('victima_antecedente_violencia');
        $this->has_many('victima_hechovictimizante_presunto_responsable');
+       $this->has_many('victima_caracterizacion2');
        $this->belongs_to('etnia');
        $this->belongs_to('caracterizacion');
        $this->belongs_to('caso');

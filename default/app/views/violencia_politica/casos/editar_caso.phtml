@@ -198,39 +198,50 @@
                <div class="row">  
                    <?php echo DwForm::hidden("victima.caso_id", NULL, $caso->id);?>                   
                         <div class="col-md-6">
-                            <?php echo DwForm::text('victima.nombre', array('onkeyup'=>'validarBotonGuardarVictima()'), NULL, 'Nombre(s) y Apellido(s)'); ?>
+                            <?php echo DwForm::text('victima.nombre', array('onkeyup'=>'validarBotonGuardarVictima()'), NULL, 'Nombre(s) y Apellido(s)<span class="req">*</span>'); ?>
                         </div>
                         <div class="col-md-3">
-                        <?php echo DwForm::dbSelect('victima.genero_id', 'nombre', array('opcion/genero', 'getListadoGeneroDBS', Genero::ACTIVO), NULL, array('onchange'=>'validarBotonGuardarVictima()'), NULL, 'Género'); ?>
+                        <?php echo DwForm::dbSelect('victima.genero_id', 'nombre', array('opcion/genero', 'getListadoGeneroDBS', Genero::ACTIVO), NULL, array('onchange'=>'validarBotonGuardarVictima()'), NULL, 'Género<span class="req">*</span>'); ?>
                         </div>
                     <div class="col-md-3">
                         <?php echo DwForm::number('victima.edad', array('class'=>'input-integer', 'placeholder'=>'SIN INFORMACIÓN'), NULL, 'Edad'); ?>
                     </div>
-               </div>
-                 <div class="row">                   
-                     <div class="col-md-6">
-                            <?php echo DwForm::text('victima.ocupacion', array('onkeyup'=>'validarBotonGuardarVictima()'), NULL, 'Ocupación'); ?>
-                        </div>                        
-                     <div class="col-md-6">
-                            <?php echo DwForm::dbSelect('victima.caracterizacion_id', 'nombre', array('opcion/caracterizacion', 'getListadoCaracterizacionDBS', Caracterizacion::ACTIVO), NULL, array('onchange'=>'validarBotonGuardarVictima()'), NULL, 'Perfil'); ?>
-                        </div>
-                        
-               </div>
+                </div>
+                <div class="row">                   
+                    <div class="col-md-6">
+                        <?php echo DwForm::text('victima.ocupacion', array('onkeyup'=>'validarBotonGuardarVictima()'), NULL, 'Ocupación<span class="req">*</span>'); ?>
+                    </div>                        
+                    <div class="col-md-6">
+                    </div>                        
+                </div>     
                 <div class="row">               
-                        <div class="col-md-6">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="panel_perfil">Perfiles de la víctima</label>
+                            <div id="panel_perfil" class="panel panel-default">
+                                <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
+                                    <?php echo DwForm::dbCheckId('victima_caracterizacion_check','nombre',array('opcion/caracterizacion2','getListadoCaracterizacion2DBS'), array('onchange'=>'', 'class'=>'editar_antecedente_violencia'), null, 2, '6'); ?>
+                                </div>
+                            </div> 
+                        </div>   
+                    </div>                    
+                </div>        
+                <div class="row">
+                <div class="col-md-6">
                             <?php echo DwForm::dbSelect('victima.etnia_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'etnia'), NULL, array('class'=>''), NULL, 'Etnia'); ?>
                         </div>
                     <div id="div_etnia_indigena_id" class="col-md-6">
                             <?php echo DwForm::dbSelect('victima.etnia_indigena_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'indigena'), NULL, array('class'=>''), NULL, 'Etnia indígena'); ?>
-                        </div>
+                        </div>    
                 </div>
+                          
                 <div class="row">
                      <div class="col-md-12">
                  <label for="panel_antecedentes">Antecedentes de la víctima relacionados con violencia</label>
                     <div id="panel_antecedentes" class="panel panel-default">
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <?php echo DwForm::dbCheckId('agregar_antecedente_violencia','nombre',array('opcion/antecedente_violencia','getListadoAntecedenteViolenciaDBS'), array('onchange'=>'', 'class'=>'agregar_antecedente_violencia'), NULL, 3, '4'); ?>
+                                <?php echo DwForm::dbCheckId('victima_antecedente_violencia_check','nombre',array('opcion/antecedente_violencia','getListadoAntecedenteViolenciaDBS'), array('onchange'=>'', 'class'=>'agregar_antecedente_violencia'), NULL, 3, '4'); ?>
                             </div>
                         </div>
                     </div> 
@@ -608,6 +619,7 @@
     var hechosSeleccionadosTexto = new Array();
     var victimasSeleccionadas = new Array();
     var antecedentesSeleccionados = new Array();
+    var caracterizacionSeleccionados = new Array();
     $("#btn-agregar-victimizacion").prop('disabled', true);
     $("#btn-agregar-dano").prop('disabled', true);
     
@@ -1031,16 +1043,39 @@
     function llenarArrayAntecedentes(){
         var cantidad_antecedentes = 0;
         var antecedentesSeleccionados_ = new Array();
-            $('input[type=checkbox]:checked').each(function() {
-                cantidad_antecedentes = cantidad_antecedentes + 1;
-                antecedentesSeleccionados_.push($(this).val());
-            });
-            antecedentesSeleccionados = antecedentesSeleccionados_;
+        $('[name="victima_antecedente_violencia_check[]"]:checked').each(function() {
+            cantidad_antecedentes = cantidad_antecedentes + 1;
+            antecedentesSeleccionados_.push($(this).val());
+        });
+        antecedentesSeleccionados = antecedentesSeleccionados_;
     }
+
+    function llenarArrayCaracterizaciones(){
+        var cantidad_victima_caracterizacion = 0;
+        var caracterizacionSeleccionados_ = new Array();
+        $('[name="victima_caracterizacion_check[]"]:checked').each(function() {
+            cantidad_victima_caracterizacion = cantidad_victima_caracterizacion + 1;
+            caracterizacionSeleccionados_.push($(this).val());
+        });
+        caracterizacionSeleccionados = caracterizacionSeleccionados_;
+    }
+
+    
+
+    /* function llenarArrayCaracterizaciones(){
+        var cantidad_caracterizaciones = 0;
+        var caracterizacionSeleccionados_ = new Array();
+            $('#victima_caracterizacion2_id option:selected').each(function() {
+                cantidad_caracterizaciones = cantidad_caracterizaciones + 1;
+                caracterizacionSeleccionados_.push($(this).val());
+            });
+            caracterizacionSeleccionados = caracterizacionSeleccionados_;
+    } */
     
     function agregarVictima() {
         //$('.antecedentes_violencia_editar').prop('checked', false);
         llenarArrayAntecedentes();
+        llenarArrayCaracterizaciones();
         $("#btn-cancelar-agregar-victima").prop('disabled', true);
         let btn = $('#btn-agregar-victima');
         btn.button('loading');
@@ -1050,7 +1085,8 @@
         let genero_id = $('#victima_genero_id').val();
         let edad = $('#victima_edad').val();
         let ocupacion = $('#victima_ocupacion').val();
-        let caracterizacion_id = $('#victima_caracterizacion_id').val();
+        /*let caracterizacion_id = $('#victima_caracterizacion2_id').val();*/
+        let caracterizacion_otro = $('#victima_caracterizacion_otro').val();
         let etnia_id = $('#victima_etnia_id').val();
         let etnia_indigena_id = $('#victima_etnia_indigena_id').val();
         
@@ -1062,14 +1098,16 @@
                      "genero_id" : genero_id,
                      "edad" : edad,
                      "ocupacion" : ocupacion,
-                     "caracterizacion_id" : caracterizacion_id,
+                     "caracterizacion_id" : "1",
+                     "caracterizacion_otro" : caracterizacion_otro,
                      "etnia_id" : etnia_id,
                      "etnia_indigena_id" : etnia_indigena_id
                     };
         let victima = {
                         "accion" : "crear",
                         "victima" : datos,
-                        "antecedente_violencia" : antecedentesSeleccionados
+                        "antecedente_violencia" : antecedentesSeleccionados,
+                        "victima_caracterizacion" : caracterizacionSeleccionados
                       };            
 
         $.ajax(url, {
@@ -1117,6 +1155,7 @@
         function guardarCambiosVictima() {
             
             llenarArrayAntecedentes();
+            llenarArrayCaracterizaciones();
         $("#btn-cancelar-guardar-cambio-victima").prop('disabled', true);
         let btn = $('#btn-guardar-cambio-victima');
         btn.button('loading');
@@ -1127,7 +1166,8 @@
         let genero_id = $('#victima_editar_genero_id').val();
         let edad = $('#victima_editar_edad').val();
         let ocupacion = $('#victima_editar_ocupacion').val();
-        let caracterizacion_id = $('#victima_editar_caracterizacion_id').val();
+        /*let caracterizacion_id = $('#victima_editar_caracterizacion_id').val();*/
+        let caracterizacion_otro = $('#victima_caracterizacion_otro').val();
         let etnia_id = $('#victima_editar_etnia_id').val();
         let etnia_indigena_id = $('#victima_editar_etnia_indigena_id').val();
                 
@@ -1140,14 +1180,16 @@
                      "genero_id" : genero_id,
                      "edad" : edad,
                      "ocupacion" : ocupacion,
-                     "caracterizacion_id" : caracterizacion_id,
+                     "caracterizacion_id" : "1",
+                     "caracterizacion_otro" : caracterizacion_otro,
                      "etnia_id" : etnia_id,
                      "etnia_indigena_id" : etnia_indigena_id
                     };
         let victima = {
                         "accion" : "editar",
                         "victima" : datos,
-                        "antecedente_violencia" : antecedentesSeleccionados
+                        "antecedente_violencia" : antecedentesSeleccionados,
+                        "victima_caracterizacion" : caracterizacionSeleccionados
                       };            
 
         $.ajax(url, {
@@ -1171,7 +1213,7 @@
         $("#victima_genero_id").val("");
         $("#victima_edad").val("");
         $("#victima_ocupacion").val("");
-        $("#victima_caracterizacion_id").val("");
+        $("#victima_caracterizacion2_id").val("");
         $("#victima_etnia_id").val("");
         $("#victima_etnia_indigena_id").val("");
         $("#div_etnia_indigena_id").hide();
@@ -1184,9 +1226,9 @@
         var nombre = $("#victima_nombre").val();
         var genero = $("#victima_genero_id").val();
         var ocupacion = $("#victima_ocupacion").val();
-        var perfil = $("#victima_caracterizacion_id").val();
+        var perfil = $("#victima_caracterizacion2_id").val();
         
-        if(nombre !== '' && genero !== '' && ocupacion !== '' && perfil !== ''){
+        if(nombre !== '' && genero !== '' && ocupacion !== '' && perfil !== null){
             $("#btn-agregar-victima").prop('disabled', false);
         }else{
             $("#btn-agregar-victima").prop('disabled', true);

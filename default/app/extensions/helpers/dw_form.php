@@ -696,15 +696,6 @@ class DwForm extends Form {
 
         $options = '';
 
-        //Muestro el blank
-        if(!empty($blank) && $blank != 'none') {
-            if(is_array($blank)) {
-                $options_key = @array_shift(array_keys($blank));
-                $options = '<option value="'.$options_key.'">' . htmlspecialchars($blank[$options_key], ENT_COMPAT, APP_CHARSET) . '</option>';
-            } else {
-                $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';
-            }
-        }
         //Verifico si existe una data
         if($data === null){
             //por defecto el modelo de modelo(_id)
@@ -1405,7 +1396,7 @@ class DwForm extends Form {
             //$idx = $id . '_' . $p->$pk;
             $idx = $p->$show;
             $namex = $id . '[]';
-            $checks .= "<label class=\"checkbox\"><input id=\"$idx\" name=\"$namex\" type=\"checkbox\" value=\"{$p->$pk}\"";
+            $checks .= "<label style=\"margin:0px;\" class=\"checkbox\"><input id=\"$idx\" name=\"$namex\" type=\"checkbox\" value=\"{$p->$pk}\"";
             // Si es array $value para select multiple se seleccionan todos
             //var_dump($value); die();
             $checked = '';
