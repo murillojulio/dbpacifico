@@ -44,13 +44,13 @@
                <div class="row">               
                     <div class="col-md-6">
                         <div class="form-group">
-                        <label for="panel_perfil">Perfiles de la víctima</label>
+                        <label for="panel_perfil">Perfiles de la víctima <span class="req">*</span></label>
                         <div id="panel_perfil" class="panel panel-default">
                             <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
                                 <?php echo DwForm::dbCheckId('victima_editar_caracterizacion_check','nombre',array('opcion/caracterizacion2','getListadoCaracterizacion2DBS'), array('onclick'=>'validarBotonGuardarCambioVictima()', 'onchange'=>'validarCaracterizacionOtroEditar()', 'class'=>'editar_antecedente_violencia'), $victima_caracterizacion, 2, '6'); ?>
                                 <?php
                                 $display = '';
-                                 if($Victima->caracterizacion_otro === ''){ $display ='display:none;';}?>
+                                 if(!in_array("3", $victima_caracterizacion)){ $display ='display:none;';}?>
                                 <div id="div_editar_victima_caracterizacion_otro" style="<?php echo $display;?>" >
                                     <label for="victima_editar_caracterizacion_otro">Descripción Otro Perfil <span class="req">*</span></label>
                                     <?php echo DwForm::text('victima.editar_caracterizacion_otro', array('onkeyup'=>''), $Victima->caracterizacion_otro, 'Descripción Otro Perfil<span class="req">*</span>'); ?>
