@@ -11,8 +11,8 @@ Load::models('violencia_politica/victima', 'violencia_politica/caso',
         'violencia_politica/caso_dano_territorio', 'violencia_politica/victima_caracterizacion2',
         'violencia_politica/victima_hechovictimizante_presunto_responsable',
         'opcion/genero', 'opcion/etnia', 'opcion/caracterizacion', 'opcion/caracterizacion2', 
-        'opcion/antecedente_violencia', 'opcion/hechovictimizante', 
-        'opcion/presunto_responsable', 'observatorio/departamento', 
+        'opcion/antecedente_violencia', 'opcion/hechovictimizante', 'opcion/etnia2',
+        'opcion/presunto_responsable', 'observatorio/departamento', 'violencia_politica/victima_etnia2',
         'observatorio/municipio', 'observatorio/territorio', 'observatorio/localidad', 'global/fuente');
 class CasosController extends BackendController {
     
@@ -147,6 +147,11 @@ class CasosController extends BackendController {
                 $victima_caracterizacion = new VictimaCaracterizacion2();
                 $victima_caracterizacion->guardar(Input::post('victima_caracterizacion'), $obj_victima->id);
             }
+            if($obj_victima && Input::hasPost('victima_etnia'))
+            {
+                $victima_etnia = new VictimaEtnia2();
+                $victima_etnia->guardar(Input::post('victima_etnia'), $obj_victima->id);
+            }
             if($obj_victima){                
                 $Victima = new Victima();
                 $this->victimas = $Victima->getVictimasByCasoId($obj_victima->caso_id);
@@ -160,7 +165,9 @@ class CasosController extends BackendController {
                $victima_antecedente_violencia->guardar(Input::post('antecedente_violencia'), $obj_victima->id);
                $victima_caracterizacion = new VictimaCaracterizacion2();
                $victima_caracterizacion->guardar(Input::post('victima_caracterizacion'), $obj_victima->id);                                 
-               $Victima = new Victima();
+               $victima_etnia = new VictimaEtnia2();
+               $victima_etnia->guardar(Input::post('victima_etnia'), $obj_victima->id);                                 
+              $Victima = new Victima();
                $this->victimas = $Victima->getVictimasByCasoId($obj_victima->caso_id);
                Flash::valid("La víctima $obj_victima->nombre se ha actualizado correctamente!");
            }
@@ -196,12 +203,16 @@ class CasosController extends BackendController {
         $Victima->find_first($victima_id);
         $this->Victima = $Victima;
         $this->antecedente_violencia = array();   
-        $this->victima_caracterizacion =  array();         
+        $this->victima_caracterizacion =  array();    
+        $this->victima_etnia =  array();     
         foreach ($Victima->getVictimaAntecedenteViolencia() as $value) {
             $this->antecedente_violencia[] = $value->antecedente_violencia_id;
         }  
         foreach ($Victima->getVictimaCaracterizacion2() as $value) {
             $this->victima_caracterizacion[] = $value->caracterizacion2_id;
+        } 
+        foreach ($Victima->getVictimaEtnia2() as $value) {
+            $this->victima_etnia[] = $value->etnia2_id;
         }        
         $this->victima_id = $victima_id;
     }
@@ -545,6 +556,7 @@ class CasosController extends BackendController {
     }
     
     public function select_multiple_victima(){
+        View::template(null);
         $Victima = new Victima();
         $this->victimas = $Victima->getVictimasByCasoId(Input::post('caso_id'));
     }

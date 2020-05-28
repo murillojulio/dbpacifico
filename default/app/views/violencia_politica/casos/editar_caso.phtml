@@ -217,24 +217,29 @@
                 <div class="row">               
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="panel_perfil">Perfiles de la víctima</label>
+                            <label for="panel_perfil">Perfil(es) de la víctima <span class="req">*</span></label>
                             <div id="panel_perfil" class="panel panel-default">
-                                <div class="panel-body" style="margin-top:-15px; margin-bottom:-15px;">
-                                    <?php echo DwForm::dbCheckId('victima_caracterizacion_check','nombre',array('opcion/caracterizacion2','getListadoCaracterizacion2DBS'), array('onchange'=>'', 'class'=>'editar_antecedente_violencia'), null, 2, '6'); ?>
+                                <div class="panel-body" style="margin-top:-10px; margin-bottom:-10px;">
+                                    <?php echo DwForm::dbCheckId('victima_caracterizacion_check','nombre',array('opcion/caracterizacion2','getListadoCaracterizacion2DBS'), array('onclick'=>'validarBotonGuardarVictima()', 'onchange'=>'validarCaracterizacionOtro()', 'class'=>'agregar_antecedente_violencia'), null, 2, '6'); ?>
+                                    <div id="div_victima_caracterizacion_otro" style="display:none;" >
+                                        <?php echo DwForm::text('victima.caracterizacion_otro', array('onkeyup'=>''), NULL, 'Descripción Otro Perfil<span class="req">*</span>'); ?>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>   
+                    </div>  
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="panel_etnia">Etnia de la víctima</label>
+                            <div id="panel_etnia" class="panel panel-default">
+                                <div class="panel-body" style="margin-top:-10px; margin-bottom:-10px;">
+                                    <?php echo DwForm::dbCheckId('victima_etnia_check','nombre',array('opcion/etnia2','getListEtnia2DBS'), array('onchange'=>'', 'class'=>'agregar_antecedente_violencia'), NULL, 2, '6'); ?>                                    
                                 </div>
                             </div> 
                         </div>   
                     </div>                    
                 </div>        
-                <div class="row">
-                <div class="col-md-6">
-                            <?php echo DwForm::dbSelect('victima.etnia_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'etnia'), NULL, array('class'=>''), NULL, 'Etnia'); ?>
-                        </div>
-                    <div id="div_etnia_indigena_id" class="col-md-6">
-                            <?php echo DwForm::dbSelect('victima.etnia_indigena_id', 'nombre', array('opcion/etnia', 'getListadoEtniaDBS', 'indigena'), NULL, array('class'=>''), NULL, 'Etnia indígena'); ?>
-                        </div>    
-                </div>
-                          
+                 
                 <div class="row">
                      <div class="col-md-12">
                  <label for="panel_antecedentes">Antecedentes de la víctima relacionados con violencia</label>
@@ -620,6 +625,10 @@
     var victimasSeleccionadas = new Array();
     var antecedentesSeleccionados = new Array();
     var caracterizacionSeleccionados = new Array();
+    var etniaSeleccionados = new Array();
+    var antecedentesSeleccionadosEditar = new Array();
+    var caracterizacionSeleccionadosEditar = new Array();
+    var etniaSeleccionadosEditar = new Array();
     $("#btn-agregar-victimizacion").prop('disabled', true);
     $("#btn-agregar-dano").prop('disabled', true);
     
@@ -1060,22 +1069,51 @@
         caracterizacionSeleccionados = caracterizacionSeleccionados_;
     }
 
-    
+    function llenarArrayEtnias(){
+        var cantidad_victima_etnia = 0;
+        var etniaSeleccionados_ = new Array();
+        $('[name="victima_etnia_check[]"]:checked').each(function() {
+            cantidad_victima_etnia = cantidad_victima_etnia + 1;
+            etniaSeleccionados_.push($(this).val());
+        });
+        etniaSeleccionados = etniaSeleccionados_;
+    }
 
-    /* function llenarArrayCaracterizaciones(){
-        var cantidad_caracterizaciones = 0;
+    function llenarArrayAntecedentesEditar(){
+        var cantidad_antecedentes = 0;
+        var antecedentesSeleccionados_ = new Array();
+        $('[name="victima_editar_antecedente_violencia_check[]"]:checked').each(function() {
+            cantidad_antecedentes = cantidad_antecedentes + 1;
+            antecedentesSeleccionados_.push($(this).val());
+        });
+        antecedentesSeleccionadosEditar = antecedentesSeleccionados_;
+    }
+
+    function llenarArrayCaracterizacionesEditar(){
+        var cantidad_victima_caracterizacion = 0;
         var caracterizacionSeleccionados_ = new Array();
-            $('#victima_caracterizacion2_id option:selected').each(function() {
-                cantidad_caracterizaciones = cantidad_caracterizaciones + 1;
-                caracterizacionSeleccionados_.push($(this).val());
-            });
-            caracterizacionSeleccionados = caracterizacionSeleccionados_;
-    } */
-    
+        $('[name="victima_editar_caracterizacion_check[]"]:checked').each(function() {
+            cantidad_victima_caracterizacion = cantidad_victima_caracterizacion + 1;
+            caracterizacionSeleccionados_.push($(this).val());
+        });
+        caracterizacionSeleccionadosEditar = caracterizacionSeleccionados_;
+    }
+
+    function llenarArrayEtniasEditar(){
+        var cantidad_victima_etnia = 0;
+        var etniaSeleccionados_ = new Array();
+        $('[name="victima_editar_etnia_check[]"]:checked').each(function() {
+            cantidad_victima_etnia = cantidad_victima_etnia + 1;
+            etniaSeleccionados_.push($(this).val());
+        });
+        etniaSeleccionadosEditar = etniaSeleccionados_;
+    }
+        
     function agregarVictima() {
         //$('.antecedentes_violencia_editar').prop('checked', false);
         llenarArrayAntecedentes();
         llenarArrayCaracterizaciones();
+        llenarArrayEtnias();
         $("#btn-cancelar-agregar-victima").prop('disabled', true);
         let btn = $('#btn-agregar-victima');
         btn.button('loading');
@@ -1087,8 +1125,8 @@
         let ocupacion = $('#victima_ocupacion').val();
         /*let caracterizacion_id = $('#victima_caracterizacion2_id').val();*/
         let caracterizacion_otro = $('#victima_caracterizacion_otro').val();
-        let etnia_id = $('#victima_etnia_id').val();
-        let etnia_indigena_id = $('#victima_etnia_indigena_id').val();
+        //let etnia_id = $('#victima_etnia_id').val();
+        //let etnia_indigena_id = $('#victima_etnia_indigena_id').val();
         
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/gestion_victima/'; ?>";    
 
@@ -1100,14 +1138,15 @@
                      "ocupacion" : ocupacion,
                      "caracterizacion_id" : "1",
                      "caracterizacion_otro" : caracterizacion_otro,
-                     "etnia_id" : etnia_id,
-                     "etnia_indigena_id" : etnia_indigena_id
+                     "etnia_id" : "1",
+                     "etnia_indigena_id" : "1"
                     };
         let victima = {
                         "accion" : "crear",
                         "victima" : datos,
                         "antecedente_violencia" : antecedentesSeleccionados,
-                        "victima_caracterizacion" : caracterizacionSeleccionados
+                        "victima_caracterizacion" : caracterizacionSeleccionados,
+                        "victima_etnia" : etniaSeleccionados
                       };            
 
         $.ajax(url, {
@@ -1154,8 +1193,9 @@
         
         function guardarCambiosVictima() {
             
-            llenarArrayAntecedentes();
-            llenarArrayCaracterizaciones();
+            llenarArrayAntecedentesEditar();
+            llenarArrayCaracterizacionesEditar();
+            llenarArrayEtniasEditar();
         $("#btn-cancelar-guardar-cambio-victima").prop('disabled', true);
         let btn = $('#btn-guardar-cambio-victima');
         btn.button('loading');
@@ -1167,9 +1207,7 @@
         let edad = $('#victima_editar_edad').val();
         let ocupacion = $('#victima_editar_ocupacion').val();
         /*let caracterizacion_id = $('#victima_editar_caracterizacion_id').val();*/
-        let caracterizacion_otro = $('#victima_caracterizacion_otro').val();
-        let etnia_id = $('#victima_editar_etnia_id').val();
-        let etnia_indigena_id = $('#victima_editar_etnia_indigena_id').val();
+        let caracterizacion_otro = $('#victima_editar_caracterizacion_otro').val();
                 
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/gestion_victima/'; ?>";    
 
@@ -1182,14 +1220,14 @@
                      "ocupacion" : ocupacion,
                      "caracterizacion_id" : "1",
                      "caracterizacion_otro" : caracterizacion_otro,
-                     "etnia_id" : etnia_id,
-                     "etnia_indigena_id" : etnia_indigena_id
+                     "etnia_id" : "1"
                     };
         let victima = {
                         "accion" : "editar",
                         "victima" : datos,
-                        "antecedente_violencia" : antecedentesSeleccionados,
-                        "victima_caracterizacion" : caracterizacionSeleccionados
+                        "antecedente_violencia" : antecedentesSeleccionadosEditar,
+                        "victima_caracterizacion" : caracterizacionSeleccionadosEditar,
+                        "victima_etnia" : etniaSeleccionadosEditar
                       };            
 
         $.ajax(url, {
@@ -1214,9 +1252,8 @@
         $("#victima_edad").val("");
         $("#victima_ocupacion").val("");
         $("#victima_caracterizacion2_id").val("");
-        $("#victima_etnia_id").val("");
-        $("#victima_etnia_indigena_id").val("");
-        $("#div_etnia_indigena_id").hide();
+        $("#div_victima_caracterizacion_otro").hide();
+        $("#victima_caracterizacion_otro").val("");
         $("#btn-agregar-victima").prop("disabled", true); 
         $(".editar_antecedente_violencia").prop("checked", false);
         $(".agregar_antecedente_violencia").prop("checked", false);
@@ -1226,9 +1263,9 @@
         var nombre = $("#victima_nombre").val();
         var genero = $("#victima_genero_id").val();
         var ocupacion = $("#victima_ocupacion").val();
-        var perfil = $("#victima_caracterizacion2_id").val();
+        var len = $("[name='victima_caracterizacion_check[]']:checked").length; 
         
-        if(nombre !== '' && genero !== '' && ocupacion !== '' && perfil !== null){
+        if(nombre !== '' && genero !== '' && ocupacion !== '' && len > 0){
             $("#btn-agregar-victima").prop('disabled', false);
         }else{
             $("#btn-agregar-victima").prop('disabled', true);
@@ -1239,9 +1276,9 @@
         var nombre = $("#victima_editar_nombre").val();
         var genero = $("#victima_editar_genero_id").val();
         var ocupacion = $("#victima_editar_ocupacion").val();
-        var perfil = $("#victima_editar_caracterizacion_id").val();
+        var len = $("[name='victima_editar_caracterizacion_check[]']:checked").length;
         
-        if(nombre !== '' && genero !== '' && ocupacion !== '' && perfil !== ''){
+        if(nombre !== '' && genero !== '' && ocupacion !== '' && len > 0){
             $("#btn-guardar-cambio-victima").prop('disabled', false);
         }else{
             $("#btn-guardar-cambio-victima").prop('disabled', true);
@@ -1284,7 +1321,7 @@
         });
     }
     
-    function cargarSelectMultipleVictima(){        
+    function cargarSelectMultipleVictima_deprecated(){        
         let caso_id = $('#caso_id').val();               
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/select_multiple_victima/'; ?>";    
         let datos = {                     
@@ -1301,6 +1338,32 @@
             }
         });
     }
+
+    function cargarSelectMultipleVictima(){
+        let caso_id = $('#caso_id').val();  
+        let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/select_multiple_victima/'; ?>"; 
+        let datos = new FormData();
+        datos.append('caso_id', caso_id);       
+        fetch(url,
+        {
+            method: 'POST',        
+            body: datos
+        }).then(function(response) {
+            console.log('response =', response);
+            return response.text();
+        })
+        .then(function(data) {
+            console.log('data = ', data);
+            $("#div_select_multiple_victima").html(data);
+        })
+        .catch(function(err) {           
+            console.error(err);
+            alert('ERROR en cargarSelectMultipleVictima() '+err);
+        });     
+
+    }
+
+    
     let tipo_localidad = '';
          function mostrarModalLocalidad(tipo){
              tipo_localidad = tipo;
@@ -1433,5 +1496,41 @@
         $(select).focus();
         validarBotonAgregarVictimizacion();
     }).mousemove(function(e){e.preventDefault()});
+
+    function validarCaracterizacionOtro(){
+        var caracterizacion = false;
+        var valor = '';
+        $('[name="victima_caracterizacion_check[]"]:checked').each(function() {
+            valor = $(this).val();
+            if(valor === '3'){
+                caracterizacion = true;
+            }
+        });
+        if(caracterizacion){
+            $("#div_victima_caracterizacion_otro").show();
+            $("#victima_caracterizacion_otro").focus();
+        }else{
+            $("#div_victima_caracterizacion_otro").hide();
+            $("#victima_caracterizacion_otro").val('');
+        }
+    }
+
+    function validarCaracterizacionOtroEditar(){
+        var caracterizacion = false;
+        var valor = '';
+        $('[name="victima_editar_caracterizacion_check[]"]:checked').each(function() {
+            valor = $(this).val();
+            if(valor === '3'){
+                caracterizacion = true;
+            }
+        });
+        if(caracterizacion){
+            $("#div_editar_victima_caracterizacion_otro").show();
+            $("#victima_editar_caracterizacion_otro").focus();
+        }else{
+            $("#div_editar_victima_caracterizacion_otro").hide();
+            $("#victima_editar_caracterizacion_otro").val('');
+        }
+    }
         
 </script>
