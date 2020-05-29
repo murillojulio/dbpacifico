@@ -6,7 +6,7 @@
  * @package     Controllers  
  */
 Load::models('observatorio/departamento', 'observatorio/municipio', 'observatorio/subregion',
-        'observatorio/fuente', 'observatorio/poblacion', 'util/currency');
+'observatorio/localidad', 'observatorio/fuente', 'observatorio/poblacion', 'util/currency');
 class MunicipiosController extends BackendController {
     
     /**
@@ -138,6 +138,7 @@ class MunicipiosController extends BackendController {
             
         $this->municipio = $municipio;
         $this->poblacion = $poblacion;
+        $this->localidades = $municipio->getLocalidad();
         //$this->fuente = $fuente;
         
         $this->page_title = 'Actualizar municipio';                
@@ -201,6 +202,76 @@ class MunicipiosController extends BackendController {
         $this->order = $order;        
         $this->page_title = 'Información del Municipio';
         $this->key = $key;        
+    }
+
+    public function agregar_localidad()
+    {
+        $Localidad = new Localidad();
+        $Municipio = new Municipio();
+        $municipio_id = Input::post('municipio_id');
+        $tipo = Input::post('tipo');
+        $nombre = Input::post('nombre');
+
+        $Municipio->find_first($municipio_id);
+
+        $Localidad->municipio_id = $municipio_id;
+        $Localidad->tipo = $tipo;
+        $Localidad->nombre = $nombre;
+        $Localidad->save();        
+        $this->municipio_id = $municipio_id;
+        $this->tipo = $tipo;
+        $this->localidad_id = $Localidad->id;
+        $this->localidades = $Municipio->getLocalidad();
+        View::template(null);
+        View::select('list_localidades');            
+    }
+
+    public function editar_localidad()
+    {
+        $Localidad = new Localidad();
+        $Municipio = new Municipio();
+        $municipio_id = Input::post('municipio_id');
+        $localidad_id = Input::post('localidad_id');
+        $tipo = Input::post('tipo');
+        $localidad_nombre = Input::post('localidad_nombre');
+        $Localidad->find_first($localidad_id);
+        $Localidad->nombre = $localidad_nombre;
+        $Localidad->update();
+
+        $Municipio->find_first($municipio_id);   
+        $this->municipio_id = $municipio_id;
+        $this->tipo = $tipo;
+        $this->localidad_id = $Localidad->id;
+        $this->localidades = $Municipio->getLocalidad();
+        View::template(null);
+        View::select('list_localidades');            
+    }
+
+    public function eliminar_localidad()
+    {
+        $Localidad = new Localidad();
+        $Municipio = new Municipio();
+        $municipio_id = Input::post('municipio_id');
+        $localidad_id = Input::post('localidad_id');
+        $tipo = Input::post('tipo');
+        $Localidad->delete($localidad_id);
+
+        $Municipio->find_first($municipio_id);   
+        $this->municipio_id = $municipio_id;
+        $this->tipo = $tipo;
+        $this->localidad_id = $Localidad->id;
+        $this->localidades = $Municipio->getLocalidad();
+        View::template(null);
+        View::select('list_localidades');            
+    }
+
+    public function list_localidades(){ View::template(null);}
+
+    public function cargar_modal_editar_localidad(){
+        $localidad_id = Input::post('localidad_id');
+        $Localidad = new Localidad();
+        $this->Localidad = $Localidad->find_first($localidad_id);
+        View::template(null);
     }
     
 }

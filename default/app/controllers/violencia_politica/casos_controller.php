@@ -59,11 +59,11 @@ class CasosController extends BackendController {
         $this->tab_4_active = '';
         $this->tab_5_active = '';
         
-        if($tab == 1){ $this->tab_1_active = 'active'; }
-        if($tab == 2){ $this->tab_2_active = 'active'; }
-        if($tab == 3){ $this->tab_3_active = 'active'; }
-        if($tab == 4){ $this->tab_4_active = 'active'; }
-        if($tab == 5){ $this->tab_5_active = 'active'; }
+        if($tab == 1){ $this->tab_1_active = 'in active'; }
+        if($tab == 2){ $this->tab_2_active = 'in active'; }
+        if($tab == 3){ $this->tab_3_active = 'in active'; }
+        if($tab == 4){ $this->tab_4_active = 'in active'; }
+        if($tab == 5){ $this->tab_5_active = 'in active'; }
                 
          $obj_caso = new Caso();
          $obj_caso->getCasoById($caso_id);

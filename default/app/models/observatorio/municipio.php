@@ -28,6 +28,7 @@ class Municipio extends ActiveRecord {
         $this->has_many('territorio_municipio');
         $this->belongs_to('departamento');
         $this->belongs_to('subregion');
+        $this->has_many('localidad');
     }
     
 //     public static function getMunicipioPorNombre($nombre)

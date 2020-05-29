@@ -1,0 +1,91 @@
+<?php DwForm::open() ?>
+<?php
+if($tipo === 'corregimiento'){ ?>
+<table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre del Corregimiento</th>
+            <th>Opcion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php 
+          $contador = 1;
+          foreach($localidades as $localidad):
+            if($localidad->tipo === 'corregimiento'){
+              echo '<tr>';
+                echo "<td>$contador</td>";
+                echo "<td>$localidad->nombre</td>";
+                echo "<td class=\"btn-actions\">                                                
+                <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id, '$localidad->tipo')\"></button>
+                <button id=\"btn-eliminar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-danger btn-icon-only fa fa-minus\" onclick=\"setLocalidadIdEliminar($localidad->id, '$localidad->tipo', '$localidad->nombre')\" data-toggle=\"modal\" data-target=\"#modal_eliminar_localidad\" title=\"Eliminar\"></button>
+            </td>";
+              echo '</tr>';
+              $contador++;
+            }
+          endforeach;          
+          ?>          
+        </tbody>
+  </table>    
+<?php }
+
+if($tipo === 'vereda'){ ?>
+    <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre de la Vereda</th>
+                <th>Opcion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+              $contador = 1;
+              foreach($localidades as $localidad):
+                if($localidad->tipo === 'vereda'){
+                  echo '<tr>';
+                    echo "<td>$contador</td>";
+                    echo "<td>$localidad->nombre</td>";
+                    echo "<td class=\"btn-actions\">                                                
+                    <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id)\"></button>
+                    <button id=\"btn-eliminar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-danger btn-icon-only fa fa-minus\" onclick=\"setVariablesEliminar($localidad->id)\" data-toggle=\"modal\" data-target=\"#modal_eliminar_localidad\" title=\"Eliminar\"></button>
+                </td>";
+                  echo '</tr>';
+                  $contador++;
+                }
+              endforeach;          
+              ?>          
+            </tbody>
+      </table>    
+    <?php }
+    
+    if($tipo === 'inspeccion'){ ?>
+        <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre de la Inspección</th>
+                    <th>Opcion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                  $contador = 1;
+                  foreach($localidades as $localidad):
+                    if($localidad->tipo === 'inspeccion'){
+                      echo '<tr>';
+                        echo "<td>$contador</td>";
+                        echo "<td>$localidad->nombre</td>";
+                        echo "<td class=\"btn-actions\">                                                
+                        <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id)\"></button>
+                        <button id=\"btn-eliminar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-danger btn-icon-only fa fa-minus\" onclick=\"setVariablesEliminar($localidad->id)\" data-toggle=\"modal\" data-target=\"#modal_eliminar_localidad\" title=\"Eliminar\"></button>
+                    </td>";
+                      echo '</tr>';
+                      $contador++;
+                    }
+                  endforeach;          
+                  ?>          
+                </tbody>
+          </table>    
+        <?php }?>
