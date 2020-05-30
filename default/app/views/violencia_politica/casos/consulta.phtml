@@ -113,8 +113,8 @@ echo '<input id="tipo_modo" name="tipo[modo]" type="hidden" value="'.$modo.'">';
                 $contador_caso = 1;
                 foreach($casos as $caso): ?>
                     
-                    <?php $key_show = Security::setKey($caso->id, 'show_caso'); ?>
-                    <?php $key_upd = Security::setKey($caso->id, 'upd_caso'); ?>                    
+                    <?php //$key_show = Security::setKey($caso->id, 'show_caso'); ?>
+                    <?php //$key_upd = Security::setKey($caso->id, 'upd_caso'); ?>                    
                     <?php $key_del = Security::setKey($caso->id, 'del_caso'); ?>   
                     <tr>
                         <td><?php echo $caso->id.substr($caso->departamento,0, 2)  ?></td>
