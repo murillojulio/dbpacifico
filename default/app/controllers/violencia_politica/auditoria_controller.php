@@ -24,7 +24,7 @@ class AuditoriaController extends BackendController {
     public function listar(){
         $this->page_title = 'Auditoría Información Faltante';
         $sqlQuery = "SELECT caso.*, departamento.nombre AS departamento 
-        FROM caso INNER JOIN departamento ON caso.departamento_id = departamento.id";
+        FROM caso INNER JOIN departamento ON caso.departamento_id = departamento.id ORDER BY caso.id ASC";
         $Caso = new Caso();
         $this->Casos = $Caso->find_all_by_sql($sqlQuery);
     }
