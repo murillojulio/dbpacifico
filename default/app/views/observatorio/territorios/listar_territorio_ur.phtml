@@ -17,7 +17,7 @@
     <div class="btn-toolbar btn-toolbar-top">
         <div class="row">
             <div class="btn-actions">
-                <?php echo DwHtml::button("observatorio/territorios/index_agregar_territorio/urbano", 'agregar', array('class' => 'btn-success'), 'fa-check-square-o', APP_AJAX); ?>
+                <?php echo DwHtml::button("observatorio/territorios/index_agregar_territorio_urbano", 'agregar', array('class' => 'btn-success'), 'fa-check-square-o', APP_AJAX); ?>
             </div>            
         </div>
     </div>
@@ -53,7 +53,7 @@
                                     array('elemento'=>'territorio',
                                         "nombre"=>$territorio->nombre,
                                         'url_ver'=>"observatorio/territorios/ver/$key_show/1/$order/page.$page/",
-                                        'url_editar'=>"observatorio/territorios/editar/$key_upd/1/$order/page.$page/",
+                                        'url_editar'=>"observatorio/territorios/editar_urbano/$key_upd/1/$order/page.$page/",
                                         "url_eliminar"=>"observatorio/territorios/eliminar/$key_del/listar_territorio_ur/$order/page.$page/")); ?>
                         </td>
                     </tr>

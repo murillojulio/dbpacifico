@@ -189,6 +189,31 @@ class Territorio extends ActiveRecord {
         } 
         return $existe;        
     }
+
+
+     /**
+     * Método para validar la existencia de un territorio
+     * @param type $territorio_nombre
+     * @param type $dataMunicipio
+     * @return type
+     */
+    public function validateExistTerritorioUrbano($territorio_nombre, $municipio_id) { 
+        $existe = FALSE;
+        $territorio = new Territorio();
+        
+        if($this->find_first("conditions: territorio.nombre LIKE '%".$territorio_nombre."%'"))
+        {
+            $territorio_municipio = new TerritorioMunicipio();
+            if($territorio_municipio->find("conditions: territorio_municipio.territorio_id = ".$this->id." AND territorio_municipio.municipio_id =".$municipio_id))
+            {
+                $existe = TRUE;
+            }
+            else {
+                $existe = FALSE;
+            }             
+        } 
+        return $existe;        
+    }
     
     /**
      * Método para crear/modificar un objeto de base de datos

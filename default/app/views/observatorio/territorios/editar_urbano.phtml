@@ -9,17 +9,13 @@
     
      <ul class="nav nav-tabs nav-justified hidden-xs">
         <li class="<?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Población</a></li>       
-        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Comunidades</a></li> 
-        <li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Conflictos</a></li> 
-        <li class="<?php echo $tab_5_active; ?>"><a href="#tab5" data-toggle="tab">Fuente(s) de la información</a></li> 
+        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Barrios</a></li> 
+        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Conflictos</a></li>  
     </ul>
     <ul class="nav nav-tabs nav-justified visible-xs">    
         <li class="tab-pane <?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Población</a></li>        
-        <li class="tab-pane <?php echo $tab_3_active; ?>" ><a href="#tab3" data-toggle="tab">Comunidades</a></li>
-        <li class="tab-pane <?php echo $tab_4_active; ?>" ><a href="#tab4" data-toggle="tab">Conflictos</a></li>
-        <li class="tab-pane <?php echo $tab_5_active; ?>" ><a href="#tab5" data-toggle="tab">Fuente(s) de la información</a></li>
+        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Barrios</a></li>        
+        <li class="tab-pane <?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Conflictos</a></li>        
     </ul>
 
     <div class="tab-content"> 
@@ -27,65 +23,23 @@
             &nbsp;&nbsp;&nbsp;fecha última actualización: <?php echo $obj_territorio->territorio_in;?>
                 <div class="row">                          
                     <div class="col-md-6">                           
+                        <?php echo DwForm::hidden('territorio.id', NULL, $obj_territorio->id); ?>
                         <?php echo DwForm::hidden('territorio.tipo', NULL, $obj_territorio->tipo); ?>
+                        <?php echo DwForm::hidden('territorio.cant_sin_ninos_primera_inf', NULL, 1); ?>
                         <?php echo DwForm::hidden('territorio.departamento_id', NULL, $obj_territorio->departamento_id); ?>
-                        <?php echo DwForm::text('territorio.nombre', array('class'=>'input-required'), $obj_territorio->nombre, 'Nombre'); ?>
+                        
+                        <?php
+                        $municipio_nombre = '';
+                        foreach($ubicaciones as $ubicacion):
+                            $municipio_nombre = $ubicacion->municipio_nombre;
+                        endforeach;
+                        
+                        echo DwForm::text('territorio.nombre', array('class'=>'input-required'), $obj_territorio->nombre, 'Nombre'); ?>
                     </div>
                      <div class="col-md-6">  
-                         <?php echo DwForm::select('territorio.titulado', array(''=>'Seleccione', 'SI'=>'SI', 'NO'=>'NO'), array('class'=>' input-required'), $obj_territorio->titulado, '¿Titulado?'); ?>
+                         <?php echo DwForm::text('territorio.municipio', array('class'=>'input-readonly'), $municipio_nombre, 'Municipio'); ?>
                     </div>
-                </div>
-            <div class="row">
-                <div class="col-md-6">
-                           <?php View::partial('ubicacion_territorio/editar', false, 
-                                   array('ubicaciones'=>$ubicaciones, 
-                                       'territorio_id'=>$obj_territorio->id,
-                                       'titulo'=>'del territorio')); ?>  
-                    </div>
-            </div>
-               <div class="row">
-                    <div id="div_titulado_si">
-                        <?php                            
-                                $array_titulado_si = (array) $obj_titulado_si;                               
-                                echo View::partial('titulado_si/editar', false, array('array_titulado_si'=>$array_titulado_si)); 
-                         ?> 
-                    </div>                    
-                    <div id="div_titulado_no">
-                        <?php                            
-                                $array_titulado_no = (array) $obj_titulado_no;
-                                echo View::partial('titulado_no/editar', false, array('array_titulado_no'=>$array_titulado_no));                                 
-                         ?> 
-                    </div> 
-                          
-                </div>
-        <script type="text/javascript">
-			
-            $("#territorio_titulado").change(function(){
-            var si_no = $("#territorio_titulado").val();
-
-            if(si_no == 'SI'){
-                $("#div_titulado_si").show();
-                $("#div_titulado_no").hide();
-            }
-            else{
-                $("#div_titulado_si").hide();
-                $("#div_titulado_no").show();
-            }
-
-        });
-        
-        if($("#territorio_titulado").val() == 'SI'){
-                $("#div_titulado_si").show();
-                $("#div_titulado_no").hide();
-            }
-            else{
-                $("#div_titulado_si").hide();
-                $("#div_titulado_no").show();
-            }
-			
-            
-        </script>
-              
+                </div>              
        <div class="row">
              <div class="form-actions">
                       <div class="pull-left">
@@ -96,41 +50,18 @@
         </div>
         
     </div>
-         <div class="tab-pane <?php echo $tab_2_active; ?>" id="tab2">
-                  &nbsp;&nbsp;&nbsp;fecha última actualización: <?php echo $poblacion->poblacion_in;?>      
-                  <?php
-                    $array_poblacion = (array) $poblacion;
-                    echo View::partial('poblacion/editar', false, array('array_poblacion' => $array_poblacion, 'para_territorio' => 'si')); 
-                   ?>                                                
-                    
-                   <div class="row">
-                         <div class="col-md-6">
-                            <?php echo DwForm::text('territorio.cant_ninos_primera_inf', array('class'=>'formato_punto'), $obj_territorio->cant_ninos_primera_inf, 'Cantidad de niños con registro civil en edad de primera infancia'); ?>
-                        </div>
-                       <div class="col-md-6">
-                            <?php echo DwForm::text('territorio.cant_sin_ninos_primera_inf', array('class'=>'formato_punto'), $obj_territorio->cant_sin_ninos_primera_inf, 'Cantidad de niños sin registro civil en edad de primera infancia'); ?>
-                        </div>
-                   </div>
-              <div class="row">
-             <div class="form-actions">
-                      <div class="pull-left">
-                        <?php echo DwButton::back($url_redir_back); ?>
-                    </div> 
-                        <?php echo DwForm::send('Actualizar territorio'); ?>                                
-                  </div>
-        </div>
-    </div>
-        <div class="tab-pane <?php echo $tab_3_active; ?>" id="tab3">
+        
+        <div class="tab-pane <?php echo $tab_2_active; ?>" id="tab2">
              <div class="row">
                  <div class="btn-toolbar btn-toolbar-top">
         <div class="row">
             <div class="btn-actions">
                 <div class="col-md-3">
                     <label for="btn_agregar_comunidad">&nbsp;</label>
-                <?php echo DwHtml::button("observatorio/territorios/agregar_comunidad/$obj_territorio->id/$obj_territorio->nombre/$obj_territorio->tipo/$key/$order/$page/", 'agregar comunidad', array('class' => 'form-control btn-success', 'id' => 'btn_agregar_comunidad'), 'fa-check-square-o', APP_AJAX); ?>
+                <?php echo DwHtml::button("observatorio/territorios/agregar_barrio/$obj_territorio->id/$obj_territorio->nombre/$obj_territorio->tipo/$key/$order/$page/", 'agregar barrio', array('class' => 'form-control btn-success', 'id' => 'btn_agregar_comunidad'), 'fa-check-square-o', APP_AJAX); ?>
                     </div>
                 <div class="col-md-3">
-                         <?php echo DwForm::text('', array('class'=>'input-readonly'), $cantidad_comunidad, 'Cantidad total de comunidades de este territorio'); ?>
+                         <?php echo DwForm::text('', array('class'=>'input-readonly'), $cantidad_comunidad, 'Cantidad total de barrios de este territorio'); ?>
                              </div>
             </div>            
         </div>
@@ -184,7 +115,7 @@
     </div> 
         
         
-        <div class="tab-pane <?php echo $tab_4_active; ?>" id="tab4">
+        <div class="tab-pane <?php echo $tab_3_active; ?>" id="tab3">
              <div class="row">
                  <div class="btn-toolbar btn-toolbar-top">
         <div class="row">
@@ -240,25 +171,7 @@
                     </div>                         
                   </div>                          
             </div>
-    </div> 
-        
-        <div class="tab-pane <?php echo $tab_5_active; ?>" id="tab5">
-             <div class="row">
-                 <div class="col-md-12">
-                     <?php View::partial('fuentes/editar', false, array('fuentes'=>$fuentes)); ?>  
-                 </div>
-             </div>
-              <div class="row">
-                  <div class="form-actions">
-                      <div class="pull-left">
-                        <?php echo DwButton::back($url_redir_back); ?>
-                    </div> 
-                        <?php echo DwForm::send('Actualizar territorio'); ?>                                
-                  </div>
-              </div>
-    </div> 
-        
-        
+    </div>      
     </div>
     <?php echo DwForm::close(); ?>
 

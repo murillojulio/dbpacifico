@@ -232,6 +232,22 @@ class Municipio extends ActiveRecord {
         }  
     }
 
+     /**
+     * Método para obtener el listado de los departamentos observados
+     * @param type $estado
+     * @param type $order
+     * @param type $page
+     * @return type
+     */
+    public function getListadoMunicipioDBS() {                   
+        $columns = 'municipio.*';  
+        $conditions = 'municipio.id != 0 AND municipio.id IS NOT NULL AND municipio.estado = 1'; 
+        $order = 'municipio.nombre ASC';
+        
+        return $this->find("columns: $columns", "conditions: $conditions", "order: $order");
+        
+    }
+
 
 
     

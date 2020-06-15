@@ -185,6 +185,7 @@ class TerritoriosController extends BackendController {
         elseif ($tipo_territorio == 'urbano') {
             $this->page_module = Territorio::TERRITORIO_URBANO;
             $redir = 'agregar_territorio_ur';
+            Redirect::toAction('index_agregar_territorio_urbano');
         }
     
         $departamentos = new Departamento();
@@ -224,6 +225,62 @@ class TerritoriosController extends BackendController {
        
         
         $this->page_title = 'Agregar territorio';
+       
+    }
+
+    /**
+     * Método para agregar territorios urbanos a cada municipio
+     */
+    public function index_agregar_territorio_urbano() {  
+        
+            $this->page_module = Territorio::TERRITORIO_URBANO;
+            $redir = 'editar_urbano';
+         
+        
+         $territorio_obj = new Territorio();   
+         
+        if(Input::hasPost('territorio')) 
+        {          
+            if(Input::hasPost('territorio')) 
+            {
+                $dataTerritorio = Input::post('territorio');
+                
+                if($territorio_obj->validateExistTerritorioUrbano($dataTerritorio['nombre'], $dataTerritorio['muncipio_id']))
+                {
+                    Flash::error('Ya existe un territorio urbano con ese nombre y en el mismo municipio!');
+                }
+                else
+                {
+                    $Municipio = new Municipio();
+                    $Municipio->find_first($dataTerritorio['muncipio_id']);
+                    $departamento_id = $Municipio->getDepartamento()->id;
+                    
+                    $Territorio = new Territorio();
+
+                    $Territorio->tipo = 'urbano';
+                    $Territorio->nombre = $dataTerritorio['nombre'];
+                    $Territorio->departamento_id = $departamento_id;
+                    $Territorio->cant_sin_ninos_primera_inf = 1;
+                    if($Territorio->create()){
+                        $TerritorioMunicipio = new TerritorioMunicipio();
+                        $TerritorioMunicipio->territorio_id = $Territorio->id;
+                        $TerritorioMunicipio->municipio_id = $dataTerritorio['muncipio_id'];
+                        $TerritorioMunicipio->create();
+                    }
+                    Session::set('data_territorio', serialize($dataTerritorio));   
+                    $key_upd = Security::setKey($Territorio->id, 'upd_territorio');                 
+                    return Redirect::toAction("editar_urbano/$key_upd/1/order.asc.territorio/page.1/");   
+                }                       
+            }
+            else {
+                Flash::error('Debe selecionar por lo menos un municipio!');
+                
+            }                     
+        }
+        
+       
+        
+        $this->page_title = 'Agregar territorio urbano';
        
     }
     
@@ -730,6 +787,74 @@ class TerritoriosController extends BackendController {
         //$this->url_redir_back = 'observatorio/territorios/'.$redir_update.'/'.$order.'/'.$page.'/';
         $this->url_redir_back = Session::get('url_back');
     }
+
+     /**
+     * Método para editar
+     */
+    public function editar_urbano($key, $tab, $order, $page) { 
+       
+        if(!$id = Security::getKey($key, 'upd_territorio', 'int')) {
+            return Redirect::toAction('listar_territorio_ur');
+        }   
+          
+        $this->territorio_id = $id;        
+        
+        //Para saber que pestaña estara activa cuando visualice un territorio
+        $this->tab_1_active = '';
+        $this->tab_2_active = '';
+        $this->tab_3_active = '';    
+        
+        if($tab == 1){ $this->tab_1_active = 'active'; }
+        if($tab == 2){ $this->tab_2_active = 'active'; }
+        if($tab == 3){ $this->tab_3_active = 'active'; }
+        
+        /////
+            
+        
+        $obj_territorio = new Territorio();        
+        if(!$obj_territorio->getTerritorioById($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del territorio');
+            return Redirect::toAction('listar_cn');
+        } 
+        $this->obj_territorio = $obj_territorio;
+         
+       
+        
+     if(Input::hasPost('territorio')) {                     
+            if(Territorio::setTerritorio('update', Input::post('territorio'), array('id'=>$id)))
+            {           
+                $data_e = Input::post('territorio');                     
+                Flash::valid('El territorio se ha actualizado correctamente!');                
+                return Redirect::to(Session::get('url_back'));
+            }      
+        }
+
+        
+        
+        $obj_territorio_municipio = new TerritorioMunicipio();
+        $this->ubicaciones = $obj_territorio_municipio->getDepartamentoMunicipioByTerritorioId($id);    
+        
+        $obj_comunidades = new Comunidad();
+        $this->comunidades = $obj_comunidades->getComunidadesByTerritorioId($id);
+        $this->cantidad_comunidad = sizeof($this->comunidades);
+                
+        $obj_conflictos = new Conflicto();
+        $this->conflictos = $obj_conflictos->getConflictosByTerritorioId($id);
+                
+        $redir_update = '';
+       
+        $this->page_module = Territorio::TERRITORIO_URBANO;
+        $this->redir_back = 'observatorio/territorios/listar_territorio_ur/';
+        $redir_update = 'listar_territorio_ur';
+
+        $this->page_title = 'Actualizar Territorio: '.$obj_territorio->nombre;
+        $this->tab = $tab;
+        $this->key = $key;  
+        $this->order = $order;
+        $this->page = $page;
+        //$this->url_redir_back = 'observatorio/territorios/'.$redir_update.'/'.$order.'/'.$page.'/';
+        $this->url_redir_back = Session::get('url_back');
+    }
     
     public function agregar_comunidad($territorio_id, $territorio_nombre, $tipo_territorio, $key_back, $order, $page)
     { 
@@ -747,6 +872,37 @@ class TerritoriosController extends BackendController {
         $this->url_redir_back = 'observatorio/territorios/editar/'.$key_back.'/3/'.$order.'/'.$page.'/';
         $this->territorio_id = $territorio_id;
         $this->page_title = 'Agregar comunidad a '.$territorio_nombre;
+        if ($tipo_territorio == Territorio::TIPO_TERRITORIO_COMUNIDAD_NEGRA){
+        $this->page_module = Territorio::TERRITORIO_COMUNIDAD_NEGRA;  
+        }
+        elseif ($tipo_territorio == Territorio::TIPO_TERRITORIO_INDIGENA) 
+        { 
+            $this->page_module = Territorio::TERRITORIO_INDIGENA;        
+        }
+        elseif ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+        { 
+            $this->page_module = Territorio::TERRITORIO_URBANO;        
+        }
+    }
+
+    public function agregar_barrio($territorio_id, $territorio_nombre, $tipo_territorio, $key_back, $order, $page)
+    { 
+        $obj_comunidad = new Comunidad();
+        if(Input::hasPost('comunidad')) 
+        {        
+            $obj_comunidad = Comunidad::setComunidad('create', Input::post('comunidad'), $territorio_nombre, array('estado'=>  Comunidad::ACTIVO));
+            /*
+            $comunidad_id = $obj_comunidad->id;            
+            Poblacion::setPoblacion('create', Input::post('poblacion'), 'comunidad_id', $comunidad_id); 
+            */   
+            
+            Flash::valid('El barrio se ha registrado correctamente!');
+            return Redirect::toAction('editar_urbano/'.$key_back.'/2/'.$order.'/'.$page.'/');
+        }
+        
+        $this->url_redir_back = 'observatorio/territorios/editar_urbano/'.$key_back.'/2/'.$order.'/'.$page.'/';
+        $this->territorio_id = $territorio_id;
+        $this->page_title = 'Agregar barrio a '.$territorio_nombre;
         if ($tipo_territorio == Territorio::TIPO_TERRITORIO_COMUNIDAD_NEGRA){
         $this->page_module = Territorio::TERRITORIO_COMUNIDAD_NEGRA;  
         }
@@ -888,7 +1044,10 @@ class TerritoriosController extends BackendController {
             //Poblacion::setPoblacion('create', Input::post('poblacion'), 'conflicto_id', $conflicto_id);    
             
             Flash::valid('El conflicto se ha registrado correctamente!');
-            return Redirect::toAction('editar/'.$key_back.'/4/'.$order.'/'.$page.'/');
+            $toAction = 'editar/'.$key_back.'/4/'.$order.'/'.$page.'/';
+            if ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+            { $toAction = 'editar_urbano/'.$key_back.'/3/'.$order.'/'.$page.'/';}
+            return Redirect::toAction($toAction);
         }
         
         $this->url_redir_back = 'observatorio/territorios/editar/'.$key_back.'/4/'.$order.'/'.$page.'/';
@@ -903,7 +1062,8 @@ class TerritoriosController extends BackendController {
         }
         elseif ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
         { 
-            $this->page_module = Territorio::TERRITORIO_URBANO;        
+            $this->page_module = Territorio::TERRITORIO_URBANO;      
+            $this->url_redir_back = 'observatorio/territorios/editar_urbano/'.$key_back.'/3/'.$order.'/'.$page.'/';  
         }
     }
     
@@ -971,6 +1131,7 @@ class TerritoriosController extends BackendController {
             { 
                 $this->page_module = Territorio::TERRITORIO_INDIGENA;        
             }
+           
             
         if(Input::hasPost('conflicto')) 
         {     
@@ -978,19 +1139,26 @@ class TerritoriosController extends BackendController {
             //$conflicto_id = $obj_conflicto->id;          
             
             Flash::valid('El conflicto se ha actualizado correctamente!');
-            return Redirect::toAction('editar/'.$key_back.'/4/'.$order.'/'.$page.'/');
-            //'observatorio/territorios/ver/'.$key_back.'/3/'
+            $toAction = 'editar/'.$key_back.'/4/'.$order.'/'.$page.'/';
+            if ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+            { $toAction = 'editar_urbano/'.$key_back.'/3/'.$order.'/'.$page.'/';}
+            return Redirect::toAction($toAction);            
         }
             
         $this->key_back = $key_back;    
         $this->key = $key;      
         $this->url_redir_back = 'observatorio/territorios/editar/'.$key_back.'/4/'.$order.'/'.$page.'/';
+        if ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+        { 
+            $this->page_module = Territorio::TERRITORIO_URBANO;      
+            $this->url_redir_back = 'observatorio/territorios/editar_urbano/'.$key_back.'/3/'.$order.'/'.$page.'/';  
+        }
     }
     
        /**
      * Método para eliminar
      */
-    public function eliminar_conflicto($nombre_territorio, $nombre_conflicto, $key, $key_back, $order, $page) {         
+    public function eliminar_conflicto($nombre_territorio, $tipo_territorio, $nombre_conflicto, $key, $key_back, $order, $page) {         
         if(!$id = Security::getKey($key, 'del_conflicto', 'int')) {
             return Redirect::toAction($redireccionar.'/'.$order.'/'.$page.'/');
         }        
@@ -1007,8 +1175,14 @@ class TerritoriosController extends BackendController {
         } catch(KumbiaException $e) {
             Flash::error('Este conflicto no se puede eliminar porque se encuentra relacionado con otro registro.');
         }
+
+        $url_redir_back = 'editar/'.$key_back.'/4/'.$order.'/'.$page.'/'; 
+        if ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+        {   
+            $url_redir_back = 'editar_urbano/'.$key_back.'/3/'.$order.'/'.$page.'/';  
+        }         
         
-        return Redirect::toAction('editar/'.$key_back.'/4/'.$order.'/'.$page.'/');
+        return Redirect::toAction($url_redir_back);
     }
     
      /**
