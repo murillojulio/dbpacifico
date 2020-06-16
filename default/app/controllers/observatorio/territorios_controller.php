@@ -1007,11 +1007,57 @@ class TerritoriosController extends BackendController {
         $this->key = $key;   
         $this->url_redir_back = 'observatorio/territorios/editar/'.$key_back.'/3/'.$order.'/'.$page.'/';
     }
+
+    public function editar_barrio($key, $tipo_territorio, $key_back, $order, $page) { 
+       
+        if(!$id = Security::getKey($key, 'upd_comunidad', 'int')) {
+            return Redirect::toAction('listar');
+        }   
+        
+        $obj_comunidad = new Comunidad();        
+        if(!$obj_comunidad->getComunidadById($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del barrio');
+            return Redirect::toAction('ver/'.$key_back.'/3/');
+        } 
+        
+        
+        $this->obj_comunidad = $obj_comunidad; 
+        $this->page_title = 'Actualizar Barrio del Territorio: '.$obj_comunidad->territorio;
+        
+        if ($tipo_territorio == Territorio::TIPO_TERRITORIO_COMUNIDAD_NEGRA)
+        {
+            $this->page_module = Territorio::TERRITORIO_COMUNIDAD_NEGRA;  
+        }
+        elseif ($tipo_territorio == Territorio::TIPO_TERRITORIO_INDIGENA) 
+        { 
+            $this->page_module = Territorio::TERRITORIO_INDIGENA;        
+        }
+        elseif ($tipo_territorio == Territorio::TIPO_TERRITORIO_URBANO) 
+        { 
+            $this->page_module = Territorio::TERRITORIO_URBANO;        
+        }
+            
+        if(Input::hasPost('comunidad')) 
+        {        
+            $obj_comunidad = Comunidad::setComunidad('update', Input::post('comunidad'), $obj_comunidad->territorio, array('estado'=>  Comunidad::ACTIVO));
+            /*
+            $comunidad_id = $obj_comunidad->id;            
+            Poblacion::setPoblacion('update', Input::post('poblacion'), 'comunidad_id', $comunidad_id);    
+            */
+            Flash::valid('El barrio se ha actualizado correctamente!');
+            return Redirect::toAction('editar_urbano/'.$key_back.'/2/'.$order.'/'.$page.'/');
+            //'observatorio/territorios/ver/'.$key_back.'/3/'
+        }
+            
+        $this->key_back = $key_back;    
+        $this->key = $key;   
+        $this->url_redir_back = 'observatorio/territorios/editar_urbano/'.$key_back.'/2/'.$order.'/'.$page.'/';
+    }
     
       /**
      * Método para eliminar
      */
-    public function eliminar_comunidad($nombre_territorio, $nombre_comunidad, $key, $key_back, $order, $page) {         
+    public function eliminar_comunidad($nombre_territorio, $tipo_comunidad, $nombre_comunidad, $key, $key_back, $order, $page) {         
         if(!$id = Security::getKey($key, 'del_comunidad', 'int')) {
             return Redirect::toAction($redireccionar.'/'.$order.'/'.$page.'/');
         }        
@@ -1028,8 +1074,9 @@ class TerritoriosController extends BackendController {
         } catch(KumbiaException $e) {
             Flash::error('Esta comunidad no se puede eliminar porque se encuentra relacionado con otro registro.');
         }
-        
-        return Redirect::toAction('editar/'.$key_back.'/3/'.$order.'/'.$page.'/');
+        $toAction = 'editar/'.$key_back.'/3/'.$order.'/'.$page.'/';
+        if($tipo_comunidad === 'barrio'){ $toAction = 'editar_urbano/'.$key_back.'/2/'.$order.'/'.$page.'/'; }
+        return Redirect::toAction($toAction);
     }
     
     
