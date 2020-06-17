@@ -166,7 +166,7 @@ class CultivoIlicitoController extends BackendController {
     /**
      * Método para editar
      */
-    public function editar($key, $tab = '2', $sub_tab='') { 
+    public function editar($key, $tab = '1', $sub_tab='') { 
              
         if(!$id = Security::getKey($key, 'upd_cultivo_ilicito', 'int')) {
             return Redirect::toAction('listar/');
@@ -197,8 +197,8 @@ class CultivoIlicitoController extends BackendController {
         
         $ubicaciones = $cultivo_ilicito->getAfectacion()->getUbicaciones($cultivo_ilicito->afectacion_id);
         $this->ubicaciones = $ubicaciones;
-        $ubicacion = $ubicaciones[0];
-        $this->ubicacion = $ubicacion;
+        /* $ubicacion = $ubicaciones[0];
+        $this->ubicacion = $ubicacion; */
         
         /*
         $obj_afectacion_territorio = new AfectacionTerritorio();

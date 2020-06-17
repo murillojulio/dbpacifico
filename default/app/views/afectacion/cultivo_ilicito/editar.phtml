@@ -23,7 +23,14 @@
         <div class="tab-pane <?php echo $tab_1_active; ?>" id="tab1">
             <div class="row">
             <div class="col-md-12">
-                <div class="row">
+            <div class="row">
+                <?php View::partial('ubicacion/editar', false, 
+                        array('ubicaciones'=>$ubicaciones, 
+                            'afectacion_id'=>$cultivo_ilicito->afectacion_id,
+                            'titulo'=>'de la política pública')); 
+                ?>                          
+            </div>
+               <!--  <div class="row">
                            <div class="col-md-12">
                                <label for="panel_ubicacion_proyecto"><h3 class="panel-title">Ubicación del cultivo ilícito</h3></label>
                             <div id="panel_ubicacion_proyecto" class="panel panel-default">
@@ -45,7 +52,7 @@
                                 </div>
                             </div>                           
                         </div>                          
-                      </div>
+                      </div> -->
                 <div class="row">
                     <div class="col-md-3">
                         <?php echo DwForm::hidden('cultivo_ilicito.afectacion_id', NULL, NULL) ?>
