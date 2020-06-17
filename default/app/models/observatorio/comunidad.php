@@ -78,7 +78,7 @@ class Comunidad extends ActiveRecord {
             $obj->dump_result_self($optData);
         }             
         //Verifico que no exista otra comunidad, y si se encuentra inactivo lo active
-        $conditions = empty($obj->id) ? "nombre = '$obj->nombre'" : "nombre = '$obj->nombre' AND id != '$obj->id'";
+        $conditions = empty($obj->id) ? "nombre = '$obj->nombre' AND territorio_id = '$obj->territorio_id'" : "nombre = '$obj->nombre' AND id != '$obj->id'";
         $old = new Comunidad();
         if($old->find_first($conditions)) {            
             //Si existe y se intenta crear pero si no se encuentra activo lo activa
