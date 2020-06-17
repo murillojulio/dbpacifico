@@ -846,23 +846,23 @@ function cargarBarrios(){
         $("#div_listado_victimas").html("");
         $("#div_listado_hechos").html("");
     } 
-        
- /* $("#caso_departamento_id").on('change', function(e) {
-            var departamento_id = $('#caso_departamento_id').val();
-            $.ajax({
-                type: "POST",
-                url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>"+departamento_id+"/caso.municipio_id/Municipio/no/",
-                data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=no",
-            }).done(function(data) {
-                $("#div_municipio").html(data);
-                $("#caso_municipio_id").focus();
-            }).fail(function() {
-                alert("error");
-            });
-        }); */
+    function deshabilitarBotonLocalidades(){       
+        $("#btn_caso_localidad_corregimiento").prop('disabled', true);
+        $("#btn_caso_localidad_vereda").prop('disabled', true);
+        $("#btn_caso_localidad_inspeccion").prop('disabled', true);       
+    }
 
-        $("#caso_departamento_id").on('change', function(e) {
+    function limpiarLocalidades(){
+            $("#caso_localidad_corregimiento").empty();
+            $("#caso_localidad_vereda").empty();
+            $("#caso_localidad_inspeccion").empty();
+            $("#caso_territorio_id").empty();
+        }
+    
+    $("#caso_departamento_id").on('change', function(e) {
         jsSpinner('show');
+        limpiarLocalidades();
+        deshabilitarBotonLocalidades();
         gestionCampoBarrios('ocultar');
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/db_select_municipios/'; ?>";
         var departamento_id = $('#caso_departamento_id').val();
