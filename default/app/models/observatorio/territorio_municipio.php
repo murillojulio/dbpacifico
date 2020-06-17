@@ -128,15 +128,20 @@ class TerritorioMunicipio extends ActiveRecord {
     {    
        if((int)$municipio_id)
         {
-        $columns = 'municipio.nombre AS municipio_nombre, territorio.*, 
-                    departamento.nombre AS departamento_nombre';        
-        $join = 'INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id 
-                 INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id
-                 INNER JOIN departamento ON departamento.id = territorio.departamento_id';
-        $conditions = 'territorio_municipio.municipio_id ='.$municipio_id;
-        $order ='ORDER BY territorio.nombre ASC';
+            $case = "CASE WHEN territorio.tipo = 'comunidad_negra' THEN 'N'";
+            $case .= " WHEN territorio.tipo = 'indigena' THEN 'I'";
+            $case .= " ELSE 'U' END AS tipo_de_territorio";
+
+            $columns = 'municipio.nombre AS municipio_nombre, territorio.*, 
+                        departamento.nombre AS departamento_nombre';        
+            $join = 'INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id 
+                    INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id
+                    INNER JOIN departamento ON departamento.id = territorio.departamento_id';
+            $conditions = 'territorio_municipio.municipio_id ='.$municipio_id;
+            $order ='ORDER BY territorio.nombre ASC';
        
-            return $this->find("columns: $columns", "join: $join", "conditions: $conditions");
+            /*return $this->find("columns: $columns", "join: $join", "conditions: $conditions");*/
+            return $this->find_all_by_sql("SELECT territorio.*, municipio.nombre AS municipio_nombre, departamento.nombre AS departamento_nombre, CASE WHEN territorio.tipo = 'comunidad_negra' THEN 'N' WHEN territorio.tipo = 'indigena' THEN 'I' WHEN territorio.tipo ='urbano' THEN 'U' END AS tipo_de_territorio FROM territorio_municipio INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id INNER JOIN departamento ON departamento.id = territorio.departamento_id WHERE municipio.id = $municipio_id ORDER BY territorio.nombre ASC");
         }else{
             return array();
         }

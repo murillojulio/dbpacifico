@@ -6,6 +6,7 @@
     {               
         $("#caso_municipio_id").on('change', function(e) {
             jsSpinner('show');            
+            gestionCampoBarrios('ocultar');
             let datos = new FormData();
             var municipio_id = $('#caso_municipio_id').val();
             datos.append('municipio_id', municipio_id);

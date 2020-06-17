@@ -9,7 +9,7 @@ header("Set-Cookie: sameSite=secure");
 Load::models('violencia_politica/victima', 'violencia_politica/caso',
         'violencia_politica/tipo_caso', 'violencia_politica/victima_antecedente_violencia',
         'violencia_politica/caso_dano_territorio', 'violencia_politica/victima_caracterizacion2',
-        'violencia_politica/victima_hechovictimizante_presunto_responsable',
+        'violencia_politica/victima_hechovictimizante_presunto_responsable', 'observatorio/comunidad',
         'opcion/genero', 'opcion/etnia', 'opcion/caracterizacion', 'opcion/caracterizacion2', 
         'opcion/antecedente_violencia', 'opcion/hechovictimizante', 'opcion/etnia2',
         'opcion/presunto_responsable', 'observatorio/departamento', 'violencia_politica/victima_etnia2',
@@ -569,6 +569,11 @@ class CasosController extends BackendController {
     public function db_select_territorios(){
         View::template(null);
         $this->municipio_id = Input::post('municipio_id');
+    }
+
+    public function db_select_barrios(){
+        View::template(null);
+        $this->territorio_id = Input::post('territorio_id');
     }
 
     public function db_select_localidades(){

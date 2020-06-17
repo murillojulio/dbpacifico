@@ -52,6 +52,8 @@
                                 <?php //echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', (isset($caso->municipio_id)) ? $caso->municipio_id : NULL), NULL, array('class' => 'input-required'), (isset($usuario->territorio_id)) ? $caso->territorio_id : NULL, 'Territorio'); ?>
                             <?php echo DwForm::dbSelect('caso.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', NULL), NULL, array('class' => ''), NULL, 'Territorio'); ?>
                             </div>  
+                            <div class="" id="div_barrio">                    
+                            </div>
                         </div>
                         <div class="row" style="margin-bottom: 15px;">
                             <div class="col-md-3" id=""> 
@@ -60,15 +62,15 @@
                             <div id="div_localidades">
                                 <div class="col-md-3" id="div_corregimiento"> 
                                     <label for="caso_localidad_corregimiento">Corregimiento</label>
-                                    <?php echo DwForm::dbSelectButton('caso.localidad_corregimiento', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'corregimiento\')'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'corregimiento\')', '+'); ?>                                
+                                    <?php echo DwForm::dbSelectButton('caso.localidad_corregimiento', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'corregimiento\')', 'class'=>'input-readonly'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'corregimiento\')', '+'); ?>                                
                                 </div>
                                 <div class="col-md-3" id="div_vereda">
                                     <label for="caso_localidad_vereda">Vereda</label>
-                                    <?php echo DwForm::dbSelectButton('caso.localidad_vereda', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'vereda\')'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'vereda\')', '+'); ?>                                
+                                    <?php echo DwForm::dbSelectButton('caso.localidad_vereda', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'vereda\')', 'class'=>'input-readonly'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'vereda\')', '+'); ?>                                
                                 </div>
                                 <div class="col-md-3" id="div_inspeccion"> 
                                     <label for="caso_localidad_inspeccion">Inspección</label>
-                                    <?php echo DwForm::dbSelectButton('caso.localidad_inspeccion', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'inspeccion\')'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'inspeccion\')', '+'); ?>                                
+                                    <?php echo DwForm::dbSelectButton('caso.localidad_inspeccion', 'nombre', array('observatorio/localidad', 'getLocalidadByMunicipioIdSelect', NULL, NULL), NULL, array('onchange' => 'gestionSelectLocalidades(\'inspeccion\')', 'class'=>'input-readonly'), NULL, NULL, NULL, 'mostrarModalLocalidad(\'inspeccion\')', '+'); ?>                                
                                 </div>
                             </div>
             <div class="modal fade" id="modal_agregar_localidad">
@@ -171,10 +173,13 @@
 </div>
 <script type="text/javascript">
     $("#div_advertencia").hide();
-    $("#btn_caso_localidad_corregimiento").prop('disabled', true);
-    $("#btn_caso_localidad_vereda").prop('disabled', true);
-    $("#btn_caso_localidad_inspeccion").prop('disabled', true);
-    <?php //echo DwForm::focus('localidad.nombre'); ?>
+    function deshabilitarBotonLocalidades(){       
+        $("#btn_caso_localidad_corregimiento").prop('disabled', true);
+        $("#btn_caso_localidad_vereda").prop('disabled', true);
+        $("#btn_caso_localidad_inspeccion").prop('disabled', true);       
+    }
+    deshabilitarBotonLocalidades();
+
     $("#caso_tipo_caso_id").on('change', function(e) {
         var tipo_caso_id = $('#caso_tipo_caso_id').val();
         if(tipo_caso_id === '2'){
@@ -188,6 +193,8 @@
 
     $("#caso_departamento_id").on('change', function(e) {
         jsSpinner('show');
+        limpiarLocalidades();
+        deshabilitarBotonLocalidades();
         let url = "<?php echo PUBLIC_PATH . 'violencia_politica/casos/db_select_municipios/'; ?>";
         var departamento_id = $('#caso_departamento_id').val();
         let datos = new FormData();
@@ -211,6 +218,13 @@
             console.error(err);
         });           
     });
+
+    
+    function limpiarLocalidades(){
+            $("#caso_localidad_corregimiento").empty();
+            $("#caso_localidad_vereda").empty();
+            $("#caso_localidad_inspeccion").empty();
+        }
 
         let tipo_localidad = '';
          function mostrarModalLocalidad(tipo){
@@ -284,6 +298,15 @@
                 btn.button('reset');
             }
         });        
+    }
+    function gestionCampoBarrios(accion){
+        if(accion === 'ocultar'){
+            $("#div_barrio").hide();
+            $("#caso_comunidad_id").val('');
+            $("#caso_territorio_id").val('');
+            $("#div_territorio").removeClass("col-md-3");
+            $("#div_territorio").addClass("col-md-6");
+        }
     }
 
     function gestionSelectLocalidades(tipo_localidad_in){

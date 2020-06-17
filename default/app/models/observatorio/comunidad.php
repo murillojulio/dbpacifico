@@ -113,6 +113,16 @@ class Comunidad extends ActiveRecord {
       return $this->find_all_by_sql("SELECT comunidad.id FROM comunidad WHERE comunidad.consejo_id =".$consejo_id);
     }
     
+    public function getBarriosByTerritorioIdSelect($territorio_id=null) 
+    {    
+       if((int)$territorio_id)
+        {           
+            return $this->find_all_by_sql("SELECT comunidad.* FROM comunidad WHERE comunidad.territorio_id = $territorio_id AND comunidad.tipo = 'barrio' ORDER BY comunidad.nombre ASC");
+        }else{
+            return array();
+        }  
+    }
+    
     /**
      * Callback que se ejecuta antes de guardar/modificar
      */
