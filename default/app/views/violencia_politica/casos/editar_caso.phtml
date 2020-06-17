@@ -413,7 +413,10 @@ function cargarBarrios(){
                             <td><?php echo $victima->nombre.' '.$victima->apellido; ?></td>
                             <td><?php echo ($victima->edad === '') ? 'Sin información' : $victima->edad; ?></td>
                             <td><?php try { echo $victima->getGenero()->nombre; } catch (Exception $exc) {} ?></td>
-                            <td><?php try { echo $victima->getCaracterizacion()->nombre; } catch (Exception $exc) {} ?></td>
+                            <td><?php try { 
+                                            foreach($victima->getVictimaCaracterizacion2() as $perfil):
+                                                echo $perfil->getCaracterizacion2()->nombre;
+                                            endforeach; } catch (Exception $exc) {} ?></td>
                             <td class="btn-actions"><?php View::partial('nivel_estado/ver', false, array('nivel'=>$victima->nivel, 'estado'=>$victima->estado)); ?>
 <!--                            <td class="btn-actions">
                                 <?php /* View::partial('opcion/ver', false, 
