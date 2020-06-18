@@ -9,7 +9,8 @@ Load::models('afectacion/cultivo_ilicito', 'global/fuente', 'afectacion/ubicacio
         'afectacion/afectacion', 'observatorio/departamento', 'observatorio/municipio',
         'opcion/impacto', 'observatorio/territorio', 'opcion/tipo_cultivo', 'util/currency',
         'afectacion/afectacion_territorio', 'afectacion/afectacion_territorio_impacto',
-        'observatorio/subregion', 'afectacion/afectacion_dano_territorio');
+        'observatorio/subregion', 'afectacion/afectacion_dano_territorio', 'opcion/dano', 
+        'opcion/tipo_dano');
 
 class CultivoIlicitoController extends BackendController {
     
