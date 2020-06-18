@@ -30,6 +30,7 @@ class CultivoIlicito extends ActiveRecord {
     protected function initialize() {
         $this->belongs_to('afectacion');
         $this->belongs_to('tipo_cultivo');
+        $this->has_many('cultivo_ilicito_presunto_responsable');
     }
     
    

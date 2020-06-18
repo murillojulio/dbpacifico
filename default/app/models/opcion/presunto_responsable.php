@@ -24,6 +24,7 @@ class PresuntoResponsable extends ActiveRecord {
      */
     protected function initialize() {
        $this->has_many('victima_hechovictimizante_presunto_responsable');
+       $this->has_many('cultivo_ilicito_presunto_responsable');
     }
         
     /**
