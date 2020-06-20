@@ -80,6 +80,12 @@ class CultivoIlicitoPresuntoResponsable extends ActiveRecord {
         
     }
 
-
+    public function getPromotoresByCultivoId($cultivo_id) 
+    {                   
+        $columns = 'cultivo_ilicito_presunto_responsable.*, presunto_responsable.nombre AS responsable';        
+        $join = 'INNER JOIN presunto_responsable ON presunto_responsable.id = cultivo_ilicito_presunto_responsable.presunto_responsable_id';
+        $conditions = 'cultivo_ilicito_presunto_responsable.id IS NOT NULL AND cultivo_ilicito_presunto_responsable.cultivo_ilicito_id='.$cultivo_id;  
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions");        
+    }
 }
 ?>

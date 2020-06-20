@@ -22,7 +22,7 @@
                     <td class="btn-actions">
                         <button id="btn-editar-dano-<?php echo $danos->id ?>" type="button" class="btn btn-warning btn-icon-only fa fa-edit" data-loading-text="Cargando..." onclick="cargarModalEditarAfectacionDanoTerritorio(<?php echo $danos->id; ?>)"></button>
                         <!--<button id="btn-editar-dano-<?php echo $danos->id ?>" type="button" class="btn btn-warning btn-icon-only fa fa-edit" onclick="setVariablesEditar(<?php echo $danos->id . "," . $dano->id . ",'" . $dano->nombre . "'"; ?>)" data-toggle="modal" data-target="#modal_editar_dano"></button>-->
-                        <button id="btn-eliminar-dano-<?php echo $dano->id ?>" type="button" class="btn btn-danger btn-icon-only fa fa-minus" onclick="setVariablesEliminar(<?php echo $danos->id; ?>)" data-toggle="modal" data-target="#modal_eliminar_dano" title="Eliminar"></button>
+                        <button id="btn-eliminar-dano-<?php echo $danos->id ?>" type="button" class="btn btn-danger btn-icon-only fa fa-minus" onclick="setVariablesEliminar(<?php echo $danos->id; ?>)" data-toggle="modal" data-target="#modal_eliminar_dano" title="Eliminar"></button>
                     </td>
                 </tr>
             <?php
@@ -78,6 +78,7 @@
 </div><!-- /.modal -->
 <label for="panel_danos"></label>
 <script type='text/javascript'>
+ $("#btn-agregar-dano").prop('disabled', true);
 let afectacion_dano_territorio_id = '';
 function deshabilitar_modal_dano() {
         $("#btn-agregar-dano").prop('disabled', true);

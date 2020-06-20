@@ -26,6 +26,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <?php echo DwForm::hidden('cultivo_ilicito.afectacion_id', NULL, NULL) ?>
+                            <?php echo DwForm::hidden('cultivo_ilicito.id', NULL, NULL) ?>
                             <?php echo DwForm::dbSelect('cultivo_ilicito.tipo_cultivo_id', 'nombre', array('opcion/tipo_cultivo', 'getListadoTipoCultivoDBS', ''), NULL, array('class' => 'input-required'), NULL, 'Seleccione el tipo de cultivo'); ?>
                         </div>
                         <div class="col-md-3">
@@ -37,31 +38,24 @@
                                     <div class="input-group-addon">hectareas</div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
+                        </div>                    
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="panel_promotores">Promotores del cultivo</label>
                             <div id="panel_promotores" class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <?php echo DwForm::check('cultivo_ilicito.promo_guerrilla', '1', NULL, NULL, 'GUERRILLA'); ?>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <?php echo DwForm::check('cultivo_ilicito.promo_paramilitar', '1', NULL, NULL, 'PARAMILITARES'); ?>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <?php echo DwForm::check('cultivo_ilicito.promo_otro', '1', NULL, NULL, 'OTROS'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="panel-body">                                   
+                                    <?php 
+                                        View::partial(
+                                            'cultivo_ilicito_presunto_responsable/editar',
+                                            false,
+                                            array(
+                                                'nombre_tabla' => 'cultivo_ilicito_presunto_responsable',
+                                                'CultivoIlicitoPresuntoResponsable' => $CultivoIlicitoPresuntoResponsable,
+                                                'titulo' => 'del cultivo'
+                                            )
+                                        );
+                                    ?>                                      
                                 </div>
                             </div>
                         </div>
@@ -288,14 +282,30 @@
     </div>
     <?php echo DwForm::close(); ?>
 </div>
+<div id="flash-message" class="flash-message">
+    <div id="alert-id-guardar-cambio-promotor" class="alert alert-block alert-success" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Los cambios del promotor del cultivo se han guardado con exito.
+    </div>
+</div>
+<div id="flash-message" class="flash-message">
+    <div id="alert-id-guardar-promotor" class="alert alert-block alert-success" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        El promotor del cultivo se ha guardado con exito.
+    </div>
+</div>
+<div id="flash-message" class="flash-message">
+    <div id="alert-id-eliminar-promotor" class="alert alert-block alert-success" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        El promotor del cultivo ha sido eliminado.
+    </div>
+</div>
 
 
 
 
 
 <script type='text/javascript'>
-    
-    $("#btn-agregar-dano").prop('disabled', true);
 
     $(".formato_punto_coma").priceFormat({
         prefix: '',
