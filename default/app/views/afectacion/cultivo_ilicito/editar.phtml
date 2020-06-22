@@ -42,7 +42,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="panel_promotores">Promotores del cultivo</label>
+                            <label for="panel_promotores">
+                                <h3 class="panel-title">Promotores del cultivo</h3>
+                            </label>
                             <div id="panel_promotores" class="panel panel-default">
                                 <div class="panel-body">
                                     <?php
@@ -220,7 +222,19 @@
                                 <div class="col-md-6">
                                     <?php echo DwForm::select('cultivo_ilicito.tipo_erradicacion', array('' => 'Seleccione', 'ASPERSION AEREA' => 'ASPERSIÓN AÉREA', 'ERRADICACION MANUAL' => 'ERRADICACIÓN MANUAL'), array('class' => ''), NULL, 'Tipo de erradicación'); ?>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">                                    
+                                    <div class="form-group">
+                                        <label for="cultivo_ilicito_fecha_erradicacion">Fecha de erradicación | DD-MM-AAAA</label>
+                                        <div class="input-group date datepicker" id="dp_cultivo_ilicito_fecha_erradicacion">
+                                            <input id="cultivo_ilicito_fecha_erradicacion" name="cultivo_ilicito[fecha_erradicacion]" type="text" value="<?php echo date('d-m-Y', strtotime($cultivo_ilicito->fecha_erradicacion)); ?>" class="js-datepicker input-date form-control" >
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <p class="help-block">
+                                            <small class="help-error"></small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <label for="area_erradicacion">Área
                                         <!--<span class="req">*</span>--></label>
                                     <div class="form-group">

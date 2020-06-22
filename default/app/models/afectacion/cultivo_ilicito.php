@@ -44,7 +44,8 @@ class CultivoIlicito extends ActiveRecord {
      * return object ActiveRecord
      */
     public static function setCultivoIlicito($method, $data, $optData=null) {        
-        $obj = new CultivoIlicito($data); //Se carga los datos con los de las tablas        
+        $obj = new CultivoIlicito($data); //Se carga los datos con los de las tablas  
+        $obj->fecha_erradicacion = date('Y-m-d', strtotime($obj->fecha_erradicacion));      
         if($optData) { //Se carga información adicional al objeto
             $obj->dump_result_self($optData);
         }             
