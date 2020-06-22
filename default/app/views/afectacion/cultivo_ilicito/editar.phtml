@@ -22,7 +22,7 @@
     <div class="tab-content">
         <div class="tab-pane <?php echo $tab_1_active; ?>" id="tab1">
             <div class="row">
-                <div class="col-md-12">               
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3">
                             <?php echo DwForm::hidden('cultivo_ilicito.afectacion_id', NULL, NULL) ?>
@@ -38,24 +38,24 @@
                                     <div class="input-group-addon">hectareas</div>
                                 </div>
                             </div>
-                        </div>                    
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <label for="panel_promotores">Promotores del cultivo</label>
                             <div id="panel_promotores" class="panel panel-default">
-                                <div class="panel-body">                                   
-                                    <?php 
-                                        View::partial(
-                                            'cultivo_ilicito_presunto_responsable/editar',
-                                            false,
-                                            array(
-                                                'nombre_tabla' => 'cultivo_ilicito_presunto_responsable',
-                                                'CultivoIlicitoPresuntoResponsable' => $CultivoIlicitoPresuntoResponsable,
-                                                'titulo' => 'del cultivo'
-                                            )
-                                        );
-                                    ?>                                      
+                                <div class="panel-body">
+                                    <?php
+                                    View::partial(
+                                        'cultivo_ilicito_presunto_responsable/editar',
+                                        false,
+                                        array(
+                                            'nombre_tabla' => 'cultivo_ilicito_presunto_responsable',
+                                            'CultivoIlicitoPresuntoResponsable' => $CultivoIlicitoPresuntoResponsable,
+                                            'titulo' => 'del cultivo'
+                                        )
+                                    );
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -82,32 +82,47 @@
                                     <div class="row">
 
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <?php echo DwForm::select('cultivo_ilicito.part_comunidad', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), NULL, '¿La comunidad participa en el cultivo?'); ?>
                                         </div>
 
 
 
-                                        <div id="div_tipo_part_comunidad" class="col-md-4">
+                                        <div id="div_tipo_part_comunidad" class="col-md-5">
                                             <label for="panel_tipo_part_comunidad">Tipo de participación de la comunidad</label>
                                             <div id="panel_tipo_part_comunidad" class="panel panel-default">
                                                 <div class="panel-body">
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_cultivador', '1', NULL, NULL, 'CULTIVADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_cultivador', '1', array('class'=>'check_participacion_comunidad'), NULL, 'CULTIVADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_raspachin', '1', NULL, NULL, 'RASPACHINES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_raspachin', '1', array('class'=>'check_participacion_comunidad'), NULL, 'RASPACHINES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_procesador', '1', NULL, NULL, 'PROCESADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_procesador', '1', array('class'=>'check_participacion_comunidad'), NULL, 'PROCESADORES'); ?>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_comercio', '1', array('class'=>'check_participacion_comunidad'), NULL, 'COMERCIANTES'); ?>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_otro', '1', array("onclick"=>"validarCheckComunidad()", 'class'=>'check_participacion_comunidad'), NULL, 'OTRO'); ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div id="div_tipo_part_com_otro_descripcion" class="row">
+                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_com_otro_descripcion', array('class' => 'input-lower'), NULL, 'Descripción otro'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -123,30 +138,45 @@
                                     <!-- ------------------------------ -->
 
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <?php echo DwForm::select('cultivo_ilicito.part_otro', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), NULL, '¿Otros participan en el cultivo?'); ?>
                                         </div>
 
-                                        <div id="div_tipo_part_otro" class="col-md-4">
+                                        <div id="div_tipo_part_otro" class="col-md-5">
                                             <label for="panel_tipo_part_otro">Tipo de participación de otros</label>
                                             <div id="panel_tipo_part_otro" class="panel panel-default">
                                                 <div class="panel-body">
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_cultivador', '1', NULL, NULL, 'CULTIVADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_cultivador', '1', array('class'=>'check_participacion_otro'), NULL, 'CULTIVADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_raspachin', '1', NULL, NULL, 'RASPACHINES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_raspachin', '1', array('class'=>'check_participacion_otro'), NULL, 'RASPACHINES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_procesador', '1', NULL, NULL, 'PROCESADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_procesador', '1', array('class'=>'check_participacion_otro'), NULL, 'PROCESADORES'); ?>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_comercio', '1', array('class'=>'check_participacion_otro'), NULL, 'COMERCIANTES'); ?>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_otro', '1', array("onclick"=>"validarCheckOtro()", 'class'=>'check_participacion_otro'), NULL, 'OTRO'); ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="div_tipo_part_otr_otro_descripcion" class="col-md-8">
+                                                            <div class="row">
+                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_otr_otro_descripcion', array('class' => 'input-lower'), NULL, 'Descripción otro'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -243,10 +273,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        
+
                     </div>
                     <div class="container-overflow">
-                    <?php View::partial(
+                        <?php View::partial(
                             'danos/editar',
                             false,
                             array(
@@ -255,13 +285,13 @@
                             )
                         );
                         ?>
-                        
+
                     </div>
 
                 </div>
             </div>
         </div>
-        
+
 
 
 
@@ -306,6 +336,8 @@
 
 
 <script type='text/javascript'>
+    validarCheckComunidad();
+    validarCheckOtro();
 
     $(".formato_punto_coma").priceFormat({
         prefix: '',
@@ -321,41 +353,37 @@
         thousandsSeparator: '.'
     });
 
-    $("#caso_departamento_id").on('change', function(e) {
-        var departamento_id = $('#caso_departamento_id').val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_municipios/'; ?>" + departamento_id + "/caso.municipio_id/Municipio/no/",
-            data: "departamento_id=" + departamento_id + "&field=caso.municipio_id&label=Municipio&input_required=no",
-        }).done(function(data) {
-
-            $("#div_municipio").html(data);
-            $("#caso_municipio_id").focus();
-            $('#caso_territorio_id').val('');
-        }).fail(function() {
-            alert("error");
-        });
-    });
-
-    $("#caso_municipio_id").on('change', function(e) {
-        var municipio_id = $('#caso_municipio_id').val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_territorios_municipio/'; ?>" + municipio_id + "/caso.territorio_id/Territorio/",
-            data: "departamento_id=" + municipio_id + "&field=caso.territorio_id&label=Territorio",
-        }).done(function(data) {
-            $("#div_territorio").html(data);
-            $("#caso_territorio_id").focus();
-        }).fail(function() {
-            alert("error");
-        });
-    });
 
 
     if ($('#cultivo_ilicito_part_comunidad').val() == 'SI') {
         $('#div_tipo_part_comunidad').show();
     } else {
         $('#div_tipo_part_comunidad').hide();
+    }
+
+    if ($('#cultivo_ilicito_part_comunidad').val() == 'SI') {
+        $('#div_tipo_part_comunidad').show();
+    } else {
+        $('#div_tipo_part_comunidad').hide();
+    }
+
+
+    function validarCheckComunidad() {
+        if ($('#cultivo_ilicito_tipo_part_com_otro4').is(':checked')) {
+            $('#div_tipo_part_com_otro_descripcion').show();
+        } else {
+            $('#div_tipo_part_com_otro_descripcion').hide();
+            $('#cultivo_ilicito_tipo_part_com_otro_descripcion').val('');
+        }
+    }
+
+    function validarCheckOtro() {
+        if ($('#cultivo_ilicito_tipo_part_otr_otro9').is(':checked')) {
+            $('#div_tipo_part_otr_otro_descripcion').show();
+        } else {
+            $('#div_tipo_part_otr_otro_descripcion').hide();
+            $('#cultivo_ilicito_tipo_part_otr_otro_descripcion').val('');
+        }
     }
 
     $("#cultivo_ilicito_part_comunidad").change(
@@ -366,7 +394,8 @@
                 //$('#cultivo_ilicito_otra_actividad_cual').focus(); 
             } else {
                 $('#div_tipo_part_comunidad').hide();
-                //$('#cultivo_ilicito_otra_actividad_cual').val('');
+                $(".check_participacion_comunidad").prop("checked", false);
+                validarCheckComunidad();
             }
 
         });
@@ -385,11 +414,11 @@
             if (si_no == 'SI') {
                 $('#div_tipo_part_otro').show();
                 $('#div_part_otro_quien').show();
-                //$('#cultivo_ilicito_otra_actividad_cual').focus(); 
             } else {
                 $('#div_tipo_part_otro').hide();
                 $('#div_part_otro_quien').hide();
-                //$('#cultivo_ilicito_otra_actividad_cual').val('');
+                $(".check_participacion_otro").prop("checked", false);
+                validarCheckOtro();
             }
 
         });
@@ -413,5 +442,5 @@
                 $('#div_contratada_quienes').hide();
             }
 
-        }); 
+        });
 </script>
