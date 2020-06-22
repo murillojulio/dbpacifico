@@ -268,9 +268,9 @@ class CultivoIlicitoController extends BackendController
             //            $post_cultivo_ilicito['area_erradicacion'] = Currency::comaApunto($post_cultivo_ilicito['area_erradicacion']);            
 
             if (CultivoIlicito::setCultivoIlicito('update', $post_cultivo_ilicito, array('id' => $id))) {
-                Ubicacion::setUbicacion('update', Input::post('caso'), array('id' => $ubicacion->id, 'afectacion_id' => $cultivo_ilicito->afectacion_id));
+                /*Ubicacion::setUbicacion('update', Input::post('caso'), array('id' => $ubicacion->id, 'afectacion_id' => $cultivo_ilicito->afectacion_id));*/
                 Fuente::setFuente('update', Input::post('fuente'), 'cultivo_ilicito', $id);
-                Flash::valid('El Cultivo Ilícito se ha actualizado correctamente!');
+                Flash::valid('El Cultivo de Uso Ilícito se ha actualizado correctamente!');
                 return Redirect::toAction('listar/');
             }
         }

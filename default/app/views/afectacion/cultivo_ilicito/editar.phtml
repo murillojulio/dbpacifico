@@ -96,33 +96,33 @@
                                                         <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_cultivador', '1', array('class'=>'check_participacion_comunidad'), NULL, 'CULTIVADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_cultivador-', '1', array('class' => 'check_participacion_comunidad', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_com_cultivador, 'CULTIVADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_raspachin', '1', array('class'=>'check_participacion_comunidad'), NULL, 'RASPACHINES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_raspachin-', '1', array('class' => 'check_participacion_comunidad', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_com_raspachin, 'RASPACHINES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_procesador', '1', array('class'=>'check_participacion_comunidad'), NULL, 'PROCESADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_procesador-', '1', array('class' => 'check_participacion_comunidad', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_com_procesador, 'PROCESADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_comercio', '1', array('class'=>'check_participacion_comunidad'), NULL, 'COMERCIANTES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_comercio-', '1', array('class' => 'check_participacion_comunidad', 'onclick' => 'setearValorCheck()'), ($cultivo_ilicito->tipo_part_com_comercio === 1) ? 'checked' : NULL, 'COMERCIANTES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_otro', '1', array("onclick"=>"validarCheckComunidad()", 'class'=>'check_participacion_comunidad'), NULL, 'OTRO'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_com_otro-', '1', array('class' => 'check_participacion_comunidad', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_com_otro, 'OTRO'); ?>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div id="div_tipo_part_com_otro_descripcion" class="row">
-                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_com_otro_descripcion', array('class' => 'input-lower'), NULL, 'Descripción otro'); ?>
+                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_com_otro_descripcion', array('class' => 'input-lower'), $cultivo_ilicito->tipo_part_com_otro_descripcion, 'Descripción otro'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -139,7 +139,7 @@
 
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <?php echo DwForm::select('cultivo_ilicito.part_otro', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), NULL, '¿Otros participan en el cultivo?'); ?>
+                                            <?php echo DwForm::select('cultivo_ilicito.part_otro', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), $cultivo_ilicito->part_otro, '¿Otros participan en el cultivo?'); ?>
                                         </div>
 
                                         <div id="div_tipo_part_otro" class="col-md-5">
@@ -150,33 +150,33 @@
                                                         <div class="col-md-4">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_cultivador', '1', array('class'=>'check_participacion_otro'), NULL, 'CULTIVADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_cultivador-', '1', array('class' => 'check_participacion_otro', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_otr_cultivador, 'CULTIVADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_raspachin', '1', array('class'=>'check_participacion_otro'), NULL, 'RASPACHINES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_raspachin-', '1', array('class' => 'check_participacion_otro', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_otr_raspachin, 'RASPACHINES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_procesador', '1', array('class'=>'check_participacion_otro'), NULL, 'PROCESADORES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_procesador-', '1', array('class' => 'check_participacion_otro', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_otr_procesador, 'PROCESADORES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_comercio', '1', array('class'=>'check_participacion_otro'), NULL, 'COMERCIANTES'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_comercio-', '1', array('class' => 'check_participacion_otro', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_otr_comercio, 'COMERCIANTES'); ?>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_otro', '1', array("onclick"=>"validarCheckOtro()", 'class'=>'check_participacion_otro'), NULL, 'OTRO'); ?>
+                                                                    <?php echo DwForm::check('cultivo_ilicito.tipo_part_otr_otro-', '1', array('class' => 'check_participacion_otro', 'onclick' => 'setearValorCheck()'), $cultivo_ilicito->tipo_part_otr_otro, 'OTRO'); ?>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div id="div_tipo_part_otr_otro_descripcion" class="col-md-8">
                                                             <div class="row">
-                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_otr_otro_descripcion', array('class' => 'input-lower'), NULL, 'Descripción otro'); ?>
+                                                                <?php echo DwForm::textarea('cultivo_ilicito.tipo_part_otr_otro_descripcion', array('class' => 'input-lower'), $cultivo_ilicito->tipo_part_otr_otro_descripcion, 'Descripción otro'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -200,6 +200,16 @@
                             </div>
                         </div>
                     </div>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_com_cultivador', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_com_raspachin', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_com_procesador', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_com_comercio', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_com_otro', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_otr_cultivador', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_otr_raspachin', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_otr_procesador', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_otr_comercio', NULL, NULL) ?>
+                    <?php echo DwForm::hidden('cultivo_ilicito.tipo_part_otr_otro', NULL, NULL) ?>
 
                     <label for="panel_erradicacion">
                         <h3 class="panel-title">Erradicación</h3>
@@ -369,7 +379,7 @@
 
 
     function validarCheckComunidad() {
-        if ($('#cultivo_ilicito_tipo_part_com_otro4').is(':checked')) {
+        if ($('#cultivo_ilicito_tipo_part_com_otro-4').is(':checked')) {
             $('#div_tipo_part_com_otro_descripcion').show();
         } else {
             $('#div_tipo_part_com_otro_descripcion').hide();
@@ -378,7 +388,7 @@
     }
 
     function validarCheckOtro() {
-        if ($('#cultivo_ilicito_tipo_part_otr_otro9').is(':checked')) {
+        if ($('#cultivo_ilicito_tipo_part_otr_otro-9').is(':checked')) {
             $('#div_tipo_part_otr_otro_descripcion').show();
         } else {
             $('#div_tipo_part_otr_otro_descripcion').hide();
@@ -396,6 +406,7 @@
                 $('#div_tipo_part_comunidad').hide();
                 $(".check_participacion_comunidad").prop("checked", false);
                 validarCheckComunidad();
+                setearValorCheck();
             }
 
         });
@@ -419,8 +430,8 @@
                 $('#div_part_otro_quien').hide();
                 $(".check_participacion_otro").prop("checked", false);
                 validarCheckOtro();
+                setearValorCheck();
             }
-
         });
 
 
@@ -443,4 +454,70 @@
             }
 
         });
+
+    function setearValorCheck() {
+        if ($('#cultivo_ilicito_tipo_part_com_cultivador-0').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_com_cultivador').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_com_cultivador').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_com_raspachin-1').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_com_raspachin').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_com_raspachin').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_com_procesador-2').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_com_procesador').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_com_procesador').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_com_comercio-3').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_com_comercio').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_com_comercio').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_com_otro-4').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_com_otro').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_com_otro').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_otr_cultivador-5').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_otr_cultivador').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_otr_cultivador').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_otr_raspachin-6').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_otr_raspachin').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_otr_raspachin').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_otr_procesador-7').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_otr_procesador').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_otr_procesador').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_otr_comercio-8').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_otr_comercio').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_otr_comercio').val('');
+        }
+
+        if ($('#cultivo_ilicito_tipo_part_otr_otro-9').is(':checked')) {
+            $('#cultivo_ilicito_tipo_part_otr_otro').val('1');
+        } else {
+            $('#cultivo_ilicito_tipo_part_otr_otro').val('');
+        }
+
+        validarCheckComunidad();
+        validarCheckOtro();
+
+    }
 </script>
