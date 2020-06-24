@@ -169,6 +169,8 @@
               $('#caso_municipio_id').val('');
               $('#caso_territorio_id').val('');
               $('#myModalAddUbicacion').modal('hide');
+              recargaTerritorios(afectacion_id);
+              
           }).fail(function() {
               alert("error: " + afectacion_id + " " + departamento_id + " " + municipio_id + " " + territorio_id);
           });
@@ -195,4 +197,30 @@
               alert("error: " + afectacion_id + " " + departamento_id + " " + municipio_id + " " + territorio_id);
           });
       });
+
+      function recargaTerritorios(afectacion_id){
+        let url = "<?php echo PUBLIC_PATH . 'observatorio/genericos/db_select_recarga_territorios/'; ?>";
+        let datos = new FormData();
+            datos.append("afectacion_id", afectacion_id);
+
+            fetch(url,
+            {
+                method: 'POST',        
+                body: datos
+            }).then(function(response) {
+                /*console.log('response =', response);*/
+                return response.text();
+            })
+            .then(function(data) {
+                try {
+                    $("#div_dbselect_recarga_territorios").html(data);
+                } catch (error) {
+                    console.log('Error en la funcion recargaTerritorios() '+error);
+                }                
+            })
+            .catch(function(err) {
+                alert('ERROR en recargaTerritorios()');
+                console.error(err);
+            }); 
+      }
   </script>

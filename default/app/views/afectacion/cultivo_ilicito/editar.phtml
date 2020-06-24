@@ -9,12 +9,12 @@
 
     <ul class="nav nav-tabs nav-justified hidden-xs">
         <li class="<?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Afectaciones</a></li>
+        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Daños al territorio</a></li>
         <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Fuente(s) de la información</a></li>
     </ul>
     <ul class="nav nav-tabs nav-justified visible-xs">
         <li class="tab-pane <?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Afectaciones</a></li>
+        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Daños al territorio</a></li>
         <li class="tab-pane <?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Fuente(s) de la información</a></li>
     </ul>
 
@@ -222,11 +222,11 @@
                                 <div class="col-md-6">
                                     <?php echo DwForm::select('cultivo_ilicito.tipo_erradicacion', array('' => 'Seleccione', 'ASPERSION AEREA' => 'ASPERSIÓN AÉREA', 'ERRADICACION MANUAL' => 'ERRADICACIÓN MANUAL'), array('class' => ''), NULL, 'Tipo de erradicación'); ?>
                                 </div>
-                                <div class="col-md-3">                                    
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="cultivo_ilicito_fecha_erradicacion">Fecha de erradicación | DD-MM-AAAA</label>
                                         <div class="input-group date datepicker" id="dp_cultivo_ilicito_fecha_erradicacion">
-                                            <input id="cultivo_ilicito_fecha_erradicacion" name="cultivo_ilicito[fecha_erradicacion]" type="text" value="<?php echo date('d-m-Y', strtotime($cultivo_ilicito->fecha_erradicacion)); ?>" class="js-datepicker input-date form-control" >
+                                            <input id="cultivo_ilicito_fecha_erradicacion" name="cultivo_ilicito[fecha_erradicacion]" type="text" value="<?php echo date('d-m-Y', strtotime($cultivo_ilicito->fecha_erradicacion)); ?>" class="js-datepicker input-date form-control">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         </div>
                                         <p class="help-block">
@@ -279,6 +279,74 @@
 
                         </div>
                     </div>
+                    <label for="panel_sustitucion">
+                        <h3 class="panel-title">Sustitución</h3>
+                    </label>
+                    <div id="panel_sustitucion" class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                               
+                                        <div class="col-md-6">
+                                        <label for="panel_sustitucion_con">Con pacto con el estado</label>
+                                <div id="panel_sustitucion_con" class="panel panel-default">
+                                    <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <?php echo DwForm::select('cultivo_ilicito.sustitucion_con_pacto', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), NULL, '¿Con pacto con el estado?'); ?>
+                                                </div>
+                                                <div id="div_fecha_con_pacto" class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="cultivo_ilicito_sustitucion_con_pacto_fecha">Fecha de sustitución | DD-MM-AAAA</label>
+                                                        <div class="input-group date datepicker" id="dp_cultivo_ilicito_sustitucion_con_pacto_fecha">
+                                                            <input id="cultivo_ilicito_sustitucion_con_pacto_fecha" name="cultivo_ilicito[sustitucion_con_pacto_fecha]" type="text" value="<?php if($cultivo_ilicito->sustitucion_con_pacto_fecha != ''){ echo date('d-m-Y', strtotime($cultivo_ilicito->sustitucion_con_pacto_fecha));} ?>" class="js-datepicker input-date form-control">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                        <p class="help-block">
+                                                            <small class="help-error"></small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="div_descripcion_con_pacto" class="col-md-12">
+                                                    <?php echo DwForm::textarea('cultivo_ilicito.sustitucion_con_pacto_descripcion', array('class' => 'input-lower', 'rows' => '6'), $cultivo_ilicito->sustitucion_con_pacto_descripcion, 'Descripción sustitución con pacto'); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="panel_sustitucion_sin">Sin pacto con el estado</label>
+                                    <div id="panel_sustitucion_sin" class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <?php echo DwForm::select('cultivo_ilicito.sustitucion_sin_pacto', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => ''), NULL, '¿Sin pacto con el estado?'); ?>
+                                                </div>
+                                                <div id="div_fecha_sin_pacto" class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="cultivo_ilicito_sustitucion_sin_pacto_fecha">Fecha de sustitución | DD-MM-AAAA</label>
+                                                        <div class="input-group date datepicker" id="dp_cultivo_ilicito_sustitucion_sin_pacto_fecha">
+                                                            <input id="cultivo_ilicito_sustitucion_sin_pacto_fecha" name="cultivo_ilicito[sustitucion_sin_pacto_fecha]" type="text" value="<?php if($cultivo_ilicito->sustitucion_sin_pacto_fecha != ''){echo date('d-m-Y', strtotime($cultivo_ilicito->sustitucion_sin_pacto_fecha));} ?>" class="js-datepicker input-date form-control">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                        <p class="help-block">
+                                                            <small class="help-error"></small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="div_descripcion_sin_pacto" class="col-md-12">
+                                                    <?php echo DwForm::textarea('cultivo_ilicito.sustitucion_sin_pacto_descripcion', array('class' => 'input-lower', 'rows' => '6'), $cultivo_ilicito->sustitucion_sin_pacto_descripcion, 'Descripción sustitución sin pacto'); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -305,7 +373,8 @@
                             false,
                             array(
                                 'AfectacionDanoTerritorio' => $AfectacionDanoTerritorio,
-                                'nombre_tabla' => 'cultivo_ilicito'
+                                'nombre_tabla' => 'cultivo_ilicito',
+                                'afectacion_id' => $cultivo_ilicito->afectacion_id
                             )
                         );
                         ?>
@@ -390,6 +459,24 @@
     } else {
         $('#div_tipo_part_comunidad').hide();
     }
+
+   
+            if ($('#cultivo_ilicito_sustitucion_sin_pacto').val() == 'SI') {
+                $('#div_fecha_sin_pacto').show();
+                $('#div_descripcion_sin_pacto').show();
+            } else {
+                $('#div_fecha_sin_pacto').hide();
+                $('#div_descripcion_sin_pacto').hide();           
+            }
+
+            
+            if ($('#cultivo_ilicito_sustitucion_con_pacto').val() == 'SI') {
+                $('#div_fecha_con_pacto').show();
+                $('#div_descripcion_con_pacto').show();                
+            } else {
+                $('#div_fecha_con_pacto').hide();
+                $('#div_descripcion_con_pacto').hide();         
+            }
 
 
     function validarCheckComunidad() {
@@ -534,4 +621,32 @@
         validarCheckOtro();
 
     }
+
+    $("#cultivo_ilicito_sustitucion_con_pacto").change(
+        function() {
+            var si_no = $('#cultivo_ilicito_sustitucion_con_pacto').val();
+            if (si_no == 'SI') {
+                $('#div_fecha_con_pacto').show();
+                $('#div_descripcion_con_pacto').show();                
+            } else {
+                $('#div_fecha_con_pacto').hide();
+                $('#div_descripcion_con_pacto').hide();
+                $('#cultivo_ilicito_sustitucion_con_pacto_fecha').val('');
+                $('#cultivo_ilicito_sustitucion_con_pacto_descripcion').val('');            
+            }
+        });
+
+        $("#cultivo_ilicito_sustitucion_sin_pacto").change(
+        function() {
+            var si_no = $('#cultivo_ilicito_sustitucion_sin_pacto').val();
+            if (si_no == 'SI') {
+                $('#div_fecha_sin_pacto').show();
+                $('#div_descripcion_sin_pacto').show();
+            } else {
+                $('#div_fecha_sin_pacto').hide();
+                $('#div_descripcion_sin_pacto').hide();
+                $('#cultivo_ilicito_sustitucion_sin_pacto_fecha').val('');
+                $('#cultivo_ilicito_sustitucion_sin_pacto_descripcion').val('');            
+            }
+        });
 </script>

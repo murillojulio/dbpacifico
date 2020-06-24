@@ -281,4 +281,11 @@ class GenericosController extends BackendController {
         $tipo_dano_id = Input::post('tipo_dano_id');
         $this->tipo_dano_id = $tipo_dano_id;           
     } 
+
+    public function db_select_recarga_territorios(){
+        $afectacion_id = NULL;
+        $afectacion_id = Input::post('afectacion_id');
+        $this->afectacion_id = $afectacion_id;   
+        View::template(null);
+    }
 }

@@ -1,5 +1,4 @@
 <?php View::flash(); ?>
-<div id="div_modal_editar">
  <div class="modal fade" id="modal-editar-dano">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -15,7 +14,7 @@
                             <label for="editar_afectacion_dano_territorio_territorio_id">Territorio afectado<span class="req">*</span></label>
                             <?php 
                             $tipo_dano_id = $AfectacionDanoTerritorio->getDano()->getTipoDano()->id;
-                            echo DwForm::dbSelect('editar_afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', NULL), NULL, array('class' => '', 'onchange'=>'validarBotonEditarDano()'), $AfectacionDanoTerritorio->territorio_id, 'Territorio afectado'); ?>
+                            echo DwForm::dbSelect('editar_afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', $afectacion_id), NULL, array('class' => '', 'onchange'=>'validarBotonEditarDano()'), $AfectacionDanoTerritorio->territorio_id, 'Territorio afectado'); ?>
                             </div>
                             <div class="form-group">
                             <label for="editar_afectacion_dano_territorio_tipo_dano_id">Tipo de daño<span class="req">*</span></label>
@@ -41,4 +40,3 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div>

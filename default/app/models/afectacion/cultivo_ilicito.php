@@ -45,7 +45,10 @@ class CultivoIlicito extends ActiveRecord {
      */
     public static function setCultivoIlicito($method, $data, $optData=null) {        
         $obj = new CultivoIlicito($data); //Se carga los datos con los de las tablas  
-        $obj->fecha_erradicacion = date('Y-m-d', strtotime($obj->fecha_erradicacion));      
+        if($obj->fecha_erradicacion !== ''){$obj->fecha_erradicacion = date('Y-m-d', strtotime($obj->fecha_erradicacion)); }  
+        if($obj->sustitucion_con_pacto_fecha !== ''){$obj->sustitucion_con_pacto_fecha = date('Y-m-d', strtotime($obj->sustitucion_con_pacto_fecha)); } 
+        if($obj->sustitucion_sin_pacto_fecha !== ''){$obj->sustitucion_sin_pacto_fecha = date('Y-m-d', strtotime($obj->sustitucion_sin_pacto_fecha)); }
+           
         if($optData) { //Se carga información adicional al objeto
             $obj->dump_result_self($optData);
         }             

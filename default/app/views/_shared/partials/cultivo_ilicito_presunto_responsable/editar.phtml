@@ -27,7 +27,7 @@
         </tbody>
     </table>
 </div>
-<div id="div_modal_editar"></div>
+<div id="div_modal_editar_promotor"></div>
 <div class="modal fade" id="modal_eliminar_promotor">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -194,7 +194,7 @@ function deshabilitar_modal_dano() {
             .then(function(data) {
                 /*console.log('data = ', data);*/
                 jsSpinner('hide');
-                $("#div_modal_editar").html(data);
+                $("#div_modal_editar_promotor").html(data);
                 let modal = $("#modal-editar-promotor");
                 modal.modal('show');
             })

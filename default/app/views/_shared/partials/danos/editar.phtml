@@ -59,7 +59,9 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo DwForm::dbSelect('afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', NULL), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>'); ?>
+                        <div id="div_dbselect_recarga_territorios">
+                        <?php echo DwForm::dbSelect('afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', $afectacion_id), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>'); ?>
+                        </div>
                         <?php echo DwForm::dbSelect('afectacion_dano_territorio.tipo_dano_id', 'nombre', array('opcion/tipo_dano', 'getListadoTipoDanoDBS', NULL), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Tipo de daño<span class="req">*</span>'); ?>
                         <div id="div_select_dano">
                             <?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS', NULL), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Daño<span class="req">*</span>'); ?>
@@ -195,10 +197,12 @@ function deshabilitar_modal_dano() {
 
     function cargarModalEditarAfectacionDanoTerritorio(afectacion_dano_territorio_id) {
         jsSpinner('show');
+        let afectacion_id = $('#<?php echo $nombre_tabla; ?>_afectacion_id').val();
         let url = "<?php echo PUBLIC_PATH . 'dano/gestion_danos/cargar_editar_dano_afectacion/'; ?>";
 
         let datos = {
-            "afectacion_dano_territorio_id": afectacion_dano_territorio_id
+            "afectacion_dano_territorio_id": afectacion_dano_territorio_id,
+            "afectacion_id": afectacion_id
         };
 
         $.ajax(url, {

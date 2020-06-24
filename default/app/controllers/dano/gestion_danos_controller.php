@@ -90,6 +90,7 @@ class GestionDanosController extends BackendController {
         $afectacion_dano_territorio_id = Input::post('afectacion_dano_territorio_id');
         $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->find_first($afectacion_dano_territorio_id); 
         $this->afectacion_dano_territorio_id = $afectacion_dano_territorio_id;
+        $this->afectacion_id = Input::post('afectacion_id');
     }
     
     public function guardar_cambios_dano_afectacion()

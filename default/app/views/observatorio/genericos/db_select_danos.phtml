@@ -1,5 +1,5 @@
 <?php DwForm::open() ?>
-<?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS',  $tipo_dano_id), NULL, array('class'=>'', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Daño'); ?>
+<?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS',  $tipo_dano_id), NULL, array('class'=>'', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Daño<span class="req">*</span>'); ?>
 
 <script type='text/javascript'>
                
