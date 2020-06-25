@@ -58,8 +58,8 @@ class CultivoIlicitoController extends BackendController
         $this->cultivo_ilicitos = $cultivo_ilicito->getListadoCultivoIlicito('todos', $order, $page);
         $this->order = $order;
 
-        $this->page_module = 'Cultivo Ilícito';
-        $this->page_title = 'Listado de Cultivo Ilícito';
+        $this->page_module = 'Cultivos de Uso Ilícito';
+        $this->page_title = 'Listado de Cultivos de Uso Ilícito';
     }
 
     /**
