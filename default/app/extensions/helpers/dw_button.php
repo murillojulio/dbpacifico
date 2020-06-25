@@ -100,16 +100,36 @@ class DwButton {
             return DwHtml::button($redir, 'REGRESAR', $attrs, $icon);
         }
     }
+
+    /**
+     * Método para crear un botón para regresar a la página anterior
+     * @param type $redir Página a redirigir al presionar el botón
+     * @param type $title Título a mostrar
+     * @param type $icon Icono a mostrar
+     * @return type
+     */
+    public static function exit($redir=NULL, $title='', $icon='fa-backward') {
+        $attrs = array();
+        $attrs['class'] = 'btn-default';
+        $attrs['title'] = empty($title) ? 'Salir' : $title;
+        if(empty($redir)) {
+            $attrs['class'].= ' btn-back';
+            return self::showButton($icon, $attrs, 'regresar', 'button');
+        } else {
+            return DwHtml::button($redir, 'SALIR', $attrs, $icon);
+        }
+    }
     
     /**
      * Método para crear un botón para avanzar dentro de unos tabs
      * @return type
      */
-    public static function nextTab($title='', $icon='fa-forward') {
+    public static function nextTab($title='', $icon='fa-forward', $active='') {
         $attrs = array();
         $attrs['class'] = 'btn-info';
         $attrs['title'] = empty($title) ? 'Siguiente' : $title;        
         $attrs['class'].= ' js-next-tab';
+        empty($active) ?  : $attrs['disabled']=$active; 
         return self::showButton($icon, $attrs, 'siguiente', 'button', 'right');        
     }
     
@@ -117,11 +137,12 @@ class DwButton {
      * Método para crear un botón para avanzar dentro de unos tabs
      * @return type
      */
-    public static function prevTab($title='', $icon='fa-backward') {
+    public static function prevTab($title='', $icon='fa-backward', $active='') {
         $attrs = array();
         $attrs['class'] = 'btn-info';
         $attrs['title'] = empty($title) ? 'Anterior' : $title;        
         $attrs['class'].= ' js-prev-tab';
+        empty($active) ?  : $attrs['disabled']=$active;
         return self::showButton($icon, $attrs, 'anterior', 'button');        
     }
 
