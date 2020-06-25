@@ -1182,6 +1182,18 @@ class DwForm extends Form {
     }
 
     /**
+     * Método para mostrar el botón de salir
+     *
+     * @param string $redir
+     * @param string $title
+     * @param string $icon
+     * @return strig
+     */
+    public static function exit($redir=NULL, $title='', $icon='fa-reply') {
+        return DwButton::exit($redir, $title, $icon);
+    }
+
+    /**
      * Método para mostrar el botón de resetear el formulario
      *
      * @param string $icon
@@ -1194,15 +1206,15 @@ class DwForm extends Form {
     /**
      * Método para avanzar en un tab
      */
-    public static function nextTab() {
-        return DwButton::nextTab();
+    public static function nextTab($title=NULL, $active=NULL) {
+        return DwButton::nextTab($title, $icon = 'fa-forward', $active);
     }
 
     /**
      * Método para retroceder en un tab
      */
-    public static function prevTab() {
-        return DwButton::prevTab();
+    public static function prevTab($title=NULL, $active=NULL) {
+        return DwButton::prevTab($title, $icon = 'fa-backward', $active);
     }
 
     /**
