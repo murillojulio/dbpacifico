@@ -23,7 +23,8 @@ Load::models(
     'afectacion/afectacion_dano_territorio',
     'opcion/dano',
     'opcion/tipo_dano',
-    'afectacion/cultivo_ilicito_presunto_responsable'
+    'afectacion/cultivo_ilicito_presunto_responsable',
+    'opcion/presunto_responsable'
 );
 
 class CultivoIlicitoController extends BackendController
@@ -119,6 +120,36 @@ class CultivoIlicitoController extends BackendController
                 }
             }
         }
+    }
+
+
+
+    /**
+     * Método para agregar
+     */
+    public function agregar_desde_modal()
+    {
+        $afectacion_obj = Afectacion::setAfectacion('create', array('tipo_afectacion_id' => '4'));
+        if ($afectacion_obj) {
+            $CultivoIlicito = new CultivoIlicito();
+            $CultivoIlicito->afectacion_id = $afectacion_obj->id;
+            $CultivoIlicito->tipo_cultivo_id = Input::post('tipo_cultivo_id');
+            $CultivoIlicito->area = '0';
+            $CultivoIlicito->area_erradicacion = '0';
+            if($CultivoIlicito->create()){
+                $Fuente = new Fuente();
+                $Fuente->fecha = date('Y-m-d', strtotime(Input::post('fuente_fecha')));
+                $Fuente->nombre = Input::post('fuente_descripcion');
+                $Fuente->tabla ='cultivo_ilicito';
+                $Fuente->tabla_identi = $CultivoIlicito->id;    
+                $Fuente->create();
+
+                $key_upd = Security::setKey($CultivoIlicito->id, 'upd_cultivo_ilicito');
+                $array = array('key_upd'=>$key_upd);
+                $this->data = $array;
+                View::template(null);
+            }
+        }       
     }
 
 
@@ -271,7 +302,7 @@ class CultivoIlicitoController extends BackendController
                 /*Ubicacion::setUbicacion('update', Input::post('caso'), array('id' => $ubicacion->id, 'afectacion_id' => $cultivo_ilicito->afectacion_id));*/
                 Fuente::setFuente('update', Input::post('fuente'), 'cultivo_ilicito', $id);
                 Flash::valid('El Cultivo de Uso Ilícito se ha actualizado correctamente!');
-                return Redirect::toAction('listar/');
+                return Redirect::toAction("editar/$key");
             }
         }
     }
