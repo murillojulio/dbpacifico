@@ -2,7 +2,7 @@
 
 <div class="container shell-view">
 
-    <?php View::process_estado_nivel('cultivo_ilicito', $cultivo_ilicito, $page_module, $page_title, $set_title); ?>
+    <?php $cultivo_ilicito->nombre ='Cultivo'; View::process_estado_nivel('cultivo_ilicito', $cultivo_ilicito, $page_module, $page_title, $set_title); ?>
 
 
     <?php echo DwForm::open(); ?>
@@ -226,7 +226,7 @@
                                     <div class="form-group">
                                         <label for="cultivo_ilicito_fecha_erradicacion">Fecha de erradicación | DD-MM-AAAA</label>
                                         <div class="input-group date datepicker" id="dp_cultivo_ilicito_fecha_erradicacion">
-                                            <input id="cultivo_ilicito_fecha_erradicacion" name="cultivo_ilicito[fecha_erradicacion]" type="text" value="<?php echo date('d-m-Y', strtotime($cultivo_ilicito->fecha_erradicacion)); ?>" class="js-datepicker input-date form-control">
+                                            <input id="cultivo_ilicito_fecha_erradicacion" name="cultivo_ilicito[fecha_erradicacion]" type="text" value="<?php if($cultivo_ilicito->fecha_erradicacion != ''){echo date('d-m-Y', strtotime($cultivo_ilicito->fecha_erradicacion));} ?>" class="js-datepicker input-date form-control">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         </div>
                                         <p class="help-block">
@@ -352,10 +352,20 @@
             </div>
             <div class="row">
                 <div class="form-actions">
-                    <?php echo DwForm::send('Actualizar Cultivo Ilícito'); ?>
-                    <?php echo DwForm::cancel('afectacion/cultivo_ilicito/listar/'); ?>
-                    <?php //echo DwForm::focus('caso.titulo'); 
-                    ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-left">
+                                <?php echo DwForm::prevTab('Anterior pestaña', 'disabled'); ?>
+                                <?php echo DwForm::nextTab('Siguiente pestaña'); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <?php echo DwForm::send('Guardar Cambios'); ?>
+                        <?php echo DwForm::exit('afectacion/cultivo_ilicito/listar/', 'Regresar a la lista de cultivos'); ?>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -383,6 +393,23 @@
 
                 </div>
             </div>
+            <div class="row">
+                <div class="form-actions">                    
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-left">
+                                <?php echo DwForm::prevTab('Anterior pestaña' ); ?>
+                                <?php echo DwForm::nextTab('Siguiente pestaña' ); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <?php echo DwForm::send('Guardar Cambios'); ?>
+                        <?php echo DwForm::exit('afectacion/cultivo_ilicito/listar/', 'Regresar a la lista de cultivos'); ?>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -397,8 +424,19 @@
             </div>
             <div class="row">
                 <div class="form-actions">
-                    <?php echo DwForm::send('Actualizar Cultivo Ilícito'); ?>
-                    <?php echo DwForm::cancel(); ?>
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-left">
+                                <?php echo DwForm::prevTab('Anterior pestaña'); ?>
+                                <?php echo DwForm::nextTab('Siguiente pestaña', 'disabled'); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <?php echo DwForm::send('Guardar Cambios'); ?>
+                        <?php echo DwForm::exit('afectacion/cultivo_ilicito/listar/', 'Regresar a la lista de cultivos'); ?>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
