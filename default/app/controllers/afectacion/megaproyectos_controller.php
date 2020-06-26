@@ -5,12 +5,31 @@
  * @category    
  * @package     Controllers  
  */
-Load::models('afectacion/megaproyecto', 'global/fuente', 'afectacion/empleo', 'afectacion/accion_seguimiento_control',
-        'opcion/mads_car', 'afectacion/ubicacion', 'afectacion/afectacion', 'afectacion/programa_social', 'afectacion/programa_social_sector_programa_social',
-        'afectacion/subsidio', 'afectacion/afectacion_territorio','opcion/tipo_subsidio',
-        'observatorio/departamento', 'observatorio/territorio', 'observatorio/municipio', 
-        'opcion/impacto', 'opcion/forma_pago', 'afectacion/afectacion_territorio_impacto',
-        'observatorio/subregion', 'util/currency', 'afectacion/afectacion_dano_territorio');
+Load::models('afectacion/megaproyecto', 
+'global/fuente', 
+'afectacion/empleo', 
+'afectacion/accion_seguimiento_control',
+        'opcion/mads_car', 
+        'afectacion/ubicacion', 
+        'afectacion/afectacion', 
+        'afectacion/programa_social', 
+        'afectacion/programa_social_sector_programa_social',
+        'afectacion/subsidio', 
+        'afectacion/afectacion_territorio',
+        'opcion/tipo_subsidio',
+        'observatorio/departamento', 
+        'observatorio/territorio', 
+        'observatorio/municipio', 
+        'opcion/impacto', 
+        'opcion/forma_pago', 
+        'afectacion/afectacion_territorio_impacto',
+        'observatorio/subregion', 
+        'util/currency', 
+        'afectacion/afectacion_dano_territorio',
+        'opcion/dano',
+        'opcion/tipo_dano',
+        'afectacion/desarrollo_normativo'
+    );
 
 class MegaproyectosController extends BackendController {
             
@@ -232,12 +251,16 @@ class MegaproyectosController extends BackendController {
         $this->tab_3_active = '';
         $this->tab_4_active = '';
         $this->tab_5_active = '';
+        $this->tab_6_active = '';
+        $this->tab_7_active = '';
         
-        if($tab == 1 || $tab == ''){ $this->tab_1_active = 'active'; }
-        if($tab == 2){ $this->tab_2_active = 'active'; }
-        if($tab == 3){ $this->tab_3_active = 'active'; }
-        if($tab == 4){ $this->tab_4_active = 'active'; }
-        if($tab == 5){ $this->tab_5_active = 'active'; }
+        if($tab == 1 || $tab == ''){ $this->tab_1_active = 'in active'; }
+        if($tab == 2){ $this->tab_2_active = 'in active'; }
+        if($tab == 3){ $this->tab_3_active = 'in active'; }
+        if($tab == 4){ $this->tab_4_active = 'in active'; }
+        if($tab == 5){ $this->tab_5_active = 'in active'; }
+        if($tab == 6){ $this->tab_6_active = 'in active'; }
+        if($tab == 7){ $this->tab_7_active = 'in active'; }
         
          //Para saber que subpestaña estara activa cuando visualice un vinculacion de poblacion
          $this->sub_tab = $sub_tab;
@@ -262,8 +285,9 @@ class MegaproyectosController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        $ubicaciones = $megaproyecto->getAfectacion()->getUbicaciones($megaproyecto->afectacion_id);
-        $this->ubicaciones = $ubicaciones;
+        $DesarrolloNormativo = new DesarrolloNormativo();
+        $desarrollo_normativos = $DesarrolloNormativo->getDesarrolloNormativoByMegaproyectoId($megaproyecto->id);
+        $this->desarrollo_normativos = $desarrollo_normativos;
         
         $obj_empleos = new Empleo();
         $this->empleos = $obj_empleos->getEmpleosByMegaproyectoId($id);
@@ -1115,6 +1139,86 @@ class MegaproyectosController extends BackendController {
         $obj_afectacion_territorio = new AfectacionTerritorio();        
         
     }     
+
+     /**
+     * Método para agregar
+     */
+    public function agregar_desarrollo_normativo($megaproyecto_id, $megaproyecto_nombre, $tipo_megaproyecto, $key_back) {
+         
+        $this->megaproyecto_id = $megaproyecto_id;                    
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
+        $this->page_title = 'Agregar Desarrollo Normativo al Megaproyecto: '.$megaproyecto_nombre;
+               
+        if(Input::hasPost('desarrollo_normativo')) {            
+                       
+            $desarrollo_normativo_obj = new DesarrolloNormativo();
+            $desarrollo_normativo_obj = DesarrolloNormativo::setDesarrolloNormativo('create', Input::post('desarrollo_normativo'), array('megaproyecto_id'=>$megaproyecto_id, 'estado'=>DesarrolloNormativo::ACTIVO));
+            if($desarrollo_normativo_obj)
+            {                       
+              $desarrollo_normativo_id = $desarrollo_normativo_obj->id;              
+              Fuente::setFuente('create', Input::post('fuente'), 'desarrollo_normativo', $desarrollo_normativo_id);
+                
+              Flash::valid('¡El desarrollo normativo se ha registrado correctamente!');
+              return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/');
+                
+            }  
+           }            
+    }
+
+    public function editar_desarrollo_normativo($key, $tipo_megaproyecto, $key_back) { 
+             
+        if(!$id = Security::getKey($key, 'upd_desarrollo_normativo', 'int')) {
+            return Redirect::toAction('listar/');
+        }   
+        
+        $desarrollo_normativo = new DesarrolloNormativo();
+        if(!$desarrollo_normativo->find_first($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del desarrollo_normativo');
+            return Redirect::toAction('listar');
+        }   
+               
+        $fuente = new Fuente();
+        $this->fuentes = $fuente->getListadoFuente('desarrollo_normativo', $desarrollo_normativo->id);
+            
+        $this->desarrollo_normativo = $desarrollo_normativo;
+        
+        $this->page_title = 'Actualizar Desarrollo Normativo del Megaproyecto: '.$desarrollo_normativo->getMegaproyecto()->nombre;        
+        $this->key_back = $key_back;    
+        $this->key = $key;      
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
+        
+        if(Input::hasPost('desarrollo_normativo')) 
+        {            
+            if(DesarrolloNormativo::setDesarrolloNormativo('update', Input::post('desarrollo_normativo'), array('id'=>$id)))
+            {                
+                Fuente::setFuente('update', Input::post('fuente'), 'desarrollo_normativo', $id);          
+                Flash::valid('El desarrollo normativo se ha actualizado correctamente!');
+                return Redirect::to($this->url_redir_back);
+            }            
+        }    
+    }
+
+    public function ver_desarrollo_normativo($key, $tipo_megaproyecto, $key_back) { 
+       
+        if(!$id = Security::getKey($key, 'show_desarrollo_normativo', 'int')) {
+            return Redirect::toAction('listar');
+        }   
+        
+        $DesarrolloNormativo = new DesarrolloNormativo();        
+        if(!$DesarrolloNormativo->find_first($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del Desarrollo Normativo');
+            return Redirect::toAction("ver/$key_back/4/");
+        }   
+        
+        $this->desarrollo_normativo = $DesarrolloNormativo; 
+        $this->page_title = 'Información Desarrollo Normativo del Megaproyecto: '.$DesarrolloNormativo->getMegaproyecto()->nombre;
+        
+                 
+        $this->key_back = $key_back;    
+        $this->key = $key;   
+        $this->url_redir_back = 'afectacion/megaproyectos/ver/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
+        
+    }
     
     public function agregar_accion_seguimiento_control($megaproyecto_id, $megaproyecto_nombre, $tipo_megaproyecto, $key_back)
     { 
@@ -1128,13 +1232,13 @@ class MegaproyectosController extends BackendController {
                 Flash::valid('La Acción seguimiento control se ha registrado correctamente!');                
             }            
             
-            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/');
+            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/6/1/');
         }
         
         $this->megaproyecto_id = $megaproyecto_id;
         $this->page_title = 'Agregar Acción seguimiento control al Megaproyecto: '.$megaproyecto_nombre;
                     
-        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/6/1/';
     }
     
     public function editar_accion_seguimiento_control($key, $tipo_megaproyecto, $key_back) { 
@@ -1160,13 +1264,13 @@ class MegaproyectosController extends BackendController {
             {
                 Flash::valid('La accion seguimiento control se ha actualizado correctamente!');
             }
-            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/');
+            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/6/1/');
            
         }
             
         $this->key_back = $key_back;    
         $this->key = $key;      
-        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/6/1/';
     }
     
      public function ver_accion_seguimiento_control($key, $tipo_megaproyecto, $key_back) { 
@@ -1254,7 +1358,7 @@ class MegaproyectosController extends BackendController {
         $empleo = new Empleo();
                     
         try {
-            if($empleo->delete(id)) {
+            if($empleo->delete($id)) {
                 Flash::valid("El empleo $nombre_empleo se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO el empleo $nombre_empleo, pertenecia al megaproyecto $nombre_megaproyecto.");
             } else {
@@ -1265,6 +1369,32 @@ class MegaproyectosController extends BackendController {
         }
         
         return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/2/1/');
+    }
+
+
+     /**
+     * Método para eliminar
+     */
+    public function eliminar_desarrollo_normativo($key, $tipo_megaproyecto, $key_back, $nombre_empleo, $nombre_megaproyecto) {      
+        
+        if(!$id = Security::getKey($key, 'del_desarrollo_normativo', 'int')) {
+            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/');
+        }        
+        
+        $DesarrolloNormativo = new DesarrolloNormativo();
+                    
+        try {
+            if($DesarrolloNormativo->delete($id)) {
+                Flash::valid("El Desarrollo Normativo $nombre_empleo se ha eliminado correctamente");
+                DwAudit::warning("Se ha ELIMINADO el Desarrollo Normativo $nombre_empleo, pertenecia al megaproyecto $nombre_megaproyecto.");
+            } else {
+                Flash::warning('Lo sentimos, pero este Desarrollo Normativo no se puede eliminar.');
+            }
+        } catch(KumbiaException $e) {
+            Flash::error('Este Desarrollo Normativo no se puede eliminar porque se encuentra relacionado con otro registro.');
+        }
+        
+        return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/');
     }
     
      /**
@@ -1279,7 +1409,7 @@ class MegaproyectosController extends BackendController {
         $subsidio = new Subsidio();
                     
         try {
-            if($subsidio->delete(id)) {
+            if($subsidio->delete($id)) {
                 Flash::valid("El subsidio $nombre_subsidio se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO el subsidio $nombre_subsidio, pertenecia al megaproyecto $nombre_megaproyecto.");
             } else {
@@ -1304,7 +1434,7 @@ class MegaproyectosController extends BackendController {
         $programa_social = new ProgramaSocial();
                     
         try {
-            if($programa_social->delete(id)) {
+            if($programa_social->delete($id)) {
                 Flash::valid("El programa social $nombre_programa_social se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO el programa social $nombre_programa_social, pertenecia al megaproyecto $nombre_megaproyecto.");
             } else {
@@ -1317,5 +1447,3 @@ class MegaproyectosController extends BackendController {
         return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/2/2/');
     }
 }
-
-?>

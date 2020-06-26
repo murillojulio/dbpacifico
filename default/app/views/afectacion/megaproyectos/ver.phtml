@@ -6,23 +6,27 @@
 
     <?php echo DwForm::open(); ?>
     
-    <ul class="nav nav-tabs nav-justified hidden-xs">
+    <ul class="nav nav-tabs hidden-xs">
         <li class="<?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Vinculación de la población</a></li>       
-        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Afectaciones</a></li> 
-        <li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Acciones de seguimiento y control</a></li> 
-        <li class="<?php echo $tab_5_active; ?>"><a href="#tab5" data-toggle="tab">Fuente(s) de la información</a></li> 
+        <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Vinculación de la población</a></li>
+        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Daños</a></li>
+        <li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Desarrollo Normativo</a></li>
+        <li class="<?php echo $tab_5_active; ?>"><a href="#tab5" data-toggle="tab">Política Pública</a></li>
+        <li class="<?php echo $tab_6_active; ?>"><a href="#tab6" data-toggle="tab">Acciones de seguimiento y control</a></li>
+        <li class="<?php echo $tab_7_active; ?>"><a href="#tab7" data-toggle="tab">Fuente(s)</a></li>
     </ul>
-    <ul class="nav nav-tabs nav-justified visible-xs">    
+    <ul class="nav nav-tabs visible-xs">
         <li class="tab-pane <?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Información general</a></li>
-        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Vinculación de la población</a></li>        
-        <li class="tab-pane <?php echo $tab_3_active; ?>" ><a href="#tab3" data-toggle="tab">Afectaciones</a></li>
-        <li class="tab-pane <?php echo $tab_4_active; ?>" ><a href="#tab4" data-toggle="tab">Acciones de seguimiento y control</a></li>
-        <li class="tab-pane <?php echo $tab_5_active; ?>" ><a href="#tab5" data-toggle="tab">Fuente(s) de la información</a></li>
+        <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Vinculación de la población</a></li>
+        <li class="tab-pane <?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Daños</a></li>
+        <li class="tab-pane <?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Desarrollo Normativo</a></li>
+        <li class="tab-pane <?php echo $tab_5_active; ?>"><a href="#tab5" data-toggle="tab">Política Pública</a></li>
+        <li class="tab-pane <?php echo $tab_6_active; ?>"><a href="#tab6" data-toggle="tab">Acciones de seguimiento y control</a></li>
+        <li class="tab-pane <?php echo $tab_7_active; ?>"><a href="#tab7" data-toggle="tab">Fuente(s)</a></li>
     </ul>
     
     <div class="tab-content"> 
-        <div class="tab-pane <?php echo $tab_1_active; ?>" id="tab1">
+        <div class="tab-pane fade <?php echo $tab_1_active; ?>" id="tab1">
         <div class="row">
             <div class="col-md-12">
                 <label for="panel_info_basica"><h3 class="panel-title">Información básica</h3></label>                
@@ -263,7 +267,7 @@
     </div>
         
 <!--      //////////////////////////////////  SEGUNDA PESTAÑA-->
- <div class="tab-pane <?php echo $tab_2_active; ?>" id="tab2">
+ <div class="tab-pane fade <?php echo $tab_2_active; ?>" id="tab2">
             
                  <!-- TABULACION INTERNA  -->
     <?php View::partial('vinculacion_poblacion/ver', false, 
@@ -281,7 +285,7 @@
 
 <!--      //////////////////////////////////  TERCERA PESTAÑA-->
 
- <div class="tab-pane <?php echo $tab_3_active; ?>" id="tab3">
+ <div class="tab-pane fade <?php echo $tab_3_active; ?>" id="tab3">
             <!-- TABULACION INTERNA  -->
     <?php View::partial('afectacion/ver', false, 
             array('territorios_afectados'=>$territorios_afectados, 'megaproyecto'=>$megaproyecto, 'key'=>$key, 'sub_tab'=>$sub_tab)); ?>  
@@ -296,7 +300,7 @@
 
 <!--      //////////////////////////////////  CUARTA PESTAÑA-->
 
- <div class="tab-pane <?php echo $tab_4_active; ?>" id="tab4">
+ <div class="tab-pane fade <?php echo $tab_4_active; ?>" id="tab4">
              <div class="row">
                  <div class="col-md-12">
                      <?php View::partial('accion_seguimiento_control/ver', false, 
@@ -314,7 +318,7 @@
 
 
 <!--      //////////////////////////////////  QUINTA PESTAÑA-->
-        <div class="tab-pane <?php echo $tab_5_active; ?>" id="tab5">
+        <div class="tab-pane fade <?php echo $tab_5_active; ?>" id="tab5">
              <div class="row">
                  <div class="col-md-12">
                      <?php View::partial('fuentes/ver', false, array('fuentes'=>$fuentes)); ?>  

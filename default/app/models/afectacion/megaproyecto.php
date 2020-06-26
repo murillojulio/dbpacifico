@@ -35,9 +35,9 @@ class Megaproyecto extends ActiveRecord {
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {
-
         $this->belongs_to('afectacion');
-        //$this->has_many('recurso_perfil');
+        $this->has_many('desarrollo_normativo');
+        $this->belongs_to('subtipo_megaproyecto');
     }
     
      public static function getMegaproyectoPorNombre($nombre)

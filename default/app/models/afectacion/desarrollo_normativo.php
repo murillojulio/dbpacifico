@@ -28,7 +28,7 @@ class DesarrolloNormativo extends ActiveRecord {
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {
-        $this->belongs_to('afectacion');
+        $this->belongs_to('megaproyecto');
         $this->belongs_to('subtipo_megaproyecto');
     }
     
@@ -111,6 +111,12 @@ WHERE desarrollo_normativo.id IS NOT NULL AND desarrollo_normativo.clase_desarro
         
         return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order");
         
+    }
+
+    public function getDesarrolloNormativoByMegaproyectoId($megaproyecto_id='') {               
+        return $this->find_all_by_sql("SELECT desarrollo_normativo.*, tipo_megaproyecto.nombre AS sector FROM desarrollo_normativo 
+        INNER JOIN tipo_megaproyecto ON tipo_megaproyecto.id = desarrollo_normativo.tipo_megaproyecto_id WHERE desarrollo_normativo.id IS NOT NULL AND desarrollo_normativo.megaproyecto_id = $megaproyecto_id ORDER BY desarrollo_normativo.nombre ASC");
+           
     }
     
      public function getAjaxDesarrolloNormativo($field, $value, $order='', $page=0) {
