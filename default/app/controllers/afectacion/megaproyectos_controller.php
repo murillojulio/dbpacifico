@@ -305,7 +305,9 @@ class MegaproyectosController extends BackendController {
         
         $obj_accion_seguimiento_controls = new AccionSeguimientoControl();
         $this->accion_seguimiento_controls = $obj_accion_seguimiento_controls->getAccionSeguimientoControlsByMegaproyectoId($id);
-                                
+        
+        $ubicaciones = $megaproyecto->getAfectacion()->getUbicaciones($megaproyecto->afectacion_id);
+        $this->ubicaciones = $ubicaciones;
                
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('megaproyecto', $megaproyecto->id);
