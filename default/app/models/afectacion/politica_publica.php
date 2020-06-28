@@ -28,7 +28,7 @@ class PoliticaPublica extends ActiveRecord {
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {
-        $this->belongs_to('afectacion');
+        $this->belongs_to('megaproyecto');
         $this->belongs_to('subtipo_megaproyecto');
     }
     
@@ -149,6 +149,12 @@ WHERE politica_publica.id IS NOT NULL AND politica_publica.clase_politica_public
         } else {
             return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
         }  
+    }
+
+    public function getPoliticaPublicaByMegaproyectoId($megaproyecto_id='') {               
+        return $this->find_all_by_sql("SELECT politica_publica.*, tipo_megaproyecto.nombre AS sector FROM politica_publica 
+        INNER JOIN tipo_megaproyecto ON tipo_megaproyecto.id = politica_publica.tipo_megaproyecto_id WHERE politica_publica.id IS NOT NULL AND politica_publica.megaproyecto_id = $megaproyecto_id ORDER BY politica_publica.nombre ASC");
+           
     }
 
 

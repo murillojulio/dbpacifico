@@ -28,7 +28,8 @@ Load::models('afectacion/megaproyecto',
         'afectacion/afectacion_dano_territorio',
         'opcion/dano',
         'opcion/tipo_dano',
-        'afectacion/desarrollo_normativo'
+        'afectacion/desarrollo_normativo',
+        'afectacion/politica_publica'
     );
 
 class MegaproyectosController extends BackendController {
@@ -288,6 +289,10 @@ class MegaproyectosController extends BackendController {
         $DesarrolloNormativo = new DesarrolloNormativo();
         $desarrollo_normativos = $DesarrolloNormativo->getDesarrolloNormativoByMegaproyectoId($megaproyecto->id);
         $this->desarrollo_normativos = $desarrollo_normativos;
+
+        $PoliticaPublica = new PoliticaPublica();
+        $politicas_publicas = $PoliticaPublica->getPoliticaPublicaByMegaproyectoId($megaproyecto->id);
+        $this->politicas_publicas = $politicas_publicas;
         
         $obj_empleos = new Empleo();
         $this->empleos = $obj_empleos->getEmpleosByMegaproyectoId($id);
@@ -1220,6 +1225,88 @@ class MegaproyectosController extends BackendController {
         $this->key = $key;   
         $this->url_redir_back = 'afectacion/megaproyectos/ver/'.$key_back.'/'.$tipo_megaproyecto.'/4/1/';
         
+    }
+
+    /**
+     * Método para agregar
+     */
+    public function agregar_politica_publica($megaproyecto_id, $megaproyecto_nombre, $tipo_megaproyecto, $key_back) {
+         
+        $this->megaproyecto_id = $megaproyecto_id;                    
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/5/1/';
+        $this->page_title = 'Agregar Política Pública al Megaproyecto: '.$megaproyecto_nombre;
+               
+        if(Input::hasPost('politica_publica')) {            
+                       
+            $politica_publica_obj = new PoliticaPublica();
+            $politica_publica_obj = PoliticaPublica::setPoliticaPublica('create', Input::post('politica_publica'), array('megaproyecto_id'=>$megaproyecto_id, 'estado'=>PoliticaPublica::ACTIVO));
+            if($politica_publica_obj)
+            {                       
+              $politica_publica_id = $politica_publica_obj->id;              
+              Fuente::setFuente('create', Input::post('fuente'), 'politica_publica', $politica_publica_id);
+                
+              Flash::valid('¡La Política Pública se ha registrado correctamente!');
+              return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/5/1/');                
+            }  
+           }            
+    }
+
+    public function editar_politica_publica($key, $tipo_megaproyecto, $key_back) { 
+             
+        if(!$id = Security::getKey($key, 'upd_politica_publica', 'int')) {
+            return Redirect::toAction('listar/');
+        }   
+        
+        $politica_publica = new PoliticaPublica();
+        if(!$politica_publica->find_first($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información de la Política Pública');
+            return Redirect::toAction('listar');
+        }   
+               
+        $fuente = new Fuente();
+        $this->fuentes = $fuente->getListadoFuente('politica_publica', $politica_publica->id);
+            
+        $this->politica_publica = $politica_publica;
+        
+        $this->page_title = 'Actualizar Política Pública del Megaproyecto: '.$politica_publica->getMegaproyecto()->nombre;        
+        $this->key_back = $key_back;    
+        $this->key = $key;      
+        $this->url_redir_back = 'afectacion/megaproyectos/editar/'.$key_back.'/'.$tipo_megaproyecto.'/5/1/';
+        
+        if(Input::hasPost('politica_publica')) 
+        {            
+            if(PoliticaPublica::setPoliticaPublica('update', Input::post('politica_publica'), array('id'=>$id)))
+            {                
+                Fuente::setFuente('update', Input::post('fuente'), 'politica_publica', $id);          
+                Flash::valid('La Política Pública se ha actualizado correctamente!');
+                return Redirect::to($this->url_redir_back);
+            }            
+        }    
+    }
+
+     /**
+     * Método para eliminar
+     */
+    public function eliminar_politica_publica($key, $tipo_megaproyecto, $key_back, $nombre_empleo, $nombre_megaproyecto) {      
+        
+        if(!$id = Security::getKey($key, 'del_politica_publica', 'int')) {
+            return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/5/1/');
+        }        
+        
+        $PoliticaPublica = new PoliticaPublica();
+                    
+        try {
+            if($PoliticaPublica->delete($id)) {
+                Flash::valid("La Política Pública $nombre_empleo se ha eliminado correctamente");
+                DwAudit::warning("Se ha ELIMINADO la Política Pública $nombre_empleo, pertenecia al megaproyecto $nombre_megaproyecto.");
+            } else {
+                Flash::warning('Lo sentimos, pero esta Política Pública no se puede eliminar.');
+            }
+        } catch(KumbiaException $e) {
+            Flash::error('Esta Política Pública no se puede eliminar porque se encuentra relacionado con otro registro.');
+        }
+        
+        return Redirect::toAction('editar/'.$key_back.'/'.$tipo_megaproyecto.'/5/1/');
     }
     
     public function agregar_accion_seguimiento_control($megaproyecto_id, $megaproyecto_nombre, $tipo_megaproyecto, $key_back)
