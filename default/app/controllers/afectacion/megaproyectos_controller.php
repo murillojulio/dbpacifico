@@ -142,6 +142,36 @@ class MegaproyectosController extends BackendController {
         }
         
     }
+
+     /**
+     * Método para agregar
+     */
+    public function agregar_desde_modal()
+    {
+        $afectacion_obj = Afectacion::setAfectacion('create', array('tipo_afectacion_id' => '3'));
+        if ($afectacion_obj) {
+            $Megaproyecto = new Megaproyecto();
+            $Megaproyecto->afectacion_id = $afectacion_obj->id;
+            $Megaproyecto->nombre = Input::post('megaproyecto_nombre');
+            $Megaproyecto->tipo_megaproyecto_id = Input::post('megaproyecto_tipo_megaproyecto_id');
+            $Megaproyecto->subtipo_megaproyecto_id = Input::post('megaproyecto_subtipo_megaproyecto_id');     
+            $Megaproyecto->clase_megaproyecto = Input::post('megaproyecto_clase_megaproyecto');  
+            if($Megaproyecto->create()){
+                $Fuente = new Fuente();
+                $Fuente->fecha = date('Y-m-d', strtotime(Input::post('fuente_fecha')));
+                $Fuente->nombre = Input::post('fuente_descripcion');
+                $Fuente->tabla ='megaproyecto';
+                $Fuente->tabla_identi = $Megaproyecto->id;    
+                $Fuente->create();
+
+                $key_upd = Security::setKey($Megaproyecto->id, 'upd_megaproyecto');
+                $array = array('key_upd'=>$key_upd);
+                $this->data = $array;
+                $this->clase_megaproyecto = $Megaproyecto->clase_megaproyecto;
+                View::template(null);
+            }
+        }       
+    }
     
         /**
      * Método para ver
