@@ -5,10 +5,20 @@
  * @category    
  * @package     Controllers  
  */
-Load::models('afectacion/cooperacion', 'global/fuente', 'afectacion/ubicacion', 
-        'afectacion/afectacion', 'observatorio/departamento', 'observatorio/municipio',
-        'observatorio/territorio', 'afectacion/cooperacion_municipio',
-        'afectacion/cooperacion_operador_cooperacion', 'afectacion/cooperacion_tipo_proyecto_cooperacion');
+Load::models('afectacion/cooperacion',
+'global/fuente', 
+'afectacion/ubicacion', 
+        'afectacion/afectacion', 
+        'observatorio/departamento', 
+        'observatorio/municipio',
+        'observatorio/territorio', 
+        'observatorio/subregion',
+        'afectacion/cooperacion_municipio',
+        'afectacion/cooperacion_operador_cooperacion', 
+        'afectacion/cooperacion_tipo_proyecto_cooperacion',
+        'afectacion/afectacion_dano_territorio',
+        'opcion/dano',
+        'opcion/tipo_dano');
 
 class CooperacionController extends BackendController {
     
@@ -108,6 +118,33 @@ class CooperacionController extends BackendController {
         }        
     }
     
+     /**
+     * Método para agregar
+     */
+    public function agregar_desde_modal()
+    {
+        $afectacion_obj = Afectacion::setAfectacion('create', array('tipo_afectacion_id' => '5'));
+        if ($afectacion_obj) {
+            $Cooperacion = new Cooperacion();
+            $Cooperacion->afectacion_id = $afectacion_obj->id;
+            $Cooperacion->nombre_clase_cooperacion = Input::post('nombre_clase_cooperacion');
+            $Cooperacion->clase_cooperacion_id = Input::post('clase_cooperacion_id');
+            $Cooperacion->tipo_cooperacion_id = Input::post('tipo_cooperacion_id');     
+            if($Cooperacion->create()){
+                $Fuente = new Fuente();
+                $Fuente->fecha = date('Y-m-d', strtotime(Input::post('fuente_fecha')));
+                $Fuente->nombre = Input::post('fuente_descripcion');
+                $Fuente->tabla ='cooperacion';
+                $Fuente->tabla_identi = $Cooperacion->id;    
+                $Fuente->create();
+
+                $key_upd = Security::setKey($Cooperacion->id, 'upd_cooperacion');
+                $array = array('key_upd'=>$key_upd);
+                $this->data = $array;
+                View::template(null);
+            }
+        }       
+    }
     
     
         /**
@@ -175,15 +212,20 @@ class CooperacionController extends BackendController {
             return Redirect::toAction('listar');
         }   
         
-        //$ubicaciones = $cooperacion->getAfectacion()->getUbicacion();
-        //$this->ubicaciones = $ubicaciones;
+        $ubicaciones = $cooperacion->getAfectacion()->getUbicaciones($cooperacion->afectacion_id);
+        $this->ubicaciones = $ubicaciones;
+
+        $AfectacionDanoTerritorio = new AfectacionDanoTerritorio();
+        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($cooperacion->afectacion_id);
+
                        
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('cooperacion', $cooperacion->id);
         //var_dump($this->fuentes);        die();  
         
-        
+        $cooperacion->nombre = $cooperacion->nombre_clase_cooperacion;
         $this->cooperacion = $cooperacion;
+
         
         $tipo_proyecto = $cooperacion->getCooperacionTipoProyectoCooperacion();               
         foreach ($tipo_proyecto as $value)
@@ -196,16 +238,9 @@ class CooperacionController extends BackendController {
         {            
              $this->array_operador[] = $value->operador_cooperacion_id;             
         } 
-        
-        $municipios = $cooperacion->getCooperacionMunicipio();               
-        foreach ($municipios as $value)
-        {            
-             $this->array_municipio[] = $value->municipio_id;             
-        } 
-        
-        
+             
         $this->page_module = 'Cooperación';
-        $this->page_title = 'Actualizar cooperación: ';
+        $this->page_title = 'Actualizar cooperación: '.$cooperacion->nombre_clase_cooperacion;
         $this->key = $key;
         $this->url_redir_back = 'afectacion/cooperacion/listar/';
         
@@ -216,9 +251,7 @@ class CooperacionController extends BackendController {
             if(Cooperacion::setCooperacion('update', $post_cooperacion, array('id'=>$id)))
             {         
               $cooperacion_id = $post_cooperacion['id'];    
-              $cooperacion_municipio = new CooperacionMunicipio();
-              $cooperacion_municipio->guardar(Input::post('municipio'), $cooperacion_id);
-              
+                    
               $cooperacion_operador_cooperacion = new CooperacionOperadorCooperacion();
               $cooperacion_operador_cooperacion->guardar(Input::post('operador'), $cooperacion_id);
               

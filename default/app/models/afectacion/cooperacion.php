@@ -100,11 +100,10 @@ class Cooperacion extends ActiveRecord {
         
         if($page) { 
             
-            return $this->paginated_by_sql("SELECT cooperacion.*, departamento.nombre AS nombre_departamento,
+            return $this->paginated_by_sql("SELECT cooperacion.*, 
                 tipo_cooperacion.nombre AS tipo_cooperacion_nombre FROM cooperacion
-                INNER JOIN departamento ON departamento.id = cooperacion.departamento_id
                 INNER JOIN tipo_cooperacion ON tipo_cooperacion.id = cooperacion.tipo_cooperacion_id 
-                WHERE cooperacion.id IS NOT NULL GROUP BY cooperacion.nombre_tipo_cooperacion ORDER BY ".$order, "page: $page");
+                WHERE cooperacion.id IS NOT NULL ORDER BY ".$order, "page: $page");
             /*   
              *             return $this->paginated_by_sql("SELECT cooperacion.*, tipo_cooperacion.nombre_tipo_cooperacion AS tipo_cooperacion FROM cooperacion
                 INNER JOIN tipo_cooperacion ON tipo_cooperacion.id = cooperacion.tipo_cooperacion_id                
