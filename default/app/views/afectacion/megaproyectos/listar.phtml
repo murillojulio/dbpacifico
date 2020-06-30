@@ -22,7 +22,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="megaproyecto_nombre">Nombre del Megaproyecto <span style="color: red;" class="req">*</span></label>
-                            <?php echo DwForm::text('megaproyecto.nombre', array('onchange' => 'validarBotonAgregarMegaproyecto()'), NULL, 'Nombre del Megaproyecto'); ?>                            
+                            <?php echo DwForm::text('megaproyecto.nombre', array('onkeyup' => 'validarBotonAgregarMegaproyecto()'), NULL, 'Nombre del Megaproyecto'); ?>                            
                         </div>
                     </div>
                 </div>
@@ -152,6 +152,7 @@
 </div>
 <script type='text/javascript'>
         $(document).ready(function() {
+            $("#btn-agregar-megaproyecto").prop('disabled', true);
         $("monto_inversion").priceFormat(
         {
             prefix: '',
