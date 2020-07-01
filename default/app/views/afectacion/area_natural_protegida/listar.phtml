@@ -50,8 +50,8 @@
                         foreach($ubicaciones as $ubicacion):
                             echo $ubicacion->getDepartamento()->nombre.' - ';
                             echo $ubicacion->getMunicipio()->getSubregion()->nombre.' - ';
-                            echo $ubicacion->getMunicipio()->nombre;
-                            //echo $ubicacion->getTerritorio()->nombre.'<br>';
+                            echo $ubicacion->getMunicipio()->nombre.' - ';
+                            echo $ubicacion->getTerritorio()->nombre.'<br>';
                         endforeach;
                         
                          ?></td> 

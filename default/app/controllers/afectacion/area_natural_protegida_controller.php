@@ -5,11 +5,22 @@
  * @category    
  * @package     Controllers  
  */
-Load::models('afectacion/area_natural_protegida', 'global/fuente', 'afectacion/ubicacion', 
-        'afectacion/afectacion', 'observatorio/departamento', 'observatorio/municipio',
-        'observatorio/territorio', 'opcion/tipo_area_natural_protegida',
-        'afectacion/afectacion_area_natural_protegida', 'opcion/tipo_afectacion_area_natural_protegida',
-        'afectacion/conflicto_uso', 'util/currency', 'observatorio/subregion');
+Load::models('afectacion/area_natural_protegida', 
+'global/fuente', 
+'afectacion/ubicacion', 
+        'afectacion/afectacion', 
+        'observatorio/departamento', 
+        'observatorio/municipio',
+        'observatorio/territorio', 
+        'opcion/tipo_area_natural_protegida',
+        'afectacion/afectacion_area_natural_protegida', 
+        'opcion/tipo_afectacion_area_natural_protegida',
+        'afectacion/conflicto_uso', 
+        'util/currency', 
+        'opcion/dano',
+        'opcion/tipo_dano',
+        'afectacion/afectacion_dano_territorio',
+        'observatorio/subregion');
 
 class AreaNaturalProtegidaController extends BackendController {
     
@@ -189,10 +200,10 @@ class AreaNaturalProtegidaController extends BackendController {
             }
             if(AreaNaturalProtegida::setAreaNaturalProtegida('update', $post_area_natural_protegida, array('id'=>$id)))
             {         
-              $afectacion_id = $post_area_natural_protegida['afectacion_id'];    
-              $ubicacion_id = $post_area_natural_protegida['ubicacion_id'];    
+              /* $afectacion_id = $post_area_natural_protegida['afectacion_id'];    
+              $ubicacion_id = $post_area_natural_protegida['ubicacion_id'];   */  
               
-              Ubicacion::setUbicacion('update', Input::post('caso'), array('id'=>$ubicacion_id, 'afectacion_id'=>$afectacion_id));
+              //Ubicacion::setUbicacion('update', Input::post('caso'), array('id'=>$ubicacion_id, 'afectacion_id'=>$afectacion_id));
               Fuente::setFuente('update', Input::post('fuente'), 'area_natural_protegida', $id);          
                 Flash::valid('La área natural protegida se ha actualizado correctamente!');
                 return Redirect::to(Session::get('back'));
@@ -219,8 +230,12 @@ class AreaNaturalProtegidaController extends BackendController {
         
         $ubicaciones = $area_natural_protegida->getAfectacion()->getUbicaciones($area_natural_protegida->afectacion_id);
         $this->ubicaciones = $ubicaciones;
-        $ubicacion = $ubicaciones[0];
-        $this->ubicacion = $ubicacion;
+        /* $ubicacion = $ubicaciones[0];
+        $this->ubicacion = $ubicacion; */
+
+        $AfectacionDanoTerritorio = new AfectacionDanoTerritorio();
+        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($area_natural_protegida->afectacion_id);
+
                        
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('area_natural_protegida', $area_natural_protegida->id);
