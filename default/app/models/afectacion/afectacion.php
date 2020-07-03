@@ -34,6 +34,7 @@ class Afectacion extends ActiveRecord {
         $this->has_one('megaproyecto');
         $this->has_one('cultivo_ilicito');
         $this->has_one('cooperacion');
+        $this->has_one('actor_armado');
         $this->has_many('ubicacion');
         $this->has_many('afectacion_territorio');
         
