@@ -40,6 +40,13 @@ class View extends KumbiaView {
     public static function process_estado_nivel($tabla, $objeto, $moduleName, $processName=null, $setTitle=true) {
         return self::partial('process_estado_nivel', false, array('tabla'=>$tabla, 'objeto'=>$objeto, 'modulo'=>$moduleName, 'proceso'=>$processName, 'titulo'=>$setTitle));
     }
+
+    /**
+     * Método para mostrar el proceso actual en las vistar
+     */
+    public static function estado_nivel($tabla, $objeto, $moduleName, $processName=null, $setTitle=true) {
+        return self::partial('estado_nivel', false, array('tabla'=>$tabla, 'objeto'=>$objeto, 'modulo'=>$moduleName, 'proceso'=>$processName, 'titulo'=>$setTitle));
+    }
     
     /**
      * Método para dar una respuesta como ajax
