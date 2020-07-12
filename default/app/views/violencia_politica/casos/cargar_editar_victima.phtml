@@ -10,6 +10,7 @@
       
     <div class="modal-body">
         <div class="row">
+        <?php View::estado_nivel('victima', $Victima, $page_module, $page_title, $set_title); ?>
             <div class="col-md-12">
                <div class="row">  
                    <?php echo DwForm::hidden("victima.editar_caso_id", NULL, $Victima->caso_id);?> 
