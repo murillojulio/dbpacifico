@@ -265,6 +265,42 @@ class GenericosController extends BackendController {
         $this->modulo = $modulo;
         $this->nombre = $nombre;
     } 
+
+    /*
+     * Método que carga los territorios que pertenecen a un departamento en una lista select
+     */
+    public function gestion_nivel_estado_single($nivel_estado='', $tabla='', $id='', $modulo='', $nombre='') 
+    {       
+        $obj_nivel_estado = new ConflictoUso();
+        
+        if($nivel_estado == 'privado')
+        {
+            $obj_nivel_estado->sql('UPDATE '.$tabla.' SET nivel="2" WHERE '.$tabla.'.id='.$id);
+        }
+        else if($nivel_estado == 'publico')
+        {            
+            $obj_nivel_estado->sql('UPDATE '.$tabla.' SET nivel="1" WHERE '.$tabla.'.id='.$id);
+        }
+        else if($nivel_estado == 'borrador')
+        {
+            $obj_nivel_estado->sql('UPDATE '.$tabla.' SET estado="1" WHERE '.$tabla.'.id='.$id);
+        }
+        else if($nivel_estado == 'completo')
+        {     
+            if($obj_nivel_estado->sql('UPDATE '.$tabla.' SET estado="2" WHERE '.$tabla.'.id='.$id))
+            {
+                $correo = CorreoRecoverPassword::send_alert(Usuario::usuariosAlertar(), 
+                        "Información completada - $modulo", 
+                        "El usuario ".Session::get('login').", ha completado la informacion de $modulo - $nombre.");              
+            }
+           
+        }
+            
+        $this->objeto = $obj_nivel_estado->find_by_sql('SELECT '.$tabla.'.nivel, '.$tabla.'.estado, '.$tabla.'.id FROM '.$tabla.' WHERE '.$tabla.'.id='.$id);
+        $this->tabla = $tabla;
+        $this->modulo = $modulo;
+        $this->nombre = $nombre;
+    } 
     
     /**
      * Método que carga los daños de un tipo de daño
