@@ -109,13 +109,13 @@
                         <td><?php echo $cooperacion->nombre_clase_cooperacion; ?></td>
                         <td><?php echo $cooperacion->tipo_cooperacion_nombre; ?></td>                        
                         <td><?php
-                                $ubicaciones = $cooperacion->getAfectacion()->getUbicacion();
-                                foreach ($ubicaciones as $ubicacion) :
-                                    echo $ubicacion->getDepartamento()->nombre . ' | ';
-                                    echo $ubicacion->getMunicipio()->getSubregion()->nombre . ' | ';
-                                    echo $ubicacion->getMunicipio()->nombre . ' | ';
-                                    echo $ubicacion->getTerritorio()->nombre . '<br>';
-                                endforeach;
+                                 $ubicaciones = $cooperacion->getAfectacion()->getUbicaciones($cooperacion->afectacion_id);
+                                 foreach ($ubicaciones as $ubicacion) :
+                                     echo ' &bull; '. $ubicacion->departamento. ' | ';
+                                     echo ($ubicacion->subregion === '') ? ' Sin información | ' : $ubicacion->subregion.' | ';
+                                     echo ($ubicacion->municipio === '') ? ' Sin información | ' : $ubicacion->municipio.' | ';
+                                     echo ($ubicacion->territorio === '') ? ' Sin información | ' : $ubicacion->territorio.'<BR>';
+                                 endforeach;
                             ?></td> 
                          <td class="btn-actions"><?php View::partial('nivel_estado/ver', false, array('nivel'=>$cooperacion->nivel, 'estado'=>$cooperacion->estado)); ?>
                         <td class="btn-actions">
