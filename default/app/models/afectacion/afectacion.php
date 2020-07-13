@@ -63,7 +63,7 @@ class Afectacion extends ActiveRecord {
     
     public function getUbicaciones($afectacion_id){
         $sqlQuery = 'SELECT ubicacion.*, departamento.nombre AS departamento, '
-                . '(SELECT subregion.nombre FROM municipio INNER JOIN subregion '
+                . '(SELECT subregion.nombre FROM municipio LEFT JOIN subregion '
                 . 'ON subregion.id = municipio.subregion_id '
                 . 'WHERE municipio.id = ubicacion.municipio_id) AS subregion, '
                 . 'municipio.nombre AS municipio, territorio.nombre AS territorio '

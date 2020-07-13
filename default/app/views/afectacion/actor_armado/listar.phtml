@@ -118,12 +118,12 @@
                         <td><?php echo date('d-m-Y', strtotime($actor_armado->fecha_salida)); ?></td>
                         <td><?php
 
-                            $ubicaciones = $actor_armado->getAfectacion()->getUbicacion();
+                            $ubicaciones = $actor_armado->getAfectacion()->getUbicaciones($actor_armado->afectacion_id);
                             foreach ($ubicaciones as $ubicacion) :
-                                echo $ubicacion->getDepartamento()->nombre . ' | ';
-                                //echo $ubicacion->getMunicipio()->getSubregion()->nombre . ' | ';
-                                echo $ubicacion->getMunicipio()->nombre . ' | ';
-                                echo $ubicacion->getTerritorio()->nombre . '<br>';
+                                echo ' &bull; '. $ubicacion->departamento. ' | ';
+                                echo ($ubicacion->subregion === '') ? ' Sin información | ' : $ubicacion->subregion.' | ';
+                                echo ($ubicacion->municipio === '') ? ' Sin información | ' : $ubicacion->municipio.' | ';
+                                echo ($ubicacion->territorio === '') ? ' Sin información | ' : $ubicacion->territorio.'<BR>';
                             endforeach;
 
                             ?></td>
