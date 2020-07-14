@@ -12,10 +12,10 @@
                         <div class="col-md-12">
                             <?php echo DwForm::hidden("caso_dano_territorio.id", NULL, $caso_dano_territorio_id);?> 
                             <div class="form-group">
-                            <label for="editar_caso_dano_territorio_territorio_id">Territorio afectado<span class="req">*</span></label>
+                            <label for="editar_caso_dano_territorio_territorio_id">Territorio afectado</label>
                             <?php 
                             $tipo_dano_id = $CasoDanoTerritorio->getDano()->getTipoDano()->id;
-                            echo DwForm::dbSelect('editar_caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', NULL), NULL, array('class' => '', 'onchange'=>'validarBotonEditarDano()'), $CasoDanoTerritorio->territorio_id, 'Territorio afectado'); ?>
+                            echo DwForm::dbSelect('editar_caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', $caso_municipio_id), array('0' => 'SIN INFORMACIÓN'), array('class' => '', 'onchange'=>'validarBotonEditarDano()'), $CasoDanoTerritorio->territorio_id, 'Territorio afectado'); ?>
                             </div>
                             <div class="form-group">
                             <label for="editar_caso_dano_territorio_tipo_dano_id">Tipo de daño<span class="req">*</span></label>

@@ -6,7 +6,7 @@
  * @package     Controllers  
  */
 Load::models('violencia_politica/caso_dano_territorio', 'violencia_politica/caso',
-        'observatorio/territorio', 'opcion/dano', 'opcion/tipo_dano',
+        'observatorio/territorio', 'observatorio/territorio_municipio', 'opcion/dano', 'opcion/tipo_dano',
         'afectacion/afectacion_dano_territorio');
 class GestionDanosController extends BackendController { 
     
@@ -39,8 +39,10 @@ class GestionDanosController extends BackendController {
     {
         $CasoDanoTerritorio = new CasoDanoTerritorio();
         $caso_dano_territorio_id = Input::post('caso_dano_territorio_id');
+        $this->caso_municipio_id = Input::post('caso_municipio_id');
         $this->CasoDanoTerritorio = $CasoDanoTerritorio->find_first($caso_dano_territorio_id); 
         $this->caso_dano_territorio_id = $caso_dano_territorio_id;
+        
     }
     
     public function guardar_cambios_dano()

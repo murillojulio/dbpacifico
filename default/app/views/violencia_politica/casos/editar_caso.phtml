@@ -611,7 +611,7 @@ function cargarBarrios(){
                 <div class="modal-body">
                     <div class="row">  
                         <div class="col-md-12">
-                            <?php echo DwForm::dbSelect('caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', $caso->municipio_id), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>'); ?>
+                            <?php echo DwForm::dbSelect('caso_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio_municipio', 'getTerritoriosByMunicipioIdSelect', $caso->municipio_id), array('' => 'SIN INFORMACIÓN'), array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Territorio afectado'); ?>
                             <?php echo DwForm::dbSelect('caso_dano_territorio.tipo_dano_id', 'nombre', array('opcion/tipo_dano', 'getListadoTipoDanoDBS', NULL), NULL, array('class' => '', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Tipo de daño<span class="req">*</span>'); ?>
                             <div id="div_select_dano">
                                 <?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS', NULL), NULL, array('class'=>'', 'onchange'=>'validarBotonAgregarDano()'), NULL, 'Daño<span class="req">*</span>'); ?>
@@ -784,7 +784,8 @@ function cargarBarrios(){
             cantidad_hechos = cantidad_hechos + 1;
             hechosSeleccionados_.push($(this).text());
             var elemento = $(this).text();
-            cadena_hechos = cadena_hechos+"<h6><span style=\"font-weight: 400;\" class=\"label label-primary\">"+elemento+"</span></h6>";                
+            cadena_hechos = cadena_hechos+"<h6><span style=\"font-weight: 400;\" class=\"label label-primary\">"+elemento+"</span></h6>";
+            /*cadena_hechos = cadena_hechos+"<h6><span style=\"font-weight: 400;\" class=\"label label-primary\">"+elemento+"<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"> <span aria-hidden=\"true\">&times;</span></button></span></h6>";*/
         });
         hechosSeleccionados = hechosSeleccionados_;
         $("#div_listado_hechos").html(cadena_hechos);
@@ -1016,7 +1017,8 @@ function cargarBarrios(){
             var dano_id = $('#caso_dano_territorio_dano_id').val();
             var descripcion = $('#caso_dano_territorio_descripcion').val();
             
-            if(territorio_id !== '' && dano_id !== '' && descripcion !== '' && tipo_dano_id !== ''){
+            /*if(territorio_id !== '' && dano_id !== '' && descripcion !== '' && tipo_dano_id !== ''){*/
+            if(dano_id !== '' && descripcion !== '' && tipo_dano_id !== ''){    
                 $("#btn-agregar-dano").prop('disabled', false);
             }else{
                 $("#btn-agregar-dano").prop('disabled', true);
@@ -1031,6 +1033,7 @@ function cargarBarrios(){
         let caso_id = $('#caso_id').val();
         let dano_id = $('#caso_dano_territorio_dano_id').val();
         let territorio_id = $('#caso_dano_territorio_territorio_id').val();
+        if(territorio_id === ''){territorio_id = '0';}
         let descripcion = $('#caso_dano_territorio_descripcion').val();
         
         let url = "<?php echo PUBLIC_PATH . 'dano/gestion_danos/agregar_dano/'; ?>";    
@@ -1110,10 +1113,12 @@ function cargarBarrios(){
         
          function cargarModalEditarCasoDanoTerritorio(caso_dano_territorio_id){
             jsSpinner('show');
-            let url = "<?php echo PUBLIC_PATH . 'dano/gestion_danos/cargar_editar_dano/'; ?>";    
+            let url = "<?php echo PUBLIC_PATH . 'dano/gestion_danos/cargar_editar_dano/'; ?>"; 
+            let caso_municipio_id = $('#caso_municipio_id').val();   
 
             let datos = {
-                        "caso_dano_territorio_id" : caso_dano_territorio_id
+                        "caso_dano_territorio_id" : caso_dano_territorio_id,
+                        "caso_municipio_id" : caso_municipio_id
                         };
 
             $.ajax(url, {
