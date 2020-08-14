@@ -1,6 +1,6 @@
 <?php
 /**
- * Descripcion: Controlador que se encarga de los casos de violencia politica
+ * Descripcion: Controlador que se encarga del modal que agrega, edita y eliminar los daños.
  *
  * @category    
  * @package     Controllers  
@@ -93,6 +93,7 @@ class GestionDanosController extends BackendController {
         $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->find_first($afectacion_dano_territorio_id); 
         $this->afectacion_dano_territorio_id = $afectacion_dano_territorio_id;
         $this->afectacion_id = Input::post('afectacion_id');
+        $this->territorio_id = Input::post('territorio_id');
     }
     
     public function guardar_cambios_dano_afectacion()
