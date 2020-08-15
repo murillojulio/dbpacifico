@@ -60,14 +60,20 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div id="div_dbselect_recarga_territorios">
-                        <?php echo DwForm::dbSelect('afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', $afectacion_id), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>'); ?>
+                            <?php
+                            if (isset($territorio_id)) {
+                                echo DwForm::dbSelect('afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', $afectacion_id, $territorio_id), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>');
+                            } else {
+                                echo DwForm::dbSelect('afectacion_dano_territorio.territorio_id', 'nombre', array('observatorio/territorio', 'getListadoTerritoriosDBS', $afectacion_id), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Territorio afectado<span class="req">*</span>');
+                            }
+                            ?>
                         </div>
                         <?php echo DwForm::dbSelect('afectacion_dano_territorio.tipo_dano_id', 'nombre', array('opcion/tipo_dano', 'getListadoTipoDanoDBS', NULL), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Tipo de daño<span class="req">*</span>'); ?>
                         <div id="div_select_dano">
                             <?php echo DwForm::dbSelect('caso_dano_territorio.dano_id', 'nombre', array('opcion/dano', 'getDanoByTipoDanoIdDBS', NULL), NULL, array('class' => '', 'onchange' => 'validarBotonAgregarDano()'), NULL, 'Daño<span class="req">*</span>'); ?>
                         </div>
                         <?php echo DwForm::textarea('afectacion_dano_territorio.descripcion', array('class' => 'input-lower', 'onkeyup' => 'validarBotonAgregarDano()', 'style' => "height: 130px;"), NULL, 'Descripción del daño<span class="req">*</span>'); ?>
-
+                        <?php echo DwForm::hidden('campo_vacio.afectacion_id', NULL, NULL) ?>
                     </div>
                 </div>
             </div>
@@ -80,9 +86,10 @@
 </div><!-- /.modal -->
 <label for="panel_danos"></label>
 <script type='text/javascript'>
- $("#btn-agregar-dano").prop('disabled', true);
-let afectacion_dano_territorio_id = '';
-function deshabilitar_modal_dano() {
+    $("#btn-agregar-dano").prop('disabled', true);
+    let afectacion_dano_territorio_id = '';
+
+    function deshabilitar_modal_dano() {
         $("#btn-agregar-dano").prop('disabled', true);
         $('#afectacion_dano_territorio_descripcion').val('');
         $('#afectacion_dano_territorio_territorio_id').val('');
@@ -197,12 +204,23 @@ function deshabilitar_modal_dano() {
 
     function cargarModalEditarAfectacionDanoTerritorio(afectacion_dano_territorio_id) {
         jsSpinner('show');
-        let afectacion_id = $('#<?php echo $nombre_tabla; ?>_afectacion_id').val();
+        let afectacion_id = $('#<?php
+                                if (isset($territorio_id)) {
+                                    echo 'campo_vacio';
+                                } else {
+                                    echo $nombre_tabla;
+                                } ?>_afectacion_id').val();
         let url = "<?php echo PUBLIC_PATH . 'dano/gestion_danos/cargar_editar_dano_afectacion/'; ?>";
-
+        let territorio_id = "<?php
+                                if (isset($territorio_id)) {
+                                    echo $territorio_id;
+                                } else {
+                                    echo '';
+                                } ?>";
         let datos = {
             "afectacion_dano_territorio_id": afectacion_dano_territorio_id,
-            "afectacion_id": afectacion_id
+            "afectacion_id": afectacion_id,
+            "territorio_id": territorio_id
         };
 
         $.ajax(url, {
@@ -310,5 +328,4 @@ function deshabilitar_modal_dano() {
             }
         });
     }
-
 </script>
