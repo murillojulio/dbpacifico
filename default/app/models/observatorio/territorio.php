@@ -409,10 +409,14 @@ class Territorio extends ActiveRecord {
         
     }
     
-    public function getListadoTerritoriosDBS($afectacion_id=NULL) {    
+    public function getListadoTerritoriosDBS($afectacion_id = NULL, $territorio_id = NULL) {    
         if((int)$afectacion_id)
-        {       
+        {    
             $sql = "SELECT territorio.id, territorio.nombre FROM territorio WHERE territorio.id IN (SELECT ubicacion.territorio_id FROM ubicacion WHERE ubicacion.afectacion_id = $afectacion_id)";
+            return $this->find_all_by_sql($sql);
+        } 
+        else if((int)$territorio_id){
+            $sql = "SELECT territorio.* FROM territorio WHERE territorio.id = $territorio_id";
             return $this->find_all_by_sql($sql);
         }
         else{        
