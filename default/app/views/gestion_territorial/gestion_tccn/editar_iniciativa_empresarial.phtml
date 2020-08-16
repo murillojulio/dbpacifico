@@ -6,12 +6,11 @@
 
     <?php echo DwForm::open(); ?>
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#informacion_general">Información general</a></li>
-        <li class=""><a data-toggle="tab" href="#danos">Daños al Territorio</a></li>
+        <li class="<?php if($recien_creado==0){echo 'active';}?>"><a data-toggle="tab" href="#informacion_general">Información general</a></li>
+        <li class="<?php if($recien_creado==1){echo 'active';}?>"><a data-toggle="tab" href="#danos">Daños al Territorio</a></li>
     </ul>
-
     <div class="tab-content">
-        <div id="informacion_general" class="tab-pane fade in active">
+        <div id="informacion_general" class="tab-pane fade <?php if($recien_creado==0){echo 'in active';}?>">
 
             <div class="row">
                 <div class="col-md-6">
@@ -259,7 +258,7 @@
                 </div>
             </div>
         </div>
-        <div id="danos" class="tab-pane fade">
+        <div id="danos" class="tab-pane fade <?php if($recien_creado==1){echo 'in active';}?>">
         <?php View::partial(
                             'danos/editar',
                             false,

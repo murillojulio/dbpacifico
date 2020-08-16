@@ -577,7 +577,8 @@ class GestionTccnController extends BackendController
             if ($obj_ie) {
                 Fuente::setFuente('create', Input::post('fuente'), 'iniciativa_empresarial', $obj_ie->id);
                 Flash::valid('La iniciativa empresarial se ha registrado correctamente!');
-                return Redirect::toAction('editar/' . $key_back . '/3/' . $order . '/' . $page . '/');
+                $key_upd = Security::setKey($obj_ie->id, 'upd_iniciativa_empresarial');
+                return Redirect::toAction("editar_iniciativa_empresarial/$key_upd/$key_back/$order/3/1/");
             }
         }
 
@@ -588,9 +589,8 @@ class GestionTccnController extends BackendController
         $this->page_module = 'Gestion Territorial';
     }
 
-    public function editar_iniciativa_empresarial($key, $key_back, $order, $page)
+    public function editar_iniciativa_empresarial($key, $key_back, $order, $page, $recien_creado)
     {
-
         if (!$id = Security::getKey($key, 'upd_iniciativa_empresarial', 'int')) {
             return Redirect::toAction('listar');
         }
@@ -618,12 +618,13 @@ class GestionTccnController extends BackendController
         $this->fuentes = $fuente->getListadoFuente('iniciativa_empresarial', $id);
 
         $this->iniciativa_empresarial = $obj_iniciativa_empresarial;
-        $this->page_title = 'Actualizar Iniciativa Empresarial del territorio: ' . $obj_iniciativa_empresarial->territorio;
+        $this->page_title = 'Actualizar Iniciativa Empresarial '.$obj_iniciativa_empresarial->nombre.' del territorio: ' . $obj_iniciativa_empresarial->territorio;
         $this->territorio_nombre = $obj_iniciativa_empresarial->territorio;
         $this->page_module = 'Gestión Territorial';
         $this->url_redir_back = 'gestion_territorial/gestion_tccn/editar/' . $key_back . '/3/' . $order . '/' . $page . '/';
         $this->key_back = $key_back;
         $this->key = $key;
+        $this->recien_creado = $recien_creado;
     }
 
     public function ver_iniciativa_empresarial($key, $key_back, $order, $page)

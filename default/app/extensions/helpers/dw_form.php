@@ -1165,7 +1165,7 @@ class DwForm extends Form {
      * @param string $text
      * @return strig
      */
-    public static function sendContinue($title='Guardar registro', $icon='fa-fast-forward', $attrs=array(), $text='continuar') {
+    public static function sendContinue($title='Guardar registro', $icon='fa-fast-forward', $attrs=array(), $text='guardar y continuar') {
         return DwButton::saveContinue($title, $icon, $attrs, $text);
     }
 
