@@ -10,14 +10,14 @@
         <li class="<?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Cabildos</a></li>
         <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Acciones de Exigibilidad de derechos</a></li>       
         <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Iniciativas empresariales</a></li> 
-        <li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Transferencias presupuestales</a></li> 
+        <!-- <li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Transferencias presupuestales</a></li>  -->
         <!--<li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Fuente(s) de la información</a></li>--> 
     </ul>
     <ul class="nav nav-tabs nav-justified visible-xs">    
         <li class="tab-pane <?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Cabildos</a></li>
         <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Acciones de Exigibilidad de derechos</a></li>        
         <li class="tab-pane <?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Iniciativas empresariales</a></li>
-        <li class="tab-pane <?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Transferencias presupuestales</a></li>
+        <!-- <li class="tab-pane <?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Transferencias presupuestales</a></li> -->
         <!--<li class="tab-pane <?php echo $tab_4_active; ?>" ><a href="#tab4" data-toggle="tab">Fuente(s) de la información</a></li>-->
     </ul>
     
@@ -219,42 +219,9 @@
             </div>
     </div> 
 
-<!--      //////////////////////////////////  CUARTA PESTAÑA-->
 
- <div class="tab-pane <?php echo $tab_4_active; ?>" id="tab4">
-            <!-- TABULACION INTERNA  -->
-    <div class="row">
-<!--                 <div class="col-md-12">
-                     <?php View::partial('gestion_territorial/iniciativa_empresarial/editar', false, 
-            array('iniciativa_empresarials'=>$iniciativa_empresarials, 
-                'obj_territorio'=>$obj_territorio, 'key'=>$key, 'sub_tab'=>$sub_tab,
-                'order'=>$order, 'page'=>$page, 'controller'=>$controller)); ?>  
-                 </div>-->
-             </div>
-                 <!-- FIN TABULACION INTERNA  -->                
-              <div class="form-actions">
-                 <div class="text-right">
-                    <?php echo DwButton::back($url_redir_back); ?>                    
-                </div>
-            </div>
-    </div> 
 
-<!--      //////////////////////////////////  CUARTA PESTAÑA-->
 
-<!-- <div class="tab-pane <?php echo $tab_4_active; ?>" id="tab4">
-             <div class="row">
-                 <div class="col-md-12">
-                     
-                 </div>
-             </div>
-              <div class="row">
-            <div class="form-actions">
-                 <div class="text-right">
-                    <?php echo DwButton::back($url_redir_back); ?>                    
-                </div>
-            </div>
-        </div>
-    </div>-->
 
 
     <?php echo DwForm::close(); ?> 

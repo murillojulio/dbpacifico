@@ -13,7 +13,11 @@ Load::models('observatorio/fuente', 'observatorio/comunidad','observatorio/terri
         'opcion/tipo_accion_exigibilidad_derecho', 'opcion/tipo_iniciativa_empresarial', 
         'opcion/tipo_actividad_productiva', 'gestion_territorial/descripcion_afectacion',
         'opcion/asociacion_cabildo_zonal', 'opcion/tipo_autoridad_tradicional',
-        'opcion/autoridad_tradicional');
+        'opcion/autoridad_tradicional',
+        'afectacion/afectacion',
+        'afectacion/afectacion_dano_territorio',
+        'opcion/dano',
+        'opcion/tipo_dano');
 class GestionTcciController extends BackendController {
     
     /**
@@ -576,8 +580,69 @@ class GestionTcciController extends BackendController {
      * **********************************************
      * 
      */
+
+    public function agregar_iniciativa_empresarial($territorio_id, $territorio_nombre, $key_back, $order, $page)
+    {
+        $obj_ie = new IniciativaEmpresarial();
+        if (Input::hasPost('iniciativa_empresarial')) {
+            $afectacion_obj = Afectacion::setAfectacion('create', array('tipo_afectacion_id' => '8'));
+            $obj_ie = IniciativaEmpresarial::setIniciativaEmpresarial('create', Input::post('iniciativa_empresarial'), $territorio_nombre, array('afectacion_id'=>$afectacion_obj->id, 'estado' =>  IniciativaEmpresarial::ACTIVO));
+
+            if ($obj_ie) {
+                Fuente::setFuente('create', Input::post('fuente'), 'iniciativa_empresarial', $obj_ie->id);
+                Flash::valid('La iniciativa empresarial se ha registrado correctamente!');
+                $key_upd = Security::setKey($obj_ie->id, 'upd_iniciativa_empresarial');
+                return Redirect::toAction("editar_iniciativa_empresarial/$key_upd/$key_back/$order/3/1/");
+            }
+        }
+
+        $this->territorio_nombre = $territorio_nombre;
+        $this->territorio_id = $territorio_id;
+        $this->url_redir_back = 'gestion_territorial/gestion_tcci/editar/' . $key_back . '/3/' . $order . '/' . $page . '/';
+        $this->page_title = 'Agregar Iniciativa Empresarial al territorio: ' . $territorio_nombre;
+        $this->page_module = 'Gestion Territorial';
+    }
+
+    public function editar_iniciativa_empresarial($key, $key_back, $order, $page, $recien_creado)
+    {
+        if (!$id = Security::getKey($key, 'upd_iniciativa_empresarial', 'int')) {
+            return Redirect::toAction('listar');
+        }
+
+        $obj_iniciativa_empresarial = new IniciativaEmpresarial();
+        if (!$obj_iniciativa_empresarial->getIniciativaEmpresarialById($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información de la iniciativa empresarial');
+            return Redirect::toAction('ver/' . $key_back . '/3/');
+        }
+        
+        if (Input::hasPost('iniciativa_empresarial')) {
+            $obj_ie = IniciativaEmpresarial::setIniciativaEmpresarial('update', Input::post('iniciativa_empresarial'), $obj_iniciativa_empresarial->territorio, array('estado' => IniciativaEmpresarial::ACTIVO));
+
+            if ($obj_ie) {
+                Fuente::setFuente('update', Input::post('fuente'), 'iniciativa_empresarial', $id);
+                Flash::valid('La Iniciativa Empresarial se ha actualizado correctamente!');
+            }
+            return Redirect::toAction('editar/' . $key_back . '/3/' . $order . '/' . $page . '/');
+        }
+
+        $AfectacionDanoTerritorio = new AfectacionDanoTerritorio();
+        $this->AfectacionDanoTerritorio = $AfectacionDanoTerritorio->getDanoTerritorioByAfectacionId($obj_iniciativa_empresarial->afectacion_id);
+
+        $fuente = new Fuente();
+        $this->fuentes = $fuente->getListadoFuente('iniciativa_empresarial', $id);
+
+        $this->iniciativa_empresarial = $obj_iniciativa_empresarial;
+        $this->page_title = 'Actualizar Iniciativa Empresarial '.$obj_iniciativa_empresarial->nombre.' del territorio: ' . $obj_iniciativa_empresarial->territorio;
+        $this->territorio_nombre = $obj_iniciativa_empresarial->territorio;
+        $this->page_module = 'Gestión Territorial';
+        $this->url_redir_back = 'gestion_territorial/gestion_tcci/editar/' . $key_back . '/3/' . $order . '/' . $page . '/';
+        $this->key_back = $key_back;
+        $this->key = $key;
+        $this->recien_creado = $recien_creado;
+    }
+
      
-     public function agregar_iniciativa_empresarial($territorio_id, $territorio_nombre, $key_back, $order, $page)
+     public function agregar_iniciativa_empresarial_($territorio_id, $territorio_nombre, $key_back, $order, $page)
     { 
         $obj_ie = new IniciativaEmpresarial();
         if(Input::hasPost('iniciativa_empresarial')) 
@@ -746,7 +811,8 @@ class GestionTcciController extends BackendController {
         $this->page_module = 'Gestion Territorial';        
     }
     
-         public function editar_iniciativa_empresarial($key, $key_back, $order, $page) { 
+         public function editar_iniciativa_empresarial_($key, $key_back, $order, $page) 
+         { 
        
         if(!$id = Security::getKey($key, 'upd_iniciativa_empresarial', 'int')) {
             return Redirect::toAction('listar');
