@@ -443,7 +443,7 @@ class GestionTcciController extends BackendController {
     public function eliminar_cabildo($nombre_cabildo, $nombre_territorio, $key, $key_back, $order, $page) {      
                 
         if(!$id = Security::getKey($key, 'del_cabildo', 'int')) {
-            return Redirect::to($url_redir_back);
+        return Redirect::to(/*$url_redir_back*/);
         }        
         
         $cabildo = new Cabildo();
@@ -555,7 +555,7 @@ class GestionTcciController extends BackendController {
     public function eliminar_accion_exigibilidad_derecho($nombre_accion_exigibilidad_derecho, $nombre_territorio, $key, $key_back, $order, $page) {      
                 
         if(!$id = Security::getKey($key, 'del_accion_exigibilidad_derecho', 'int')) {
-            return Redirect::to($url_redir_back);
+        return Redirect::to(/*$url_redir_back*/);
         }        
         
         $accion_exigibilidad_derecho = new AccionExigibilidadDerecho();
@@ -1240,7 +1240,7 @@ class GestionTcciController extends BackendController {
     public function eliminar_iniciativa_empresarial($nombre_iniciativa_empresarial, $nombre_territorio, $key, $key_back, $order, $page) {      
                 
         if(!$id = Security::getKey($key, 'del_iniciativa_empresarial', 'int')) {
-            return Redirect::to($url_redir_back);
+        return Redirect::to(/*$url_redir_back*/);
         }        
         
         $iniciativa_empresarial = new IniciativaEmpresarial();
