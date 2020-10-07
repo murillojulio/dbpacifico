@@ -104,9 +104,12 @@ class TipoActividadProductiva extends ActiveRecord {
      * @param type $page
      * @return type
      */
-    public function getListadoTipoActividadProductivaDBS() {                   
+    public function getListadoTipoActividadProductivaDBS($excluir_extraccion) {                   
         $columns = 'tipo_actividad_productiva.*';  
         $conditions = 'tipo_actividad_productiva.id IS NOT NULL AND tipo_actividad_productiva.estado = 1'; 
+        if($excluir_extraccion == 2){
+        $conditions .= " AND tipo_actividad_productiva.id != 2"; 
+        }
         $order = 'tipo_actividad_productiva.nombre ASC';
         
         return $this->find("columns: $columns", "conditions: $conditions", "order: $order");
