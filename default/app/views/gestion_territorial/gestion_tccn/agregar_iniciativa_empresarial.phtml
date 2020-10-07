@@ -239,180 +239,6 @@
 
 
 
-               <!--  <div class="col-md-12">
-                    <label for="panel_afectacion_territorio">Afectaciones al territorio: <?php echo $territorio_nombre; ?></label>
-                    <div id="panel_afectacion_territorio" class="panel panel-default">
-                        <div class="panel-body">
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_ambiental.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Ambiental'); ?>
-                                            </div>
-                                            <div id="div_impacto_ambiental">
-                                                <div class="col-md-4">
-                                                    <label for="panel_ambiental">Seleccione los impactos ambientales</label>
-                                                    <div id="panel_ambiental" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_ambiental', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '1'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_ambiental.descripcion', array('class' => ''), '', 'Descripción del impacto ambiental'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_cultural.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Cultural'); ?>
-                                            </div>
-                                            <div id="div_impacto_cultural">
-                                                <div class="col-md-4">
-                                                    <label for="panel_cultural">Seleccione los impactos culturales</label>
-                                                    <div id="panel_cultural" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_cultural', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '2'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_cultural.descripcion', array('class' => ''), '', 'Descripción del impacto cultural'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_economico.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Económico'); ?>
-                                            </div>
-                                            <div id="div_impacto_economico">
-                                                <div class="col-md-4">
-                                                    <label for="panel_economico">Seleccione los impactos economicoes</label>
-                                                    <div id="panel_economico" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_economico', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '3'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_economico.descripcion', array('class' => ''), '', 'Descripción del impacto economico'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_social.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Social'); ?>
-                                            </div>
-                                            <div id="div_impacto_social">
-                                                <div class="col-md-4">
-                                                    <label for="panel_social">Seleccione los impactos sociales</label>
-                                                    <div id="panel_social" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_social', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '4'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_social.descripcion', array('class' => ''), '', 'Descripción del impacto social'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_organizacion.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Organizacional'); ?>
-                                            </div>
-                                            <div id="div_impacto_organizacion">
-                                                <div class="col-md-4">
-                                                    <label for="panel_organizacion">Seleccione los impactos organizaciones</label>
-                                                    <div id="panel_organizacion" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_organizacion', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '5'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_organizacion.descripcion', array('class' => ''), '', 'Descripción del impacto organizacion'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-md-2">
-                                                <?php echo DwForm::select('impacto_territorial.si_no', array('' => 'Seleccione', 'SI' => 'SI', 'NO' => 'NO'), array('class' => 'input-required'), NULL, 'Impacto Territorial'); ?>
-                                            </div>
-                                            <div id="div_impacto_territorial">
-                                                <div class="col-md-4">
-                                                    <label for="panel_territorial">Seleccione los impactos territoriales</label>
-                                                    <div id="panel_territorial" class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <?php echo DwForm::dbCheckId('checks_impacto_territorial', 'nombre', array('afectacion/impacto', 'getImpactoByTipoImpactoIdDBS', '6'), NULL, NULL, 3, '4'); ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <?php echo DwForm::textarea('impacto_territorial.descripcion', array('class' => ''), '', 'Descripción del impacto territorial'); ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div> -->
-
 
 
 
@@ -442,13 +268,13 @@
                     ?>
                 </div>
             </div>
-            
+
         </div>
         <div id="menu1" class="tab-pane fade">
             <h3>Menu 1</h3>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
-        
+
     </div>
 
 
