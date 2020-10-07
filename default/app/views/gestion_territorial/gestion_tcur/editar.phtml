@@ -9,13 +9,13 @@
     <ul class="nav nav-tabs nav-justified hidden-xs">
         <li class="<?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Consejos</a></li>
         <li class="<?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Acciones de Exigibilidad de derechos</a></li>       
-        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Iniciativas empresariales</a></li> 
+        <li class="<?php echo $tab_3_active; ?>"><a href="#tab3" data-toggle="tab">Iniciativas de sostenibilidad económica</a></li> 
         <!--<li class="<?php echo $tab_4_active; ?>"><a href="#tab4" data-toggle="tab">Fuente(s) de la información</a></li>--> 
     </ul>
     <ul class="nav nav-tabs nav-justified visible-xs">    
         <li class="tab-pane <?php echo $tab_1_active; ?>"><a href="#tab1" data-toggle="tab">Consejos</a></li>
         <li class="tab-pane <?php echo $tab_2_active; ?>"><a href="#tab2" data-toggle="tab">Acciones de Exigibilidad de derechos</a></li>        
-        <li class="tab-pane <?php echo $tab_3_active; ?>" ><a href="#tab3" data-toggle="tab">Iniciativas empresariales</a></li>
+        <li class="tab-pane <?php echo $tab_3_active; ?>" ><a href="#tab3" data-toggle="tab">Iniciativas de sostenibilidad económica</a></li>
         <!--<li class="tab-pane <?php echo $tab_4_active; ?>" ><a href="#tab4" data-toggle="tab">Fuente(s) de la información</a></li>-->
     </ul>
     
@@ -66,7 +66,8 @@
                      <?php View::partial('gestion_territorial/iniciativa_empresarial/editar', false, 
             array('iniciativa_empresarials'=>$iniciativa_empresarials, 
                 'obj_territorio'=>$obj_territorio, 'key'=>$key, 'sub_tab'=>$sub_tab,
-                'order'=>$order, 'page'=>$page, 'controller'=>$controller)); ?>  
+                'order'=>$order, 'page'=>$page, 'controller'=>$controller,
+                'titulo_boton'=>'agregar iniciativa de sostenibilidad económica')); ?>  
                  </div>
              </div>
                  <!-- FIN TABULACION INTERNA  -->                
