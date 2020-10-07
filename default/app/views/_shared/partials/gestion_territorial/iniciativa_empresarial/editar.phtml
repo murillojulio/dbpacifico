@@ -1,7 +1,7 @@
 <div class="btn-toolbar btn-toolbar-top">
     <div class="row">
         <div class="btn-actions">
-            <?php echo DwHtml::button("gestion_territorial/$controller/agregar_iniciativa_empresarial/$obj_territorio->id/$obj_territorio->nombre/$key/$order/$page/", 'agregar iniciativa empresarial', array('class' => 'btn-success'), 'fa-check-square-o', APP_AJAX); ?>
+            <?php echo DwHtml::button("gestion_territorial/$controller/agregar_iniciativa_empresarial/$obj_territorio->id/$obj_territorio->nombre/$key/$order/$page/", isset($titulo_boton) ? $titulo_boton : 'agregar iniciativa empresarial', array('class' => 'btn-success'), 'fa-check-square-o', APP_AJAX); ?>
         </div>
     </div>
 </div>
