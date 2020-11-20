@@ -400,12 +400,7 @@ class GestionTcurController extends BackendController
             if ($organizacion->delete($id)) {
                 Flash::valid("El organizacion $nombre_organizacion se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO el organizacion $nombre_organizacion, pertenecia al territorio $nombre_territorio.");
-                $o_h_c_a = new OrganizacionHasCampoAccion();
-                $o_h_c_a->delete_all("organizacion_id = $id");
-
-                $o_h_c_g = new OrganizacionHasCampoGestion();
-                $o_h_c_g->delete_all("organizacion_id = $id");
-
+                
                 $fuente = new Fuente();
                 $fuente->deleteFuente('organizacion', $id);
             } else {
