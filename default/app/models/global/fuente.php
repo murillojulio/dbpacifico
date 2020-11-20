@@ -88,6 +88,11 @@ class Fuente extends ActiveRecord {
     }
         return ($bool_result) ? $obj : FALSE;
     }
+
+    public function deleteFuente($tabla, $tabla_identi){
+        $obj = new Fuente();
+        $obj->delete_all("tabla = '$tabla' AND tabla_identi = $tabla_identi" );
+    }
     
     
 }

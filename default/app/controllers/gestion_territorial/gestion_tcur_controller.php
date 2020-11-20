@@ -7,16 +7,16 @@
  * @package     Controllers  
  */
 Load::models(
-    'observatorio/fuente',
+    'global/fuente',
     'observatorio/comunidad',
     'observatorio/territorio',
     'observatorio/territorio_municipio',
     'observatorio/municipio',
-    'gestion_territorial/consejo',
-    'gestion_territorial/consejo_comite',
+    'gestion_territorial/organizacion',
+    'gestion_territorial/organizacion_has_campo_gestion',
+    'gestion_territorial/organizacion_has_campo_accion',
     'gestion_territorial/iniciativa_empresarial',
     'gestion_territorial/descripcion_afectacion_impacto',
-    'opcion/asociacion_consejo_comunitario',
     'gestion_territorial/accion_exigibilidad_derecho',
     'opcion/tipo_accion_exigibilidad_derecho',
     'opcion/tipo_iniciativa_empresarial',
@@ -180,8 +180,8 @@ class GestionTcurController extends BackendController
         }
         $this->obj_territorio = $obj_territorio;
 
-        $obj_consejos = new Consejo();
-        $this->consejos = $obj_consejos->getConsejosByTerritorioId($id);
+        $obj_organizacions = new Organizacion();
+        $this->organizacions = $obj_organizacions->getOrganizacionsByTerritorioId($id);
 
         $obj_accion_exigibilidad_derechos = new AccionExigibilidadDerecho();
         $this->accion_exigibilidad_derechos = $obj_accion_exigibilidad_derechos->getAccionExigibilidadDerechosByTerritorioId($id);
@@ -246,19 +246,14 @@ class GestionTcurController extends BackendController
         }
         $this->obj_territorio = $obj_territorio;
 
-        $obj_consejos = new Consejo();
-        $this->consejos = $obj_consejos->getConsejosByTerritorioId($id);
+        $obj_organizacions = new Organizacion();
+        $this->organizacions = $obj_organizacions->getOrganizacionsByTerritorioId($id);
 
         $obj_accion_exigibilidad_derechos = new AccionExigibilidadDerecho();
         $this->accion_exigibilidad_derechos = $obj_accion_exigibilidad_derechos->getAccionExigibilidadDerechosByTerritorioId($id);
 
         $obj_iniciativa_empresarials = new IniciativaEmpresarial();
         $this->iniciativa_empresarials = $obj_iniciativa_empresarials->getIniciativaEmpresarialsByTerritorioId($id);
-
-        $comunitario = $obj_consejos->getConsejoByTerritorioIdAndTipoConsejoId($id, 1);
-        $comunitario_mayor = $obj_consejos->getConsejoByTerritorioIdAndTipoConsejoId($id, 2);
-        $comunitario_local = $obj_consejos->getConsejoByTerritorioIdAndTipoConsejoId($id, 3);
-        $this->array_validacion_consejo = array('comunitario' => $comunitario, 'comunitario_mayor' => $comunitario_mayor, 'comunitario_local' => $comunitario_local);
 
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('territorio', $obj_territorio->id);
@@ -273,155 +268,116 @@ class GestionTcurController extends BackendController
         $this->page = $page;
     }
 
-    public function agregar_consejo($tipo_consejo_id, $territorio_id, $territorio_nombre, $key_back, $order, $page)
+    public function agregar_organizacion($territorio_id, $territorio_nombre, $key_back, $order, $page)
     {
-        $obj_consejo = new Consejo();
-        if (Input::hasPost('consejo')) {
-            $obj_consejo = Consejo::setConsejo('create', Input::post('consejo'), $territorio_nombre, array('tipo_consejo_id' => $tipo_consejo_id, 'estado' =>  Consejo::ACTIVO));
-            $consejo_id = $obj_consejo->id;
+        $obj_organizacion = new Organizacion();
+        if (Input::hasPost('organizacion')) {
+            $obj_organizacion = Organizacion::setOrganizacion('create', Input::post('organizacion'), $territorio_nombre, array('estado' =>  Organizacion::ACTIVO));
+            $organizacion_id = $obj_organizacion->id;
 
-            $consejo_comite = new ConsejoComite();
-            $consejo_comite->guardar(Input::post('comite'), $consejo_id);
+            $organizacion_has_campo_gestion = new OrganizacionHasCampoGestion();
+            $organizacion_has_campo_gestion->guardar(Input::post('campo_gestion'), $organizacion_id);
 
-            Fuente::setFuente('create', Input::post('fuente'), 'consejo', $consejo_id);
+            $organizacion_has_campo_accion = new OrganizacionHasCampoAccion();
+            $organizacion_has_campo_accion->guardar(Input::post('campo_accion'), $organizacion_id);
 
-            if ($tipo_consejo_id == 3) {
-                $dataComunidad = Input::post('comunidad');
-                foreach ($dataComunidad as $value) {
-                    $obj_Comunidad = new Comunidad();
-                    $obj_Comunidad->id = $value;
-                    $obj_Comunidad->consejo_id = $consejo_id;
-                    $obj_Comunidad->sql('UPDATE comunidad SET comunidad.consejo_id = ' . $consejo_id . ' WHERE comunidad.id =' . $value);
-                }
-            }
+            Fuente::setFuente('create', Input::post('fuente'), 'organizacion', $organizacion_id);
 
-            Flash::valid('El consejo se ha registrado correctamente!');
+            Flash::valid('La organizacion se ha registrado correctamente!');
             return Redirect::toAction('editar/' . $key_back . '/1/' . $order . '/' . $page . '/');
         }
 
         $this->territorio_id = $territorio_id;
-        $this->tipo_consejo_id = $tipo_consejo_id;
-        if ($tipo_consejo_id == '1') {
-            $this->page_title = 'Agregar Consejo Comunitario al territorio: ' . $territorio_nombre;
-        } elseif ($tipo_consejo_id == '2') {
-            $this->page_title = 'Agregar Consejo Comunitario Mayor al territorio: ' . $territorio_nombre;
-        } elseif ($tipo_consejo_id == '3') {
-            $obj_consejo->find_by_sql("SELECT * FROM consejo WHERE territorio_id=" . $territorio_id . " AND tipo_consejo_id = 2");
-            $this->consejo_id = $obj_consejo->id;
-            $this->page_title = 'Agregar Consejo Comunitario Local al territorio: ' . $territorio_nombre;
-        }
+        $this->page_title = 'Agregar Organización al territorio: ' . $territorio_nombre;
         $this->url_redir_back = 'gestion_territorial/gestion_tcur/editar/' . $key_back . '/1/' . $order . '/' . $page . '/';
         $this->page_module = 'Gestion Territorial';
     }
 
-    public function ver_consejo($key, $key_back, $order, $page)
+    public function ver_organizacion($key, $key_back, $order, $page)
     {
 
-        if (!$id = Security::getKey($key, 'show_consejo', 'int')) {
+        if (!$id = Security::getKey($key, 'show_organizacion', 'int')) {
             return Redirect::toAction('listar');
         }
 
-        $obj_consejo = new Consejo();
-        if (!$obj_consejo->getConsejoById($id)) {
-            Flash::error('Lo sentimos, no se pudo establecer la información del consejo');
+        $obj_organizacion = new Organizacion();
+        if (!$obj_organizacion->getOrganizacionById($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del organizacion');
             return Redirect::toAction('ver/' . $key_back . '/3/');
         }
 
-        $this->consejo = $obj_consejo;
+        $this->organizacion = $obj_organizacion;
 
-        //        $consejo_comite = new ConsejoComite();        
-        //        foreach ($consejo_comite->getConsejoComiteByConsejoId($id) as $value) {
+        //        $organizacion_has_campo_gestion = new OrganizacionHasCampoGestion();        
+        //        foreach ($organizacion_has_campo_gestion->getOrganizacionHasCampoGestionByOrganizacionId($id) as $value) {
         //                        $this->comite[] = $value->comite_id;
         //        }
 
-        foreach ($obj_consejo->getConsejoComite() as $value) {
-            $this->comite[] = $value->comite_id;
+        foreach ($obj_organizacion->getOrganizacionHasCampoGestion() as $value) {
+            $this->campo_gestion[] = $value->campo_gestion_id;
         }
 
-        $comunidad = new Comunidad();
-        foreach ($comunidad->getComunidadByConsejoId($id) as $value) {
-            $this->comunidad[] = $value->id;
+        foreach ($obj_organizacion->getOrganizacionHasCampoAccion() as $value) {
+            $this->campo_accion[] = $value->campo_accion_id;
         }
 
-
-        if ($obj_consejo->tipo_consejo_id == '1') {
-            $this->page_title = 'Información Consejo Comunitario del territorio: ' . $obj_consejo->territorio;
-        } elseif ($obj_consejo->tipo_consejo_id == '2') {
-            $this->page_title = 'Información Consejo Comunitario Mayor del territorio: ' . $obj_consejo->territorio;
-        } elseif ($obj_consejo->tipo_consejo_id == '3') {
-            $this->page_title = 'Información Consejo Comunitario Local del territorio: ' . $obj_consejo->territorio;
-        }
-
+        $this->page_title = 'Información Organización del territorio: ' . $obj_organizacion->territorio;
         $fuente = new Fuente();
-        $this->fuentes = $fuente->getListadoFuente('consejo', $obj_consejo->id);
+        $this->fuentes = $fuente->getListadoFuente('organizacion', $obj_organizacion->id);
 
         $this->page_module = 'Gestión Territorial';
 
         $this->url_redir_back = 'gestion_territorial/gestion_tcur/ver/' . $key_back . '/1/' . $order . '/' . $page . '/';
-        $this->tipo_consejo_id = $obj_consejo->tipo_consejo_id;
         $this->key_back = $key_back;
         $this->key = $key;
     }
 
-    public function editar_consejo($key, $key_back, $order, $page)
+    public function editar_organizacion($key, $key_back, $order, $page)
     {
 
-        if (!$id = Security::getKey($key, 'upd_consejo', 'int')) {
+        if (!$id = Security::getKey($key, 'upd_organizacion', 'int')) {
             return Redirect::toAction('listar');
         }
 
-        $obj_consejo = new Consejo();
-        if (!$obj_consejo->getConsejoById($id)) {
-            Flash::error('Lo sentimos, no se pudo establecer la información del consejo');
+        $obj_organizacion = new Organizacion();
+        if (!$obj_organizacion->getOrganizacionById($id)) {
+            Flash::error('Lo sentimos, no se pudo establecer la información del organizacion');
             return Redirect::toAction('ver/' . $key_back . '/3/');
         }
 
-        if (Input::hasPost('consejo')) {
-            $obj_consejo = Consejo::setConsejo('update', Input::post('consejo'), $obj_consejo->territorio, array('estado' => Consejo::ACTIVO));
+        if (Input::hasPost('organizacion')) {
+            $obj_organizacion = Organizacion::setOrganizacion('update', Input::post('organizacion'), $obj_organizacion->territorio, array('estado' => Organizacion::ACTIVO));
 
-            if ($obj_consejo) {
-                $consejo_comite = new ConsejoComite();
-                $consejo_comite->guardar(Input::post('comite'), $obj_consejo->id);
+            if ($obj_organizacion) {
+                $organizacion_has_campo_gestion = new OrganizacionHasCampoGestion();
+                $organizacion_has_campo_gestion->guardar(Input::post('campo_gestion'), $obj_organizacion->id);
+                $organizacion_has_campo_accion = new OrganizacionHasCampoAccion();
+                $organizacion_has_campo_accion->guardar(Input::post('campo_accion'), $obj_organizacion->id);
 
-                if ($obj_consejo->tipo_consejo_id == 3) {
-                    $dataComunidad = Input::post('comunidad');
-                    foreach ($dataComunidad as $value) {
-                        $obj_Comunidad = new Comunidad();
-                        $obj_Comunidad->id = $value;
-                        $obj_Comunidad->consejo_id = $consejo_id;
-                        $obj_Comunidad->sql('UPDATE comunidad SET comunidad.consejo_id = ' . $obj_consejo->id . ' WHERE comunidad.id =' . $value);
-                    }
-                }
-                Fuente::setFuente('update', Input::post('fuente'), 'consejo', $id);
-                Flash::valid('El Consejo se ha actualizado correctamente!');
+                Fuente::setFuente('update', Input::post('fuente'), 'organizacion', $id);
+                Flash::valid('La Organizacion se ha actualizado correctamente!');
             }
             return Redirect::toAction('editar/' . $key_back . '/1/' . $order . '/' . $page . '/');
         }
 
-        $this->consejo = $obj_consejo;
+        $this->organizacion = $obj_organizacion;
 
-        $consejo_comite = new ConsejoComite();
-        foreach ($consejo_comite->getConsejoComiteByConsejoId($id) as $value) {
-            $this->comite[] = $value->comite_id;
-        }
-        $comunidad = new Comunidad();
-        foreach ($comunidad->getComunidadByConsejoId($id) as $value) {
-            $this->comunidad[] = $value->id;
+        $organizacion_has_campo_gestion = new OrganizacionHasCampoGestion();
+        foreach ($organizacion_has_campo_gestion->getOrganizacionHasCampoGestionByOrganizacionId($id) as $value) {
+            $this->campo_gestion[] = $value->campo_gestion_id;
         }
 
-
-        if ($obj_consejo->tipo_consejo_id == '1') {
-            $this->page_title = 'Actualizar Consejo Comunitario del territorio: ' . $obj_consejo->territorio;
-        } elseif ($obj_consejo->tipo_consejo_id == '2') {
-            $this->page_title = 'Actualizar Consejo Comunitario Mayor del territorio: ' . $obj_consejo->territorio;
-        } elseif ($obj_consejo->tipo_consejo_id == '3') {
-            $this->page_title = 'Actualizar Consejo Comunitario Local del territorio: ' . $obj_consejo->territorio;
+        $organizacion_has_campo_accion = new OrganizacionHasCampoAccion();
+        foreach ($organizacion_has_campo_accion->getOrganizacionHasCampoAccionByOrganizacionId($id) as $value) {
+            $this->campo_accion[] = $value->campo_accion_id;
         }
+
+        $this->page_title = 'Actualizar Organización del territorio: ' . $obj_organizacion->territorio;
 
         $fuente = new Fuente();
-        $this->fuentes = $fuente->getListadoFuente('consejo', $id);
+        $this->fuentes = $fuente->getListadoFuente('organizacion', $id);
 
-        $this->tipo_consejo_id = $obj_consejo->tipo_consejo_id;
+        $this->tipo_organizacion_id = $obj_organizacion->tipo_organizacion_id;
         $this->page_module = 'Gestión Territorial';
         $this->url_redir_back = 'gestion_territorial/gestion_tcur/editar/' . $key_back . '/1/' . $order . '/' . $page . '/';
         $this->key_back = $key_back;
@@ -431,24 +387,32 @@ class GestionTcurController extends BackendController
     /**
      * Método para eliminar
      */
-    public function eliminar_consejo($nombre_consejo, $nombre_territorio, $key, $key_back, $order, $page)
+    public function eliminar_organizacion($nombre_organizacion, $nombre_territorio, $key, $key_back, $order, $page)
     {
 
-        if (!$id = Security::getKey($key, 'del_consejo', 'int')) {
+        if (!$id = Security::getKey($key, 'del_organizacion', 'int')) {
             return Redirect::to($url_redir_back);
         }
 
-        $consejo = new Consejo();
+        $organizacion = new Organizacion();
 
         try {
-            if ($consejo->delete($id)) {
-                Flash::valid("El consejo $nombre_consejo se ha eliminado correctamente");
-                DwAudit::warning("Se ha ELIMINADO el consejo $nombre_consejo, pertenecia al territorio $nombre_territorio.");
+            if ($organizacion->delete($id)) {
+                Flash::valid("El organizacion $nombre_organizacion se ha eliminado correctamente");
+                DwAudit::warning("Se ha ELIMINADO el organizacion $nombre_organizacion, pertenecia al territorio $nombre_territorio.");
+                $o_h_c_a = new OrganizacionHasCampoAccion();
+                $o_h_c_a->delete_all("organizacion_id = $id");
+
+                $o_h_c_g = new OrganizacionHasCampoGestion();
+                $o_h_c_g->delete_all("organizacion_id = $id");
+
+                $fuente = new Fuente();
+                $fuente->deleteFuente('organizacion', $id);
             } else {
-                Flash::warning('Lo sentimos, pero este consejo no se puede eliminar.');
+                Flash::warning('Lo sentimos, pero este organizacion no se puede eliminar.');
             }
         } catch (KumbiaException $e) {
-            Flash::error('Este consejo no se puede eliminar porque se encuentra relacionado con otro registro.');
+            Flash::error('Este organizacion no se puede eliminar porque se encuentra relacionado con otro registro.');
         }
 
         return Redirect::toAction('editar/' . $key_back . '/1/' . $order . '/' . $page . '/');
@@ -552,6 +516,8 @@ class GestionTcurController extends BackendController
             if ($accion_exigibilidad_derecho->delete($id)) {
                 Flash::valid("La acción exigibilidad derecho $nombre_accion_exigibilidad_derecho se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO la acción exigibilidad derecho $nombre_accion_exigibilidad_derecho, pertenecia al territorio $nombre_territorio.");
+                $fuente = new Fuente();
+                $fuente->deleteFuente('accion_exigibilidad_derecho', $id);
             } else {
                 Flash::warning('Lo sentimos, pero este acción exigibilidad derecho no se puede eliminar.');
             }
@@ -747,6 +713,8 @@ class GestionTcurController extends BackendController
             if ($iniciativa_empresarial->delete($id)) {
                 Flash::valid("La iniciativa empresarial $nombre_iniciativa_empresarial se ha eliminado correctamente");
                 DwAudit::warning("Se ha ELIMINADO la iniciativa empresarial $nombre_iniciativa_empresarial, pertenecia al territorio $nombre_territorio.");
+                $fuente = new Fuente();
+                $fuente->deleteFuente('iniciativa_empresarial', $id);
             } else {
                 Flash::warning('Lo sentimos, pero esta iniciativa empresarial no se puede eliminar.');
             }
