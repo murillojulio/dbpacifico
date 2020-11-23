@@ -102,6 +102,18 @@ class Territorio extends ActiveRecord {
             'cant_consejo_reg' => array(
                 'ASC' => 'cant_consejo_reg ASC, cant_consejo_reg',
                 'DESC' => 'cant_consejo_reg DESC, cant_consejo_reg DESC'
+            ),
+            'cant_organizacion_reg' => array(
+                'ASC' => 'cant_organizacion_reg ASC, cant_organizacion_reg',
+                'DESC' => 'cant_organizacion_reg DESC, cant_organizacion_reg DESC'
+            ),
+            'cant_cabildo_reg' => array(
+                'ASC' => 'cant_cabildo_reg ASC, cant_cabildo_reg',
+                'DESC' => 'cant_cabildo_reg DESC, cant_cabildo_reg DESC'
+            ),
+            'cant_caso_reg' => array(
+                'ASC' => 'cant_caso_reg ASC, cant_caso_reg',
+                'DESC' => 'cant_caso_reg DESC, cant_caso_reg DESC'
             )
             ));
         $group = 'territorio.nombre';
