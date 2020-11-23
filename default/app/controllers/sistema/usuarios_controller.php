@@ -61,7 +61,7 @@ class UsuariosController extends BackendController {
     public function agregar() {
         if(Input::hasPost('usuario')) {
             ActiveRecord::beginTrans();            
-            if(Usuario::setUsuario('create', Input::post('usuario'), array('repassword'=>Input::post('repassword'), 'tema'=>'default'))) {
+            if(Usuario::setUsuario('create', Input::post('usuario'), array('repassword'=>Input::post('repassword'), 'tema'=>'default', 'departamento_id'=>'0'))) {
                 ActiveRecord::commitTrans();
                 Flash::valid('El usuario se ha creado correctamente.');
                 return Redirect::toAction('listar');
