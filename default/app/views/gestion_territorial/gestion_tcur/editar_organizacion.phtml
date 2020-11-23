@@ -46,22 +46,20 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <?php echo DwForm::textarea('organizacion.descripcion', array('class' => 'input-lower'), $organizacion->descripcion, 'Descripción de la estructura de la junta directiva'); ?>
+            <?php echo DwForm::textarea('organizacion.descripcion', array('class' => 'input-lower', 'rows' => '9'), $organizacion->descripcion, 'Descripción de la estructura de la junta directiva y misión de la organización'); ?>
         </div>
         <div class="col-md-6">
             <label for="panel_comite">Seleccione los campos de gestión del territorio</label>
             <div id="panel_comite" class="panel panel-default">
                 <div class="panel-body">
                     <div class="col-md-12">
-                        <?php echo DwForm::dbCheckId('campo_gestion', 'nombre', array('opcion/campo_gestion', 'getCampoGestionDBS'), NULL, $campo_gestion, 2, '6'); ?>
+                        <?php echo DwForm::dbCheckId('campo_gestion', 'nombre', array('opcion/campo_gestion', 'getCampoGestionDBS'), array('onchange' => 'validarCampoGestionOtro()'), $campo_gestion, 2, '6'); ?>
+                        <div id="div_organizacion_campo_gestion_otros" style="display:none;">
+                            <?php echo DwForm::text('organizacion.campo_gestion_otros', array('class' => 'input-lower'), $organizacion->campo_gestion_otros, 'Descripción otros campos de gestión<span class="req">*</span>'); ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
             <label for="panel_comite">Seleccione los campos de acción</label>
             <div id="panel_comite" class="panel panel-default">
                 <div class="panel-body">
@@ -103,42 +101,39 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#organizacion_asociacion_organizacion_comunitario_id").on('change', function(e) {
-            var data = $('#organizacion_asociacion_organizacion_comunitario_id').val();
-            if (data == '') {
-                $('#organizacion_pertenece_asociacion_organizacion_comunitario').val('NO');
-            } else {
-                $('#organizacion_pertenece_asociacion_organizacion_comunitario').val('SI');
+
+var caracterizacion = false;
+        var valor = '';
+        $('[name="campo_gestion[]"]:checked').each(function() {
+            valor = $(this).val();
+            if (valor === '8') {
+                caracterizacion = true;
             }
         });
-
-
-        $('#div_organizacion_se_aplica_reglamento').hide();
-        $('#div_organizacion_descripcion_aplicacion_reglamento').hide();
-        $("#organizacion_tiene_reglamento_interno").on('change', function(e) {
-            var data = $('#organizacion_tiene_reglamento_interno').val();
-            if (data == 'SI') {
-                $('#div_organizacion_se_aplica_reglamento').show();
-                $('#organizacion_se_aplica_reglamento').focus();
-            } else {
-                $('#div_organizacion_se_aplica_reglamento').hide();
-                $('#organizacion_se_aplica_reglamento').val('');
-                $('#div_organizacion_descripcion_aplicacion_reglamento').hide();
-                $('#organizacion_descripcion_aplicacion_reglamento').val('');
-            }
-        });
-
-        $("#organizacion_se_aplica_reglamento").on('change', function(e) {
-            var data = $('#organizacion_se_aplica_reglamento').val();
-            if (data == 'SI') {
-                $('#div_organizacion_descripcion_aplicacion_reglamento').show();
-                $('#organizacion_descripcion_aplicacion_reglamento').focus();
-            } else {
-                $('#div_organizacion_descripcion_aplicacion_reglamento').hide();
-                $('#organizacion_descripcion_aplicacion_reglamento').val('');
-            }
-        });
-
-
+        if (caracterizacion) {
+            $("#div_organizacion_campo_gestion_otros").show();
+            $("#organizacion_campo_gestion_otros").focus();
+        } else {
+            $("#div_organizacion_campo_gestion_otros").hide();
+            $("#organizacion_campo_gestion_otros").val('');
+        }
     });
+    
+    function validarCampoGestionOtro() {
+        var caracterizacion = false;
+        var valor = '';
+        $('[name="campo_gestion[]"]:checked').each(function() {
+            valor = $(this).val();
+            if (valor === '8') {
+                caracterizacion = true;
+            }
+        });
+        if (caracterizacion) {
+            $("#div_organizacion_campo_gestion_otros").show();
+            $("#organizacion_campo_gestion_otros").focus();
+        } else {
+            $("#div_organizacion_campo_gestion_otros").hide();
+            $("#organizacion_campo_gestion_otros").val('');
+        }
+    }
 </script>
