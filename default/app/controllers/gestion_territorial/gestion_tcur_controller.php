@@ -258,10 +258,16 @@ class GestionTcurController extends BackendController
         $fuente = new Fuente();
         $this->fuentes = $fuente->getListadoFuente('territorio', $obj_territorio->id);
 
+        $nombre_municipio = '';
+        foreach($obj_territorio->getTerritorioMunicipio() as $ter):
+            $nombre_municipio = $ter->getMunicipio()->nombre;
+        endforeach;
+
+
         $this->controller = 'gestion_tcur'; //Para partial
         $this->url_redir_back = 'gestion_territorial/gestion_tcur/listar_territorio_ur/' . $order . '/' . $page . '/';
         $this->page_module = 'Gestión Territorial';
-        $this->page_title = 'Actualizar Territorio: ' . $obj_territorio->nombre;
+        $this->page_title = 'Actualizar Territorio: ' . $obj_territorio->nombre. ' de '.$nombre_municipio;
         $this->tab = $tab;
         $this->key = $key;
         $this->order = $order;
