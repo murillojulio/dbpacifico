@@ -84,7 +84,7 @@ class Organizacion extends ActiveRecord {
             $obj->dump_result_self($optData);
         }             
         //Verifico que no exista otro organizacion, y si se encuentra inactivo lo active
-        $conditions = empty($obj->id) ? "nombre = '$obj->nombre'" : "nombre = '$obj->nombre' AND id != '$obj->id'";
+        /*$conditions = empty($obj->id) ? "nombre = '$obj->nombre'" : "nombre = '$obj->nombre' AND id != '$obj->id'";
         $old = new Organizacion();
         if($old->find_first($conditions)) {            
             //Si existe y se intenta crear pero si no se encuentra activo lo activa
@@ -96,7 +96,7 @@ class Organizacion extends ActiveRecord {
                 Flash::info('Ya existe un organizacion registrado bajo ese nombre.');
                 return FALSE;
             }
-        }        
+        }*/     
         
         $boolean_result = $obj->$method(); 
         
