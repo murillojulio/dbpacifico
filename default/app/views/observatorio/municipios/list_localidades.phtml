@@ -48,7 +48,7 @@ if($tipo === 'vereda'){ ?>
                     echo "<td>$contador</td>";
                     echo "<td>$localidad->nombre</td>";
                     echo "<td class=\"btn-actions\">                                                
-                    <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id)\"></button>
+                    <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id, '$localidad->tipo')\"></button>
                     <button id=\"btn-eliminar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-danger btn-icon-only fa fa-minus\" onclick=\"setVariablesEliminar($localidad->id)\" data-toggle=\"modal\" data-target=\"#modal_eliminar_localidad\" title=\"Eliminar\"></button>
                 </td>";
                   echo '</tr>';
@@ -78,7 +78,7 @@ if($tipo === 'vereda'){ ?>
                         echo "<td>$contador</td>";
                         echo "<td>$localidad->nombre</td>";
                         echo "<td class=\"btn-actions\">                                                
-                        <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id)\"></button>
+                        <button id=\"btn-editar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-warning btn-icon-only fa fa-edit\" data-loading-text=\"Cargando...\" onclick=\"cargarModalEditarLocalidad($localidad->id, '$localidad->tipo')\"></button>
                         <button id=\"btn-eliminar-localidad-$localidad->id\" type=\"button\" class=\"btn btn-danger btn-icon-only fa fa-minus\" onclick=\"setVariablesEliminar($localidad->id)\" data-toggle=\"modal\" data-target=\"#modal_eliminar_localidad\" title=\"Eliminar\"></button>
                     </td>";
                       echo '</tr>';
