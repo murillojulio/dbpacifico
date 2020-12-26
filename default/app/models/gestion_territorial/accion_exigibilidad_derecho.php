@@ -40,14 +40,21 @@ class AccionExigibilidadDerecho extends ActiveRecord {
      * @return type
      */
     public function getAccionExigibilidadDerechosByTerritorioId($territorio_id) {                   
-        $columns = 'accion_exigibilidad_derecho.*, territorio.nombre AS territorio, tipo_accion_exigibilidad_derecho.nombre AS accion_exigibilidad';        
-        $join = 'INNER JOIN territorio ON territorio.id = accion_exigibilidad_derecho.territorio_id';
+        /* $columns = 'accion_exigibilidad_derecho.*, territorio.nombre AS territorio, tipo_accion_exigibilidad_derecho.nombre AS accion_exigibilidad';        
+        $join = ' INNER JOIN territorio ON territorio.id = accion_exigibilidad_derecho.territorio_id';
         $join .= ' INNER JOIN tipo_accion_exigibilidad_derecho ON tipo_accion_exigibilidad_derecho.id = accion_exigibilidad_derecho.tipo_accion_exigibilidad_derecho_id';
         $conditions = 'accion_exigibilidad_derecho.id IS NOT NULL AND territorio_id='.$territorio_id; 
         $order = 'accion_exigibilidad_derecho.nombre';
         $group = 'accion_exigibilidad_derecho.nombre';
               
-        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order");
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order"); */
+
+        $sql = "SELECT accion_exigibilidad_derecho.*, territorio.nombre AS territorio, tipo_accion_exigibilidad_derecho.nombre AS accion_exigibilidad FROM `accion_exigibilidad_derecho` 
+        INNER JOIN territorio ON territorio.id = accion_exigibilidad_derecho.territorio_id 
+        INNER JOIN tipo_accion_exigibilidad_derecho ON tipo_accion_exigibilidad_derecho.id = accion_exigibilidad_derecho.tipo_accion_exigibilidad_derecho_id 
+        WHERE accion_exigibilidad_derecho.id IS NOT NULL AND territorio_id = $territorio_id";
+
+        return $this->find_all_by_sql($sql);
         
     }
     
