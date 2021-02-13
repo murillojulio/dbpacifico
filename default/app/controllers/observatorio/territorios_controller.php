@@ -1292,9 +1292,9 @@ class TerritoriosController extends BackendController
         }
         $pdf->Ln(7);
         $pdf->SetFont('Arial', '', 12);
-        $pdf->WriteHTML('Nombre del territorio: ' . $obj_territorio->nombre);
+        $pdf->WriteHTML('<b>Nombre del territorio:</b> ' . $obj_territorio->nombre);
         $pdf->Ln();
-        $pdf->Write(5, utf8_decode('Ubicación del territorio:'));
+        $pdf->WriteHTML('<b>Ubicación del territorio</b>');
         $pdf->Ln();
         // Títulos de las columnas
         $header = array('Subregión', 'Departamento', 'Municipio');
@@ -1460,8 +1460,11 @@ class TerritoriosController extends BackendController
             $pdf->Ln();
             $pdf->WriteHTML("       <b>Fecha de disolución: </b>$comunidad->fecha_disolucion");
             $pdf->Ln();
-            $pdf->WriteHTML("       <b>Descripción de la ubicación geográfica de la comunidad: </b>$comunidad->descripcion_ubicacion");
-            $pdf->Ln(7);
+            $pdf->WriteHTML("       <b>Descripción de la ubicación geográfica de la comunidad</b>");
+            $pdf->Ln();
+            $pdf->SetX(25);
+            $pdf->MultiCell(0, 5, utf8_decode($comunidad->descripcion_ubicacion));
+            $pdf->Ln();
             $poblacion = Poblacion::getPoblacion('comunidad_id', $comunidad->id);
             $pdf->WriteHTML('       <b><u>Población</u></b>');
             $pdf->Ln(7);
