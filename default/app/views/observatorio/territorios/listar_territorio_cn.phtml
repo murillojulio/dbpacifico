@@ -54,7 +54,13 @@
                                         "nombre"=>$territorio->nombre,
                                         'url_ver'=>"observatorio/territorios/ver/$key_show/1/$order/page.$page/",
                                         'url_editar'=>"observatorio/territorios/editar/$key_upd/1/$order/page.$page/",
-                                        "url_eliminar"=>"observatorio/territorios/eliminar/$key_del/listar_territorio_cn/$order/page.$page/")); ?>
+                                        "url_eliminar"=>"observatorio/territorios/eliminar/$key_del/listar_territorio_cn/$order/page.$page/")); 
+                                        $perfil = Session::get('perfil');
+                                        if($perfil == 'ADMINISTRADOR' || $perfil == 'Super Usuario' || $perfil == 'SUPER')
+                                        {
+                                            echo '<a target="blank" href="'.PUBLIC_PATH.'/observatorio/territorios/generar_pdf/'.$territorio->id.'/">PDF</a>';
+                                        }
+                                        ?>
                         </td>
                     </tr>
                     <?php $territorios->counter++; ?>
