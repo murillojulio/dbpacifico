@@ -1311,7 +1311,7 @@ class TerritoriosController extends BackendController
             $pdf->Ln(5);
             $pdf->WriteHTML('<b>Límite / Lindero: </b>' . $obj_titulado_si->limite_lindero);
             $pdf->Ln(7);
-            $documento_constitucion = '<b>Documento constitución:</b> <a href="' . PUBLIC_PATH . 'files/upload/territorio/resolucion/documento_constitucion/"' . $obj_titulado_si->documento_constitucion . '>' . $obj_titulado_si->documento_constitucion . '</a>';
+            $documento_constitucion = '<b>Documento constitución:</b> <a href="http://dbpacifico.creando.net/files/upload/territorio/resolucion/documento_constitucion/"' . $obj_titulado_si->documento_constitucion . '>' . $obj_titulado_si->documento_constitucion . '</a>';
             $pdf->WriteHTML($documento_constitucion);
             $pdf->Ln(7);
             $pdf->SetFont('Arial', '', 14);
@@ -1331,7 +1331,7 @@ class TerritoriosController extends BackendController
                 $pdf->Ln();
                 $pdf->WriteHTML('<b>Observaciones:</b> ' . $obj_titulado_si->solicitud_ampliacion_observacion);
                 $pdf->Ln();
-                $documento_ampliacion = '<b>Documento solicitud ampliación:</b> <a href="' . PUBLIC_PATH . 'files/upload/territorio/resolucion/documento_ampliacion/"' . $obj_titulado_si->solicitud_ampliacion_documento . '>' . $obj_titulado_si->solicitud_ampliacion_documento . '</a>';
+                $documento_ampliacion = '<b>Documento solicitud ampliación:</b> <a href="http://dbpacifico.creando.net/files/upload/territorio/resolucion/documento_ampliacion/"' . $obj_titulado_si->solicitud_ampliacion_documento . '>' . $obj_titulado_si->solicitud_ampliacion_documento . '</a>';
                 $pdf->WriteHTML($documento_ampliacion);
             }
 
@@ -1353,7 +1353,7 @@ class TerritoriosController extends BackendController
                 $pdf->Ln();
                 $pdf->WriteHTML('<b>Observaciones:</b> ' . $obj_titulado_si->solicitud_saneamiento_observacion);
                 $pdf->Ln();
-                $documento_saneamiento = '<b>Documento solicitud saneamiento:</b> <a href="' . PUBLIC_PATH . 'files/upload/territorio/resolucion/documento_saneamiento/"' . $obj_titulado_si->solicitud_saneamiento_documento . '>' . $obj_titulado_si->solicitud_saneamiento_documento . '</a>';
+                $documento_saneamiento = '<b>Documento solicitud saneamiento:</b> <a href="http://dbpacifico.creando.net/files/upload/territorio/resolucion/documento_saneamiento/"' . $obj_titulado_si->solicitud_saneamiento_documento . '>' . $obj_titulado_si->solicitud_saneamiento_documento . '</a>';
                 $pdf->WriteHTML($documento_saneamiento);
             }
         } elseif ($obj_territorio->titulado == 'NO') {
@@ -1371,7 +1371,7 @@ class TerritoriosController extends BackendController
             $pdf->Ln();
             $pdf->WriteHTML('<b>Observaciones:</b> ' . $obj_titulado_no->solicitud_titulo_observacion);
             $pdf->Ln();
-            $documento_solicitud_titulo = '<b>Documento solicitud título:</b> <a href="' . PUBLIC_PATH . 'files/upload/territorio/resolucion/documento_solicitud_titulo/"' . $obj_titulado_no->documento_solicitud_titulo . '>' . $obj_titulado_no->documento_solicitud_titulo . '</a>';
+            $documento_solicitud_titulo = '<b>Documento solicitud título:</b> <a href="http://dbpacifico.creando.net/files/upload/territorio/resolucion/documento_solicitud_titulo/"' . $obj_titulado_no->documento_solicitud_titulo . '>' . $obj_titulado_no->documento_solicitud_titulo . '</a>';
             $pdf->WriteHTML($documento_solicitud_titulo);
         }
 
