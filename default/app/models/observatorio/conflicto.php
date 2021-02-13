@@ -93,6 +93,8 @@ class Conflicto extends ActiveRecord {
         {
             //para setear los check box y volverlos a llenar
              $obj_setear = new Conflicto($data);
+             $obj_setear->intra_etnico = 0;
+             $obj_setear->inter_etnico = 0;
              $obj_setear->cultural = 0;
              $obj_setear->politico_violencia = 0;
              $obj_setear->politico_grupo_armado = 0;
