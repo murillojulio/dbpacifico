@@ -57,10 +57,8 @@
                                         "url_eliminar"=>"observatorio/territorios/eliminar/$key_del/listar_territorio_cn/$order/page.$page/")); 
                                         $perfil = Session::get('perfil');
                                         if($perfil == 'ADMINISTRADOR' || $perfil == 'Super Usuario' || $perfil == 'SUPER')
-                                        {
-                                            echo DwHtml::buttonTable("Generar Pdf", "observatorio/territorios/generar_pdf/$territorio->id/", 
-                    array('target'=>'blank'), 'default', 'fa-print');
-                                            //echo '<a target="blank" href="'.PUBLIC_PATH.'/observatorio/territorios/generar_pdf/'.$territorio->id.'/">PDF</a>';
+                                        {                                            
+                                            echo DwHtml::link("observatorio/territorios/generar_pdf/$territorio->id/", '', array('target'=>'blank'), 'fa-print', NULL);                                            
                                         }
                                         ?>
                         </td>
