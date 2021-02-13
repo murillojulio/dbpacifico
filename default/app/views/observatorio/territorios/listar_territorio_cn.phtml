@@ -58,7 +58,9 @@
                                         $perfil = Session::get('perfil');
                                         if($perfil == 'ADMINISTRADOR' || $perfil == 'Super Usuario' || $perfil == 'SUPER')
                                         {
-                                            echo '<a target="blank" href="'.PUBLIC_PATH.'/observatorio/territorios/generar_pdf/'.$territorio->id.'/">PDF</a>';
+                                            echo DwHtml::buttonTable("Generar Pdf", "observatorio/territorios/generar_pdf/$territorio->id/", 
+                    array('target'=>'blank'), 'default', 'fa-print');
+                                            //echo '<a target="blank" href="'.PUBLIC_PATH.'/observatorio/territorios/generar_pdf/'.$territorio->id.'/">PDF</a>';
                                         }
                                         ?>
                         </td>
