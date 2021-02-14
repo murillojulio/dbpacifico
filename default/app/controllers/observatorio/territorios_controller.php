@@ -18,7 +18,7 @@ Load::models(
     'observatorio/conflicto',
     'observatorio/fuente',
     'util/currency',
-    'util/pdf'
+    'util/reportes'
 );
 class TerritoriosController extends BackendController
 {
@@ -1255,4 +1255,10 @@ class TerritoriosController extends BackendController
 
         return Redirect::toAction($redireccionar . '/' . $order . '/' . $page . '/');
     }    
+
+    public function export_pdf($id){
+        View::select(null, null);
+        $Reportes = new Reportes();
+        $Reportes->generarPdf($id);
+    }   
 }
