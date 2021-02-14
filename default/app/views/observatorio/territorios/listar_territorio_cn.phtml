@@ -58,7 +58,7 @@
                                         $perfil = Session::get('perfil');
                                         if($perfil == 'ADMINISTRADOR' || $perfil == 'Super Usuario' || $perfil == 'SUPER')
                                         {                                            
-                                            echo DwHtml::link("observatorio/territorios/generar_pdf/$territorio->id/", '', array('target'=>'blank'), 'fa-print', NULL);                                            
+                                            echo DwHtml::link("observatorio/territorios/export_pdf/$territorio->id/", '', array('target'=>'blank'), 'fa-print', NULL);                                            
                                         }
                                         ?>
                         </td>
