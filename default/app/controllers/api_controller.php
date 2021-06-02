@@ -4,7 +4,10 @@ header("Access-Control-Allow-Origin:*");
  * API REST DBPACIFICO, choose Tools | Templates
  * and open the template in the editor.
  */
-Load::models('observatorio/territorio', 'observatorio/departamento', 'observatorio/municipio', 'observatorio/poblacion', 'observatorio/titulado_si', 'observatorio/titulado_no', 'observatorio/territorio_municipio', 'observatorio/comunidad', 'observatorio/conflicto');
+Load::models('observatorio/territorio', 'observatorio/departamento', 'observatorio/municipio', 
+'observatorio/poblacion', 'observatorio/titulado_si', 'observatorio/titulado_no', 
+'observatorio/territorio_municipio', 'observatorio/comunidad', 'observatorio/conflicto',
+'violencia_politica/caso');
 class ApiController extends RestController
 {
     public function get($departamento_id)
@@ -107,6 +110,17 @@ class ApiController extends RestController
 
 
         $array = array('informacion_basica' => array($array_territorio, $array_titulado));
+        $this->data = $array;
+    }
+
+    public function get_casos()
+    {
+        $caso = new Caso();  
+        $sql_query = 'SELECT caso.id, caso.titulo, caso.fecha_desde, territorio.nombre AS territorio, municipio.nombre AS municipio 
+        FROM caso INNER JOIN territorio ON caso.territorio_id = territorio.id INNER JOIN
+        municipio ON caso.municipio_id = municipio.id
+        WHERE caso.id !=0 ORDER BY caso.titulo ASC';      
+        $array = $caso->find_all_by_sql($sql_query);
         $this->data = $array;
     }
 }
