@@ -116,7 +116,7 @@ class ApiController extends RestController
     public function get_casos()
     {
         $caso = new Caso();  
-        $sql_query = 'SELECT caso.id, caso.titulo, caso.fecha_desde, territorio.nombre AS territorio, municipio.nombre AS municipio 
+        $sql_query = 'SELECT caso.id, caso.titulo, caso.fecha_desde, caso.departamento_id, territorio.nombre AS territorio, municipio.nombre AS municipio 
         FROM caso INNER JOIN territorio ON caso.territorio_id = territorio.id INNER JOIN
         municipio ON caso.municipio_id = municipio.id
         WHERE caso.id !=0 ORDER BY caso.titulo ASC';      
