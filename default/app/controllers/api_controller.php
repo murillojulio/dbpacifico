@@ -28,7 +28,7 @@ class ApiController extends RestController
     public function get_municipios($departamento_id)
     {
         $municipio = new Municipio();
-        $array = array('municipios' => $municipio->find_all_by_sql("SELECT municipio.id, municipio.nombre, municipio.area_total,  municipio.area_rural, municipio.cabecera, municipio.area_cabecera, municipio.certificado, municipio.fecha_creacion FROM municipio WHERE municipio.departamento_id=$departamento_id ORDER BY municipio.nombre ASC"));
+        $array = $municipio->find_all_by_sql("SELECT municipio.id, municipio.nombre, municipio.area_total,  municipio.area_rural, municipio.cabecera, municipio.area_cabecera, municipio.certificado, municipio.fecha_creacion FROM municipio WHERE municipio.departamento_id=$departamento_id ORDER BY municipio.nombre ASC");
         $this->data = $array;
     }
 
@@ -37,9 +37,19 @@ class ApiController extends RestController
         $territorios = new TerritorioMunicipio();
         /* 
 	   $array = array('territorios'=>$territorios->find_all_by_sql("SELECT municipio.nombre AS municipio_nombre, territorio.*, departamento.nombre AS departamento_nombre FROM territorio_municipio INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id INNER JOIN departamento ON departamento.id = territorio.departamento_id WHERE territorio_municipio.municipio_id = $municipio_id GROUP BY territorio.nombre ORDER BY nombre ASC")); 
-	   */
+	   
         $array = array('territorios' => $territorios->find_all_by_sql("SELECT territorio.id, territorio.nombre, territorio.tipo FROM territorio_municipio INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id WHERE territorio_municipio.municipio_id = $municipio_id ORDER BY nombre ASC"));
+        */
+        $array = $territorios->find_all_by_sql("SELECT territorio.id, territorio.nombre, territorio.tipo FROM territorio_municipio INNER JOIN territorio ON territorio.id = territorio_municipio.territorio_id INNER JOIN municipio ON municipio.id = territorio_municipio.municipio_id WHERE territorio_municipio.municipio_id = $municipio_id ORDER BY nombre ASC");
         $this->data = $array;
+    }
+
+    public function get_comunidades($territorio_id)
+    {
+        $obj_comunidades = new Comunidad();
+        $array_comunidades = $obj_comunidades->getComunidadesByTerritorioId($territorio_id);
+        
+        $this->data = $array_comunidades;
     }
 
 
