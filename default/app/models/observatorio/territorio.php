@@ -338,7 +338,7 @@ class Territorio extends ActiveRecord {
                 /*(SELECT COUNT(actor_armado.presunto_responsable_id) FROM actor_armado WHERE actor_armado.territorio_id = territorio.id) AS cant_actor_armado_reg,*/
                 (SELECT COUNT(caso.id) FROM caso WHERE caso.territorio_id = territorio.id) AS cant_caso_reg FROM territorio 
                 INNER JOIN departamento ON departamento.id = territorio.departamento_id                
-                WHERE '.$conditions.' GROUP BY territorio.nombre ORDER BY '.$order, "page: $page");                 
+                WHERE '.$conditions.' ORDER BY '.$order, "page: $page");                 
             }
             elseif ($tipo == 'indigena')
             {
@@ -347,7 +347,7 @@ class Territorio extends ActiveRecord {
                 /*(SELECT COUNT(actor_armado.presunto_responsable_id) FROM actor_armado WHERE actor_armado.territorio_id = territorio.id) AS cant_actor_armado_reg,*/
                 (SELECT COUNT(caso.id) FROM caso WHERE caso.territorio_id = territorio.id) AS cant_caso_reg FROM territorio 
                 INNER JOIN departamento ON departamento.id = territorio.departamento_id                
-                WHERE '.$conditions.' GROUP BY territorio.nombre ORDER BY '.$order, "page: $page");                 
+                WHERE '.$conditions.' ORDER BY '.$order, "page: $page");                 
             }
             elseif ($tipo == 'urbano')
             {
@@ -356,7 +356,7 @@ class Territorio extends ActiveRecord {
                 /*(SELECT COUNT(actor_armado.presunto_responsable_id) FROM actor_armado WHERE actor_armado.territorio_id = territorio.id) AS cant_actor_armado_reg,*/
                 (SELECT COUNT(caso.id) FROM caso WHERE caso.territorio_id = territorio.id) AS cant_caso_reg FROM territorio 
                 INNER JOIN departamento ON departamento.id = territorio.departamento_id                
-                WHERE '.$conditions.' GROUP BY territorio.nombre ORDER BY '.$order, "page: $page");                 
+                WHERE '.$conditions.' ORDER BY '.$order, "page: $page");                 
             }
                     
         } else {
