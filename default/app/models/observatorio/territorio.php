@@ -74,7 +74,7 @@ class Territorio extends ActiveRecord {
     public function getListadoTerritorio($tipo, $order='', $page=0) {                   
         $columns = 'territorio.*, departamento.nombre AS departamento';
         //$columns .= '(SELECT COUNT(consejo.id) FROM consejo WHERE consejo.territorio_id = territorio.id) AS cant_consejo_reg';        
-        $join = 'INNER JOIN departamento ON departamento.id = territorio.departamento_id';
+        $join = ' JOIN departamento ON departamento.id = territorio.departamento_id';
         $conditions = 'territorio.id IS NOT NULL AND tipo="'.$tipo.'"'; 
         
         $usuario = Usuario::getUsuarioLogueado();
