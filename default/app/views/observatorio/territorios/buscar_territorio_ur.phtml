@@ -47,7 +47,10 @@
                     <tr>
                         <td><?php echo $territorios->counter; ?></td>
                         <td><?php echo ($field=='nombre') ? DwUtils::resaltar($value, $territorio->nombre) : $territorio->nombre; ?></td>
-                        <td><?php echo ($field=='municipio') ? DwUtils::resaltar($value, $territorio->titulado) : $territorio->titulado; ?></td>                        
+                        <td><?php
+                        foreach($territorio->getTerritorioMunicipio() as $ter):
+                            echo $ter->getMunicipio()->nombre;
+                        endforeach;  ?></td>                        
                         <td><?php echo ($field=='departamento') ? DwUtils::resaltar($value, $territorio->departamento) : $territorio->departamento; ?></td> 
                         <td class="btn-actions">
                             <?php echo DwHtml::buttonTable('Ver territorio', "observatorio/territorios/ver/$key_show/1/$order/page.$page/", null, 'info', 'fa-search'); ?>
