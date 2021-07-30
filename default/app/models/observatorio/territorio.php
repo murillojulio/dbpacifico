@@ -74,7 +74,7 @@ class Territorio extends ActiveRecord {
     public function getListadoTerritorio($tipo, $order='', $page=0) {                   
         $columns = 'territorio.*, departamento.nombre AS departamento';
         //$columns .= '(SELECT COUNT(consejo.id) FROM consejo WHERE consejo.territorio_id = territorio.id) AS cant_consejo_reg';        
-        $join = ' JOIN departamento ON departamento.id = territorio.departamento_id';
+        $join = 'INNER JOIN departamento ON departamento.id = territorio.departamento_id';
         $conditions = 'territorio.id IS NOT NULL AND tipo="'.$tipo.'"'; 
         
         $usuario = Usuario::getUsuarioLogueado();
@@ -143,8 +143,8 @@ class Territorio extends ActiveRecord {
                 (SELECT COUNT(organizacion.id) FROM organizacion WHERE organizacion.territorio_id = territorio.id) AS cant_organizacion_reg,
                 /*(SELECT COUNT(actor_armado.presunto_responsable_id) FROM actor_armado WHERE actor_armado.territorio_id = territorio.id) AS cant_actor_armado_reg,*/
                 (SELECT COUNT(caso.id) FROM caso WHERE caso.territorio_id = territorio.id) AS cant_caso_reg FROM territorio 
-                 JOIN departamento ON departamento.id = territorio.departamento_id                
-                WHERE'.$condicion.'territorio.id IS NOT NULL AND tipo="'.$tipo.'" GROUP BY territorio.nombre ORDER BY '.$order, "page: $page");                 
+                INNER JOIN departamento ON departamento.id = territorio.departamento_id                
+                WHERE'.$condicion.'territorio.id IS NOT NULL AND tipo="'.$tipo.'" ORDER BY '.$order, "page: $page");                 
             }
             
         }
