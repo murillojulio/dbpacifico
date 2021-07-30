@@ -8,7 +8,7 @@ Load::models('observatorio/territorio', 'observatorio/departamento', 'observator
 'observatorio/poblacion', 'observatorio/titulado_si', 'observatorio/titulado_no', 
 'observatorio/territorio_municipio', 'observatorio/comunidad', 'observatorio/conflicto',
 'violencia_politica/caso');
-class ApiController extends RestController
+class ApisController extends RestController
 {
     public function get($departamento_id)
     {
